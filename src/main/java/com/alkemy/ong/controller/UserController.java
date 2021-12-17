@@ -1,11 +1,11 @@
 package com.alkemy.ong.controller;
 
 
-import com.alkemy.ong.model.request.UserRequest;
-import com.alkemy.ong.model.response.UserResponse;
+import com.alkemy.ong.exception.InvalidCredentialsException;
+import com.alkemy.ong.model.request.UserDetailsRequest;
+import com.alkemy.ong.model.response.UserDetailsResponse;
 import com.alkemy.ong.service.abstraction.IDeleteUserService;
-import com.alkemy.ong.service.abstraction.IGetUserService;
-import com.alkemy.ong.service.abstraction.IPostUserService;
+import com.alkemy.ong.service.abstraction.RegisterUserService;
 import com.fasterxml.jackson.databind.introspect.TypeResolutionContext.Empty;
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
@@ -24,9 +24,7 @@ public class UserController {
   @Autowired
   public IDeleteUserService deleteUserService;
   @Autowired
-  public IGetUserService iGetUserService;
-  @Autowired
-  public IPostUserService iPostUserService;
+  public RegisterUserService registerUserService;
 
   @DeleteMapping(value = "/users/{id}")
   public ResponseEntity<Empty> delete(@PathVariable Long id) throws EntityNotFoundException {
@@ -35,9 +33,11 @@ public class UserController {
   }
 
   @PostMapping(value = "/auth/register")
-  public ResponseEntity<UserResponse> register(@Valid @RequestBody UserRequest userRequestDto) {
-    UserResponse userSaved = iPostUserService.save(userRequestDto);
-    return ResponseEntity.status(HttpStatus.CREATED).body(userSaved);
+  public ResponseEntity<UserDetailsResponse> register(
+      @Valid @RequestBody UserDetailsRequest userDetailsRequest)
+      throws InvalidCredentialsException {
+    UserDetailsResponse userDetailsResponse = registerUserService.register(userDetailsRequest);
+    return ResponseEntity.status(HttpStatus.CREATED).body(userDetailsResponse);
   }
 
 

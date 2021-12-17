@@ -1,35 +1,39 @@
 package com.alkemy.ong.service;
 
+import com.alkemy.ong.common.DtoUtils;
 import com.alkemy.ong.common.JwtUtil;
-import com.alkemy.ong.common.UserModelUtils;
+import com.alkemy.ong.common.EntityUtils;
+import com.alkemy.ong.exception.InvalidCredentialsException;
 import com.alkemy.ong.model.entity.User;
-import com.alkemy.ong.model.request.UserRequest;
-import com.alkemy.ong.model.response.UserResponse;
+import com.alkemy.ong.model.request.UserDetailsRequest;
+import com.alkemy.ong.model.response.UserDetailsResponse;
 import com.alkemy.ong.repository.IUserRepository;
 import com.alkemy.ong.service.abstraction.IDeleteUserService;
 import com.alkemy.ong.service.abstraction.IGetUserService;
-import com.alkemy.ong.service.abstraction.IPostUserService;
+import com.alkemy.ong.service.abstraction.RegisterUserService;
 import java.util.Optional;
 import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserDetailsService, IDeleteUserService, IGetUserService,
-    IPostUserService {
+    RegisterUserService {
 
   private static final String USER_NOT_FOUND_MESSAGE = "User not found.";
+  private static final String USER_EMAIL_ERROR = "This email address is already used.";
 
   @Autowired
   private JwtUtil jwtUtil;
   @Autowired
   private IUserRepository userRepository;
   @Autowired
-  private UserModelUtils userModelUtils;
+  private EntityUtils entityUtils;
+  @Autowired
+  private DtoUtils dtoUtils;
 
 
   @Override
@@ -44,21 +48,24 @@ public class UserServiceImpl implements UserDetailsService, IDeleteUserService, 
 
   @Override
   public void delete(Long id) throws EntityNotFoundException {
-    com.alkemy.ong.model.entity.User user = getUser(id);
+    User user = getUser(id);
     user.setSoftDeleted(true);
     userRepository.save(user);
   }
 
   @Override
-  public UserResponse save(UserRequest dto) {
-    User userEntity = userModelUtils.userDTO2Entity(dto);
+  public UserDetailsResponse register(UserDetailsRequest userDetailsRequest)
+      throws InvalidCredentialsException {
+    User userEntity = dtoUtils.userDTO2Entity(userDetailsRequest);
+    if (userRepository.findByEmail(userEntity.getEmail()) != null) {
+      throw new InvalidCredentialsException(USER_EMAIL_ERROR);
+    }
     User userSaved = userRepository.save(userEntity);
-    UserResponse result = userModelUtils.userEntity2DTO(userSaved);
-    return result;
+    return entityUtils.userEntity2DTO(userSaved);
   }
 
   private User getUser(Long id) {
-    Optional<com.alkemy.ong.model.entity.User> userOptional = userRepository.findById(id);
+    Optional<User> userOptional = userRepository.findById(id);
     if (userOptional.isEmpty() || userOptional.get().isSoftDeleted()) {
       throw new EntityNotFoundException(USER_NOT_FOUND_MESSAGE);
     }
@@ -66,7 +73,7 @@ public class UserServiceImpl implements UserDetailsService, IDeleteUserService, 
   }
 
   private User getUser(String username) {
-    com.alkemy.ong.model.entity.User user = userRepository.findByEmail(username);
+    User user = userRepository.findByEmail(username);
     if (user == null) {
       throw new UsernameNotFoundException(USER_NOT_FOUND_MESSAGE);
     }
