@@ -6,9 +6,10 @@ import org.springframework.beans.BeanUtils;
 
 public class EntityUtils {
 
-  private EntityUtils() {}
+  private EntityUtils() {
+  }
 
-  public static OrganizationResponse convertToOrganization(Organization organization) {
+  public static OrganizationResponse convertTo(Organization organization) {
     OrganizationResponse organizationResponse = new OrganizationResponse();
     BeanUtils.copyProperties(organization, organizationResponse);
     return organizationResponse;

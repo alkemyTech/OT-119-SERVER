@@ -15,11 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/organization")
 public class OrganizationController {
 
-  @Autowired IGetOrganizationService organizationService;
+  @Autowired
+  private IGetOrganizationService organizationService;
 
   @GetMapping(value = "/public")
-  ResponseEntity<OrganizationResponse> getPublicData() {
-    Organization org = organizationService.getOrganization();
-    return new ResponseEntity<>(EntityUtils.convertToOrganization(org), HttpStatus.OK);
+  public ResponseEntity<OrganizationResponse> getOrganizationPublicDetails() {
+    Organization organization = organizationService.getOrganization();
+    return new ResponseEntity<>(EntityUtils.convertTo(organization), HttpStatus.OK);
   }
+
 }

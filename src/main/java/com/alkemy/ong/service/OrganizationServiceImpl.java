@@ -13,7 +13,8 @@ public class OrganizationServiceImpl implements IGetOrganizationService {
 
   private static final String ORGANIZATION_NOT_FOUND_MESSAGE = "Organization not found.";
 
-  @Autowired IOrganizationRepository organizationRepository;
+  @Autowired
+  private IOrganizationRepository organizationRepository;
 
   @Override
   public Organization getOrganization() {
