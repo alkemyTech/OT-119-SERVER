@@ -1,7 +1,58 @@
 {
 	"info": {
+		"_postman_id": "9e37e513-48cf-4b2e-b3a7-3e67a42afacf",
 		"name": "SomosMas",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
-	"item": []
+	"item": [
+		{
+			"name": "Organization",
+			"item": [
+				{
+					"name": "GET /organization/public",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{somosmas}}/organization/public",
+							"host": [
+								"{{somosmas}}"
+							],
+							"path": [
+								"organization",
+								"public"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "somosmas",
+			"value": ""
+		}
+	]
 }
