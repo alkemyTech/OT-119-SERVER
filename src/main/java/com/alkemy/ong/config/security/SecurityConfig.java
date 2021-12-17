@@ -22,9 +22,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @SpringBootApplication(exclude = SecurityAutoConfiguration.class)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-  @Autowired private UserDetailsService userDetailsService;
+  @Autowired
+  private UserDetailsService userDetailsService;
 
-  @Autowired private JwtRequestFilter jwtRequestFilter;
+  @Autowired
+  private JwtRequestFilter jwtRequestFilter;
 
   @Bean
   public BCryptPasswordEncoder passwordEncoder() {
@@ -33,7 +35,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Autowired
   public void configureGlobal(AuthenticationManagerBuilder managerBuilder) throws Exception {
-    managerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+    managerBuilder.userDetailsService(userDetailsService)
+        .passwordEncoder(passwordEncoder());
   }
 
   @Override
@@ -65,7 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers(HttpMethod.DELETE, "/comments/**")
         .hasAnyRole(ApplicationRole.ADMIN.getName(), ApplicationRole.USER.getName())
         .antMatchers(HttpMethod.GET, "/organization/public/**")
-        .hasAnyRole(ApplicationRole.USER.getName())
+        .permitAll()
         .anyRequest()
         .authenticated()
         .and()
@@ -73,4 +76,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .exceptionHandling()
         .authenticationEntryPoint(new Http403ForbiddenEntryPoint());
   }
+
 }

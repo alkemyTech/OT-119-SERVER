@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonRootName("organization")
-public class OrganizationResponsePublic {
+public class OrganizationResponse {
 
   private String image;
   private String address;

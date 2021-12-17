@@ -9,20 +9,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class GetOrganizationServiceImpl implements IGetOrganizationService {
+public class OrganizationServiceImpl implements IGetOrganizationService {
 
   private static final String ORGANIZATION_NOT_FOUND_MESSAGE = "Organization not found.";
 
-  @Autowired IOrganizationRepository repository;
+  @Autowired IOrganizationRepository organizationRepository;
 
   @Override
-  public Organization
-      getOrganization() { // This method implementation assumes there is only one Organization in
-                          // the database.
-    List<Organization> orgLst = repository.findAll();
-    if (orgLst.isEmpty()) {
+  public Organization getOrganization() {
+    List<Organization> organizations = organizationRepository.findAll();
+    if (organizations.isEmpty()) {
       throw new EntityNotFoundException(ORGANIZATION_NOT_FOUND_MESSAGE);
     }
-    return orgLst.get(0);
+    return organizations.get(0);
   }
 }

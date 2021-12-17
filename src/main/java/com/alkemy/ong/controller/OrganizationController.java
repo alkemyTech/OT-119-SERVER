@@ -1,8 +1,8 @@
 package com.alkemy.ong.controller;
 
-import com.alkemy.ong.common.OrganizationUtils;
+import com.alkemy.ong.common.EntityUtils;
 import com.alkemy.ong.model.entity.Organization;
-import com.alkemy.ong.model.response.OrganizationResponsePublic;
+import com.alkemy.ong.model.response.OrganizationResponse;
 import com.alkemy.ong.service.abstraction.IGetOrganizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,11 +17,9 @@ public class OrganizationController {
 
   @Autowired IGetOrganizationService organizationService;
 
-  OrganizationUtils orgUtils = new OrganizationUtils();
-
   @GetMapping(value = "/public")
-  ResponseEntity<OrganizationResponsePublic> getPublicData() {
+  ResponseEntity<OrganizationResponse> getPublicData() {
     Organization org = organizationService.getOrganization();
-    return new ResponseEntity<>(orgUtils.convertToDto(org), HttpStatus.OK);
+    return new ResponseEntity<>(EntityUtils.convertToOrganization(org), HttpStatus.OK);
   }
 }
