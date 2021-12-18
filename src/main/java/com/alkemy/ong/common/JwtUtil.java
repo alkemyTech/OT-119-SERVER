@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -50,6 +51,12 @@ public class JwtUtil {
   public String generateToken(UserDetails userDetails) {
     User user = (User) userDetails;
     return createToken(user.getUsername(), user.getRoles().get(0).getName());
+  }
+
+  public String generateJwtToken(Authentication authentication) {
+    UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
+    return Jwts.builder().setSubject((userPrincipal.getUsername()))
+        .signWith(SignatureAlgorithm.HS512, SECRET_KEY).compact();
   }
 
   private String createToken(String subject, String role) {
