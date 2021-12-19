@@ -13,7 +13,7 @@ import java.util.Optional;
 @Service
 public class NewsServiceImpl implements IDeleteNewsService {
 
-  private static final String NEWS_NOT_FOUND_MESSAGE = "New not found.";
+  private static final String NEWS_NOT_FOUND_MESSAGE = "News not found.";
 
   @Autowired
   private INewsRepository newsRepository;

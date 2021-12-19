@@ -5,4 +5,5 @@ import javax.persistence.EntityNotFoundException;
 public interface IDeleteNewsService {
 
   void delete(Long id) throws EntityNotFoundException;
+
 }
