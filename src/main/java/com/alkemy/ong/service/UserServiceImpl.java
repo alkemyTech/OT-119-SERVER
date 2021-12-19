@@ -2,12 +2,18 @@ package com.alkemy.ong.service;
 
 import com.alkemy.ong.common.JwtUtil;
 import com.alkemy.ong.model.entity.User;
+import com.alkemy.ong.model.request.UserAuthenticationRequest;
+import com.alkemy.ong.model.response.UserAuthenticatedResponse;
 import com.alkemy.ong.repository.IUserRepository;
 import com.alkemy.ong.service.abstraction.IDeleteUserService;
 import com.alkemy.ong.service.abstraction.IGetUserService;
 import java.util.Optional;
 import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,6 +29,9 @@ public class UserServiceImpl implements UserDetailsService, IDeleteUserService, 
 
   @Autowired
   private IUserRepository userRepository;
+
+  @Autowired
+  private AuthenticationManager authenticationManager;
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -55,6 +64,27 @@ public class UserServiceImpl implements UserDetailsService, IDeleteUserService, 
       throw new UsernameNotFoundException(USER_NOT_FOUND_MESSAGE);
     }
     return user;
+  }
+
+  private boolean checkEmail(String username) {
+    User user = userRepository.findByEmail(username);
+    if (user == null) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  public Authentication authentication(UserAuthenticationRequest authRequest) {
+    if (checkEmail(authRequest.getEmail())) {
+      Authentication auth = authenticationManager.authenticate(
+          new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword())
+      );
+      SecurityContextHolder.getContext().setAuthentication(auth);
+      return auth;
+    } else {
+      throw new EntityNotFoundException(USER_NOT_FOUND_MESSAGE);
+    }
   }
 
 }
