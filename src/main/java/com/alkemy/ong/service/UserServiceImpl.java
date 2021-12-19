@@ -1,10 +1,13 @@
 package com.alkemy.ong.service;
 
+import com.alkemy.ong.common.EntityUtils;
 import com.alkemy.ong.common.JwtUtil;
 import com.alkemy.ong.model.entity.User;
+import com.alkemy.ong.model.response.UserResponse;
 import com.alkemy.ong.repository.IUserRepository;
 import com.alkemy.ong.service.abstraction.IDeleteUserService;
 import com.alkemy.ong.service.abstraction.IGetUserService;
+import java.util.List;
 import java.util.Optional;
 import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,5 +59,12 @@ public class UserServiceImpl implements UserDetailsService, IDeleteUserService, 
     }
     return user;
   }
+
+  @Override
+  public List<UserResponse> getListUserResponse(){
+    List<User> userList = userRepository.findAll();
+    return EntityUtils.convertTo(userList);
+  }
+
 
 }

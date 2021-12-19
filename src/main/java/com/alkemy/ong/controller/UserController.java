@@ -1,12 +1,16 @@
 package com.alkemy.ong.controller;
 
+import com.alkemy.ong.model.response.UserResponse;
 import com.alkemy.ong.service.abstraction.IDeleteUserService;
+import com.alkemy.ong.service.abstraction.IGetUserService;
 import com.fasterxml.jackson.databind.introspect.TypeResolutionContext.Empty;
+import java.util.List;
 import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,6 +19,9 @@ public class UserController {
 
   @Autowired
   public IDeleteUserService deleteUserService;
+  @Autowired
+  public IGetUserService getUserService;
+
 
   @DeleteMapping(value = "/users/{id}")
   public ResponseEntity<Empty> delete(@PathVariable Long id) throws EntityNotFoundException {
@@ -22,4 +29,9 @@ public class UserController {
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 
+  @GetMapping(value = "/users")
+  public ResponseEntity<List<UserResponse>> get() {
+    List<UserResponse> userResponseList = getUserService.getListUserResponse();
+    return new ResponseEntity<>(userResponseList, HttpStatus.OK);
+  }
 }
