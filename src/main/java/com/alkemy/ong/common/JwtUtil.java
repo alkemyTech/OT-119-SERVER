@@ -53,12 +53,6 @@ public class JwtUtil {
     return createToken(user.getUsername(), user.getRoles().get(0).getName());
   }
 
-  public String generateJwtToken(Authentication authentication) {
-    UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
-    return Jwts.builder().setSubject((userPrincipal.getUsername()))
-        .signWith(SignatureAlgorithm.HS512, SECRET_KEY).compact();
-  }
-
   private String createToken(String subject, String role) {
     List<GrantedAuthority> grantedAuthorities = AuthorityUtils
         .commaSeparatedStringToAuthorityList(role);
