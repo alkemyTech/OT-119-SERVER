@@ -13,24 +13,23 @@ import java.util.Optional;
 @Service
 public class NewsServiceImpl implements IDeleteNewsService {
 
-    private static final String NEW_NOT_FOUND_MESSAGE = "New not found.";
+  private static final String NEWS_NOT_FOUND_MESSAGE = "New not found.";
 
-    @Autowired
-    private INewsRepository newsRepository;
+  @Autowired
+  private INewsRepository newsRepository;
 
-    @Override
-    public void delete(Long id) throws EntityNotFoundException {
-        News news = getNews(id);
-        news.setSoftDelete(true);
-        newsRepository.save(news);
+  @Override
+  public void delete(Long id) throws EntityNotFoundException {
+    News news = getNews(id);
+    news.setSoftDelete(true);
+    newsRepository.save(news);
+  }
+
+  private News getNews(Long id) {
+    Optional<News> newsOptional = newsRepository.findById(id);
+    if (newsOptional.isEmpty() || newsOptional.get().isSoftDelete()) {
+      throw new EntityNotFoundException(NEWS_NOT_FOUND_MESSAGE);
     }
-
-
-    private News getNews(Long id) {
-        Optional<News> newsOptional = newsRepository.findById(id);
-        if (newsOptional.isEmpty() || newsOptional.get().isSoftDelete()) {
-            throw new EntityNotFoundException(NEW_NOT_FOUND_MESSAGE);
-        }
-        return newsOptional.get();
-    }
+    return newsOptional.get();
+  }
 }
