@@ -9,9 +9,7 @@ import com.alkemy.ong.model.response.NewsDetailsResponse;
 import com.alkemy.ong.model.response.OrganizationResponse;
 import com.alkemy.ong.model.response.UserDetailsResponse;
 import org.springframework.beans.BeanUtils;
-import org.springframework.stereotype.Service;
 
-@Service
 public class EntityUtils {
 
   private EntityUtils() {
