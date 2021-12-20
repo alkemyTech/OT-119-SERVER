@@ -47,8 +47,11 @@ public class CommentController {
 
   @GetMapping(value = "/comments")
   public ResponseEntity<Empty> getAllComments(@RequestHeader(value = "Authorization") String authorizationHeader){
-    getCommentsService.getComments(authorizationHeader);
-    return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    try {
+      getCommentsService.getComments(authorizationHeader);
+      return new ResponseEntity<>(HttpStatus.OK);
+    }catch (OperationNotAllowedException exception){
+      return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
   }
-
 }
