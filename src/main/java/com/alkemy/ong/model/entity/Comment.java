@@ -47,4 +47,43 @@ public class Comment {
   @Column(name = "TIMESTAMP")
   private Timestamp timestamp;
 
+  public long getId() {
+    return id;
+  }
+
+  public void setId(long id) {
+    this.id = id;
+  }
+
+  public String getBody() {
+    return body;
+  }
+
+  public void setBody(String body) {
+    this.body = body;
+  }
+
+  public User getUserId() {
+    return userId;
+  }
+
+  public void setUserId(User userId) {
+    this.userId = userId;
+  }
+
+  public News getNewsId() {
+    return newsId;
+  }
+
+  public void setNewsId(News newsId) {
+    this.newsId = newsId;
+  }
+
+  public Timestamp getTimestamp() {
+    return timestamp;
+  }
+
+  public void setTimestamp(Timestamp timestamp) {
+    this.timestamp = timestamp;
+  }
 }

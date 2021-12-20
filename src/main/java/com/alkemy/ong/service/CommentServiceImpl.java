@@ -11,14 +11,18 @@ import com.alkemy.ong.service.abstraction.IGetUserService;
 import java.util.List;
 import java.util.Optional;
 import javax.persistence.EntityNotFoundException;
+
+import com.alkemy.ong.service.abstraction.IPostCommentsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CommentServiceImpl implements IDeleteCommentsService {
+public class CommentServiceImpl implements IDeleteCommentsService,
+                                           IPostCommentsService {
 
   private static final String COMMENT_NOT_FOUND_MESSAGE = "Comment not found.";
   private static final String USER_IS_NOT_ABLE_TO_DELETE_COMMENT_MESSAGE = "User is not able to delete comment.";
+  private static final String USER_IS_NOT_ABLE_TO_ADD_COMMENT_MESSAGE = "User is not able to add comment.";
 
   @Autowired
   private ICommentRepository commentRepository;
@@ -36,6 +40,16 @@ public class CommentServiceImpl implements IDeleteCommentsService {
         USER_IS_NOT_ABLE_TO_DELETE_COMMENT_MESSAGE);
 
     commentRepository.delete(comment);
+  }
+
+  @Override
+  public void add(Long id, Comment comment, String authorizationHeader) throws OperationNotAllowedException {
+    throwExceptionIfOperationIsNotAllowed(
+        getUserService.getBy(authorizationHeader),
+        comment,
+        USER_IS_NOT_ABLE_TO_ADD_COMMENT_MESSAGE);
+
+    commentRepository.save(comment);
   }
 
   private boolean hasRole(String nameRole, List<Role> roles) {
@@ -56,5 +70,6 @@ public class CommentServiceImpl implements IDeleteCommentsService {
     }
     return commentOptional.get();
   }
+
 
 }
