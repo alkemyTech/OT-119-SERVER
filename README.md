@@ -27,3 +27,14 @@ Make sure to set up your IDE with the right code style format file.
 - Postman collection should be updated every time that you open a pull request. Be a team player!
 - Once you finish to addressing all the comments, leave a comment on the pull request to the
   reviewer asking to re-review the PR.
+
+### PROJECT SETUP
+
+- Postman
+- Maven
+- JDK 11
+- MySQL
+
+To run the project execute: 
+
+`mvn spring-boot:run`
