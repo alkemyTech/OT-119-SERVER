@@ -12,7 +12,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CategoryDetailsResponse {
 
-  private long id;
   private String name;
   private String description;
   private String image;

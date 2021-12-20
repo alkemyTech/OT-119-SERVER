@@ -27,7 +27,7 @@ public class CategoryServiceImpl implements IDeleteCategoryService, IGetCategory
     categoryRepository.save(category);
   }
   @Override
-  public CategoryDetailsResponse findById(Long id){
+  public CategoryDetailsResponse findBy(Long id){
     Category category = getCategory(id);
     return EntityUtils.convertTo(category);
   }

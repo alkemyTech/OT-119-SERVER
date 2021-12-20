@@ -4,6 +4,6 @@ import com.alkemy.ong.model.response.CategoryDetailsResponse;
 
 public interface IGetCategoryService {
 
-  CategoryDetailsResponse findById(Long id);
+  CategoryDetailsResponse findBy(Long id);
 
 }

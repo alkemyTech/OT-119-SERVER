@@ -23,7 +23,7 @@ public class CategoryController {
   @Autowired
   private IDeleteCategoryService deleteCategoryService;
   @Autowired
-  private IGetCategoryService categoryService;
+  private IGetCategoryService getCategoryService;
 
   @DeleteMapping(value = "/categories/{id}")
   public ResponseEntity<Empty> delete(@PathVariable long id) throws EntityNotFoundException {
@@ -34,7 +34,7 @@ public class CategoryController {
   @GetMapping(value = "/categories/{id}")
   public ResponseEntity<CategoryDetailsResponse> getCategory(@PathVariable long id)
       throws EntityNotFoundException {
-    return ResponseEntity.status(HttpStatus.OK).body(categoryService.findById(id));
+    return ResponseEntity.status(HttpStatus.OK).body(getCategoryService.findBy(id));
   }
 
 }
