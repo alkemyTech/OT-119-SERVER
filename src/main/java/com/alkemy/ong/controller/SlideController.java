@@ -28,9 +28,9 @@ public class SlideController {
   }
 
   @GetMapping(value = "/slides")
-  public ResponseEntity<ListSlideResponse> getAll() throws EntityNotFoundException {
-    ListSlideResponse slides = getSlideService.getAll();
-    return ResponseEntity.ok().body(slides);
+  public ResponseEntity<ListSlideResponse> list() {
+    ListSlideResponse listSlideResponse = getSlideService.getAll();
+    return ResponseEntity.ok().body(listSlideResponse);
   }
 
 }

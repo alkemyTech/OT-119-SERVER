@@ -21,16 +21,15 @@ public class EntityUtils {
   }
 
   public static List<SlideResponse> convertTo(Collection<Slide> slides) {
-    List<SlideResponse> slideResponseList = new ArrayList<>();
+    List<SlideResponse> slideResponses = new ArrayList<>();
     SlideResponse slideResponse;
     for (Slide slide : slides) {
       slideResponse = new SlideResponse();
       slideResponse.setImageUrl(slide.getImageUrl());
       slideResponse.setOrder(slide.getOrder());
-      slideResponseList.add(slideResponse);
+      slideResponses.add(slideResponse);
     }
-    return slideResponseList;
-
+    return slideResponses;
   }
 
 }
