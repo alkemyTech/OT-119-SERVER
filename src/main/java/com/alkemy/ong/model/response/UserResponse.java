@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonRootName("Users")
+@JsonRootName(value = "Users")
 public class UserResponse {
 
   private Long id;
