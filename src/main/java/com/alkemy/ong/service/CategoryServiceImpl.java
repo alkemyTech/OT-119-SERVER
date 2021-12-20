@@ -1,6 +1,5 @@
 package com.alkemy.ong.service;
 
-import com.alkemy.ong.common.DtoUtils;
 import com.alkemy.ong.common.EntityUtils;
 import com.alkemy.ong.model.entity.Category;
 import com.alkemy.ong.model.response.CategoryDetailsResponse;
@@ -26,8 +25,9 @@ public class CategoryServiceImpl implements IDeleteCategoryService, IGetCategory
     category.setSoftDelete(true);
     categoryRepository.save(category);
   }
+
   @Override
-  public CategoryDetailsResponse findBy(Long id){
+  public CategoryDetailsResponse findBy(Long id) {
     Category category = getCategory(id);
     return EntityUtils.convertTo(category);
   }
