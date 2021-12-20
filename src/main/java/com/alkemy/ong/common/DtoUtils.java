@@ -2,10 +2,8 @@ package com.alkemy.ong.common;
 
 import com.alkemy.ong.model.entity.Role;
 import com.alkemy.ong.model.entity.User;
-import com.alkemy.ong.model.request.RolesRequest;
 import com.alkemy.ong.model.request.UserDetailsRequest;
 import com.alkemy.ong.service.abstraction.IRoleService;
-import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
