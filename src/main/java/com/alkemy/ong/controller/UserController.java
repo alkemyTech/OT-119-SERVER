@@ -1,5 +1,9 @@
 package com.alkemy.ong.controller;
 
+<<<<<<< Updated upstream
+=======
+import com.alkemy.ong.model.response.ListUserResponse;
+>>>>>>> Stashed changes
 import com.alkemy.ong.model.response.UserResponse;
 import com.alkemy.ong.service.abstraction.IDeleteUserService;
 import com.alkemy.ong.service.abstraction.IGetUserService;
@@ -23,6 +27,9 @@ public class UserController {
   public IGetUserService getUserService;
 
 
+  @Autowired
+  public IGetUserService getUserService;
+
   @DeleteMapping(value = "/users/{id}")
   public ResponseEntity<Empty> delete(@PathVariable Long id) throws EntityNotFoundException {
     deleteUserService.delete(id);
@@ -30,8 +37,14 @@ public class UserController {
   }
 
   @GetMapping(value = "/users")
+<<<<<<< Updated upstream
   public ResponseEntity<List<UserResponse>> get() {
     List<UserResponse> userResponseList = getUserService.getListUserResponse();
     return new ResponseEntity<>(userResponseList, HttpStatus.OK);
+=======
+  public ResponseEntity<List<UserResponse>> getList() {
+    ListUserResponse userResponses = getUserService.getList();
+    return new ResponseEntity<>(userResponses, HttpStatus.OK);
+>>>>>>> Stashed changes
   }
 }

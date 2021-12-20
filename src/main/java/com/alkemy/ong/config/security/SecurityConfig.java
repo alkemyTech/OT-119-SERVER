@@ -62,8 +62,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers(HttpMethod.DELETE, "/users/**")
         .hasAnyRole(ApplicationRole.USER.getName())
         .antMatchers(HttpMethod.GET, "/users")
+<<<<<<< Updated upstream
         .permitAll()
         //.hasAnyRole(ApplicationRole.ADMIN.getName())
+=======
+        .hasAnyRole(ApplicationRole.ADMIN.getName())
+>>>>>>> Stashed changes
         .antMatchers(HttpMethod.DELETE, "/testimonials/**")
         .hasAnyRole(ApplicationRole.ADMIN.getName(), ApplicationRole.USER.getName())
         .antMatchers(HttpMethod.DELETE, "/members/**")
