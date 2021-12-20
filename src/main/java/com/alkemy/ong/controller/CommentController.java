@@ -29,4 +29,13 @@ public class CommentController {
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 
+  @PostMapping(value = "/comments/{id}")
+  public ResponseEntity<Empty> post(@PathVariable("id") long id,
+                                    @RequestHeader(value = "Authorization") String authorizationHeader,
+                                    @Valid @RequestBody Comment comment)
+          throws OperationNotAllowedException {
+    postCommentsService.add(id, comment, authorizationHeader);
+    return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+  }
+
 }
