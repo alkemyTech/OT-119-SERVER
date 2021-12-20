@@ -1,5 +1,6 @@
 package com.alkemy.ong.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.sql.Timestamp;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -24,7 +25,7 @@ import org.hibernate.annotations.CreationTimestamp;
 @NoArgsConstructor
 @Entity
 @Table(name = "NEWS")
-public class News {
+public class New {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,6 +41,7 @@ public class News {
 
   @Column(name = "IMAGE", nullable = false)
   private String image;
+
 
   @JoinColumn(name = "CATEGORIES_ID")
   @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
