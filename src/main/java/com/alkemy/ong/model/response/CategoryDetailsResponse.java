@@ -1,6 +1,5 @@
 package com.alkemy.ong.model.response;
 
-import com.fasterxml.jackson.annotation.JsonRootName;
 import java.sql.Timestamp;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,7 +10,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonRootName("category")
 public class CategoryDetailsResponse {
 
   private long id;
@@ -19,5 +17,5 @@ public class CategoryDetailsResponse {
   private String description;
   private String image;
   private Timestamp timestamp;
-  private boolean softDelete;
+
 }

@@ -1,25 +1,23 @@
 package com.alkemy.ong.controller;
 
-import com.alkemy.ong.model.response.NewDetailsResponse;
-import com.alkemy.ong.service.abstraction.IGetNewService;
+import com.alkemy.ong.model.response.NewsDetailsResponse;
+import com.alkemy.ong.service.abstraction.IGetNewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("news")
-public class NewController {
+public class NewsController {
 
   @Autowired
-  IGetNewService getNewService;
+  private IGetNewsService getNewsService;
 
-  @GetMapping("/{id}")
-  public ResponseEntity<NewDetailsResponse> getDetailsById(@PathVariable Long id) {
-    NewDetailsResponse newDetails = getNewService.getDetailsById(id);
+  @GetMapping("/news/{id}")
+  public ResponseEntity<NewsDetailsResponse> getDetailsById(@PathVariable Long id) {
+    NewsDetailsResponse newDetails = getNewsService.getById(id);
     return ResponseEntity.status(HttpStatus.OK).body(newDetails);
   }
 

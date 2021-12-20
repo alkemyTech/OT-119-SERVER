@@ -1,6 +1,5 @@
 package com.alkemy.ong.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.sql.Timestamp;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -41,7 +40,6 @@ public class News {
 
   @Column(name = "IMAGE", nullable = false)
   private String image;
-
 
   @JoinColumn(name = "CATEGORIES_ID")
   @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)

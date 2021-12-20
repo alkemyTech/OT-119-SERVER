@@ -1,6 +1,5 @@
 package com.alkemy.ong.model.response;
 
-import com.fasterxml.jackson.annotation.JsonRootName;
 import java.sql.Timestamp;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,8 +10,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonRootName("news")
-public class NewDetailsResponse {
+public class NewsDetailsResponse {
 
   private long id;
   private String name;

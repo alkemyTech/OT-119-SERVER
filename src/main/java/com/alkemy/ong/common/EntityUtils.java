@@ -4,7 +4,7 @@ import com.alkemy.ong.model.entity.Category;
 import com.alkemy.ong.model.entity.News;
 import com.alkemy.ong.model.entity.Organization;
 import com.alkemy.ong.model.response.CategoryDetailsResponse;
-import com.alkemy.ong.model.response.NewDetailsResponse;
+import com.alkemy.ong.model.response.NewsDetailsResponse;
 import com.alkemy.ong.model.response.OrganizationResponse;
 import org.springframework.beans.BeanUtils;
 
@@ -25,12 +25,12 @@ public class EntityUtils {
     return categoryDetailsResponse;
   }
 
-  public static NewDetailsResponse convertTo(News newEntity) {
-    NewDetailsResponse newDetailsResponse = new NewDetailsResponse();
+  public static NewsDetailsResponse convertTo(News newEntity) {
+    NewsDetailsResponse newsDetailsResponse = new NewsDetailsResponse();
     CategoryDetailsResponse categoryDetailsResponse = convertTo(newEntity.getCategory());
-    newDetailsResponse.setCategory(categoryDetailsResponse);
-    BeanUtils.copyProperties(newEntity, newDetailsResponse);
-    return newDetailsResponse;
+    newsDetailsResponse.setCategory(categoryDetailsResponse);
+    BeanUtils.copyProperties(newEntity, newsDetailsResponse);
+    return newsDetailsResponse;
   }
 
 }
