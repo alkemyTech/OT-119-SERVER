@@ -1,9 +1,7 @@
 package com.alkemy.ong.model.entity;
 
-import javax.validation.constraints.Email;
 import lombok.*;
 import javax.persistence.*;
-
 
 @Getter
 @Setter
