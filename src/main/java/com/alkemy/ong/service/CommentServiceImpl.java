@@ -24,7 +24,7 @@ public class CommentServiceImpl implements IDeleteCommentsService,
 
   private static final String COMMENT_NOT_FOUND_MESSAGE = "Comment not found.";
   private static final String USER_IS_NOT_ABLE_TO_DELETE_COMMENT_MESSAGE = "User is not able to delete comment.";
-  private static final String USER_IS_NOT_ABLE_TO_ADD_COMMENT_MESSAGE = "User is not able to add comment.";
+  private static final String IS_NOT_ABLE_TO_ADD_COMMENT_MESSAGE = "Is not able to add comment.";
   private static final String USER_IS_NOT_ABLE_TO_SEE_ALL_COMMENTS = "User is not able to see all comments.";
 
   @Autowired
@@ -47,10 +47,10 @@ public class CommentServiceImpl implements IDeleteCommentsService,
 
   @Override
   public void add(Long id, Comment comment, String authorizationHeader) throws OperationNotAllowedException {
-    throwExceptionIfOperationIsNotAllowed(
+    throwExceptionIfIsNotARegisteredUser(
         getUserService.getBy(authorizationHeader),
         comment,
-        USER_IS_NOT_ABLE_TO_ADD_COMMENT_MESSAGE);
+        IS_NOT_ABLE_TO_ADD_COMMENT_MESSAGE);
 
     commentRepository.save(comment);
   }
@@ -72,6 +72,16 @@ public class CommentServiceImpl implements IDeleteCommentsService,
   private void throwExceptionIfOperationIsNotAllowed(User user, Comment comment, String message) {
     boolean isRoleAdmin = hasRole(ApplicationRole.ADMIN.getFullRoleName(), user.getRoles());
     if (!comment.getUserId().getId().equals(user.getId()) && !isRoleAdmin) {
+      throw new OperationNotAllowedException(message);
+    }
+  }
+
+  private void throwExceptionIfIsNotARegisteredUser(User user, Comment comment, String message) {
+    boolean isRoleAdmin = hasRole(ApplicationRole.ADMIN.getFullRoleName(), user.getRoles());
+    boolean isRoleUser = hasRole(ApplicationRole.USER.getFullRoleName(), user.getRoles());
+    boolean isTheSameId = comment.getUserId().getId().equals(user.getId());
+    boolean isAdminOrUser = isRoleAdmin || isRoleUser;
+    if (!isTheSameId && !isAdminOrUser) {
       throw new OperationNotAllowedException(message);
     }
   }

@@ -34,17 +34,19 @@ public class CommentController {
   }
 
   @PostMapping(value = "/comments/{id}")
-  public ResponseEntity<Empty> post(@PathVariable("id") long id,
+  public ResponseEntity<Empty> postComment(@PathVariable("id") long id,
                                     @RequestHeader(value = "Authorization") String authorizationHeader,
-                                    @Valid @RequestBody Comment comment)
-          throws OperationNotAllowedException {
-    postCommentsService.add(id, comment, authorizationHeader);
-    return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+                                    @Valid @RequestBody Comment comment) {
+    try {
+      postCommentsService.add(id, comment, authorizationHeader);
+      return new ResponseEntity<>(HttpStatus.OK);
+    }catch (OperationNotAllowedException exception){
+      return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
   }
 
   @GetMapping(value = "/comments")
-  public ResponseEntity<Empty> get(@RequestHeader(value = "Authorization") String authorizationHeader)
-          throws OperationNotAllowedException {
+  public ResponseEntity<Empty> getAllComments(@RequestHeader(value = "Authorization") String authorizationHeader){
     getCommentsService.getComments(authorizationHeader);
     return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
   }
