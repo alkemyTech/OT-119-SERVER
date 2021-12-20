@@ -1,13 +1,11 @@
 package com.alkemy.ong.common;
 
 import com.alkemy.ong.model.entity.Category;
-import com.alkemy.ong.model.entity.New;
+import com.alkemy.ong.model.entity.News;
 import com.alkemy.ong.model.entity.Organization;
 import com.alkemy.ong.model.response.CategoryDetailsResponse;
 import com.alkemy.ong.model.response.NewDetailsResponse;
 import com.alkemy.ong.model.response.OrganizationResponse;
-import java.util.ArrayList;
-import java.util.List;
 import org.springframework.beans.BeanUtils;
 
 public class EntityUtils {
@@ -27,7 +25,7 @@ public class EntityUtils {
     return categoryDetailsResponse;
   }
 
-  public static NewDetailsResponse convertTo(New newEntity) {
+  public static NewDetailsResponse convertTo(News newEntity) {
     NewDetailsResponse newDetailsResponse = new NewDetailsResponse();
     CategoryDetailsResponse categoryDetailsResponse = convertTo(newEntity.getCategory());
     newDetailsResponse.setCategory(categoryDetailsResponse);

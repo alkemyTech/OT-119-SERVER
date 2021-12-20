@@ -1,7 +1,7 @@
 package com.alkemy.ong.service;
 
 import com.alkemy.ong.common.EntityUtils;
-import com.alkemy.ong.model.entity.New;
+import com.alkemy.ong.model.entity.News;
 import com.alkemy.ong.model.response.NewDetailsResponse;
 import com.alkemy.ong.repository.INewRepository;
 import com.alkemy.ong.service.abstraction.IGetNewService;
@@ -21,7 +21,7 @@ public class NewServiceImpl implements IGetNewService {
   @Override
   public NewDetailsResponse getDetailsById(Long id) {
 
-    Optional<New> newDetails = newRepository.findById(id);
+    Optional<News> newDetails = newRepository.findById(id);
     if (!newDetails.isPresent()) {
       throw new EntityNotFoundException(NEW_NOT_FOUND_MESSAGE);
     }

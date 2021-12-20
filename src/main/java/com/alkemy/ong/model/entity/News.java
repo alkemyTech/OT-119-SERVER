@@ -25,7 +25,7 @@ import org.hibernate.annotations.CreationTimestamp;
 @NoArgsConstructor
 @Entity
 @Table(name = "NEWS")
-public class New {
+public class News {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
