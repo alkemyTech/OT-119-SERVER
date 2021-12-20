@@ -7,14 +7,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class EntityUtils {
 
+  private EntityUtils() {
+  }
 
-  public UserDetailsResponse userEntity2DTO(User userEntity) {
+  public static UserDetailsResponse convertTo(User userEntity) {
     UserDetailsResponse userDetailsResponse = new UserDetailsResponse();
     userDetailsResponse.setFirstName(userEntity.getFirstName());
     userDetailsResponse.setLastName(userEntity.getLastName());
     userDetailsResponse.setEmail(userEntity.getEmail());
     return userDetailsResponse;
   }
-
 
 }

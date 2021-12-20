@@ -3,7 +3,7 @@ package com.alkemy.ong.service;
 import com.alkemy.ong.common.DtoUtils;
 import com.alkemy.ong.common.JwtUtil;
 import com.alkemy.ong.common.EntityUtils;
-import com.alkemy.ong.exception.InvalidCredentialsException;
+import com.alkemy.ong.exception.UserAlreadyExistException;
 import com.alkemy.ong.model.entity.User;
 import com.alkemy.ong.model.request.UserDetailsRequest;
 import com.alkemy.ong.model.response.UserDetailsResponse;
@@ -24,17 +24,16 @@ public class UserServiceImpl implements UserDetailsService, IDeleteUserService, 
     RegisterUserService {
 
   private static final String USER_NOT_FOUND_MESSAGE = "User not found.";
-  private static final String USER_EMAIL_ERROR = "This email address is already used.";
+  private static final String USER_EMAIL_ERROR = "email address is already used.";
 
   @Autowired
   private JwtUtil jwtUtil;
   @Autowired
   private IUserRepository userRepository;
   @Autowired
-  private EntityUtils entityUtils;
-  @Autowired
   private DtoUtils dtoUtils;
-
+  @Autowired
+  private EntityUtils entityUtils;
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -55,13 +54,13 @@ public class UserServiceImpl implements UserDetailsService, IDeleteUserService, 
 
   @Override
   public UserDetailsResponse register(UserDetailsRequest userDetailsRequest)
-      throws InvalidCredentialsException {
-    User userEntity = dtoUtils.userDTO2Entity(userDetailsRequest);
+      throws UserAlreadyExistException {
+    User userEntity = dtoUtils.convertTo(userDetailsRequest);
     if (userRepository.findByEmail(userEntity.getEmail()) != null) {
-      throw new InvalidCredentialsException(USER_EMAIL_ERROR);
+      throw new UserAlreadyExistException(USER_EMAIL_ERROR);
     }
     User userSaved = userRepository.save(userEntity);
-    return entityUtils.userEntity2DTO(userSaved);
+    return entityUtils.convertTo(userSaved);
   }
 
   private User getUser(Long id) {

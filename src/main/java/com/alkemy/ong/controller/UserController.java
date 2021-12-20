@@ -1,7 +1,7 @@
 package com.alkemy.ong.controller;
 
 
-import com.alkemy.ong.exception.InvalidCredentialsException;
+import com.alkemy.ong.exception.UserAlreadyExistException;
 import com.alkemy.ong.model.request.UserDetailsRequest;
 import com.alkemy.ong.model.response.UserDetailsResponse;
 import com.alkemy.ong.service.abstraction.IDeleteUserService;
@@ -35,7 +35,7 @@ public class UserController {
   @PostMapping(value = "/auth/register")
   public ResponseEntity<UserDetailsResponse> register(
       @Valid @RequestBody UserDetailsRequest userDetailsRequest)
-      throws InvalidCredentialsException {
+      throws UserAlreadyExistException {
     UserDetailsResponse userDetailsResponse = registerUserService.register(userDetailsRequest);
     return ResponseEntity.status(HttpStatus.CREATED).body(userDetailsResponse);
   }

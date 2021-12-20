@@ -69,6 +69,14 @@ public class ExceptionHandler {
         .body(buildResponse(e, HttpStatus.FORBIDDEN));
   }
 
+  @org.springframework.web.bind.annotation.ExceptionHandler(UserAlreadyExistException.class)
+  public ResponseEntity<ErrorResponse> handleUserAlreadyExistException(
+      HttpServletRequest request,
+      UserAlreadyExistException e) {
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        .body(buildResponse(e, HttpStatus.BAD_REQUEST));
+  }
+
   private ErrorResponse buildResponse(Exception e, HttpStatus httpStatus) {
     return new ErrorResponse(e, httpStatus.value());
   }
@@ -76,5 +84,6 @@ public class ExceptionHandler {
   private ErrorResponse buildResponse(String message, HttpStatus httpStatus) {
     return new ErrorResponse(message, httpStatus.value());
   }
+
 
 }
