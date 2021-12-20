@@ -6,9 +6,12 @@ import com.alkemy.ong.common.JwtUtil;
 import com.alkemy.ong.config.security.ApplicationRole;
 import com.alkemy.ong.exception.UserAlreadyExistException;
 import com.alkemy.ong.model.entity.Role;
+import com.alkemy.ong.model.entity.Slide;
 import com.alkemy.ong.model.entity.User;
 import com.alkemy.ong.model.request.UserAuthenticationRequest;
 import com.alkemy.ong.model.request.UserDetailsRequest;
+import com.alkemy.ong.model.response.ListSlideResponse;
+import com.alkemy.ong.model.response.ListUserResponse;
 import com.alkemy.ong.model.response.UserAuthenticatedResponse;
 import com.alkemy.ong.model.response.UserDetailsResponse;
 import com.alkemy.ong.repository.IUserRepository;
@@ -77,7 +80,6 @@ public class UserServiceImpl implements UserDetailsService, IDeleteUserService, 
     List<Role> roles = new ArrayList<>();
     roles.add(roleService.findBy(ApplicationRole.USER.getFullRoleName()));
     user.setRoles(roles);
-
     return EntityUtils.convertTo(userRepository.save(user));
   }
 
@@ -108,4 +110,17 @@ public class UserServiceImpl implements UserDetailsService, IDeleteUserService, 
     return user;
   }
 
+ /* @Override
+  public ListUserResponse getList() {
+    List<User> users = userRepository.findAll();
+    ListUserResponse userResponses = new ListUserResponse();
+    userResponses.setUsers(EntityUtils.convert2(users));
+    return userResponses;
+  }*/
+
+  @Override
+  public ListUserResponse getList() {
+    List<User> users = userRepository.findAll();
+    return EntityUtils.convert2(users);
+  }
 }

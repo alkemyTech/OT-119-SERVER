@@ -3,13 +3,17 @@ package com.alkemy.ong.common;
 import com.alkemy.ong.model.entity.Category;
 import com.alkemy.ong.model.entity.News;
 import com.alkemy.ong.model.entity.Organization;
+import com.alkemy.ong.model.entity.Role;
 import com.alkemy.ong.model.entity.Slide;
 import com.alkemy.ong.model.entity.User;
 import com.alkemy.ong.model.response.CategoryDetailsResponse;
+import com.alkemy.ong.model.response.ListUserResponse;
 import com.alkemy.ong.model.response.NewsDetailsResponse;
 import com.alkemy.ong.model.response.OrganizationResponse;
+import com.alkemy.ong.model.response.RoleResponse;
 import com.alkemy.ong.model.response.SlideResponse;
 import com.alkemy.ong.model.response.UserDetailsResponse;
+import com.alkemy.ong.model.response.UserResponse;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -58,6 +62,36 @@ public class EntityUtils {
       slideResponses.add(slideResponse);
     }
     return slideResponses;
+  }
+
+
+  public static RoleResponse convertTo(Role role){
+    RoleResponse roleResponse = new RoleResponse();
+    roleResponse.setId(role.getId());
+    roleResponse.setName(role.getName());
+    roleResponse.setDescription(role.getDescription());
+    return  roleResponse;
+  }
+  public static List<RoleResponse> convertTo(List<Role> roles){
+    List<RoleResponse> roleResponses = new ArrayList<>();
+    for (Role role: roles) {
+      roleResponses.add(convertTo(role));
+    }
+    return roleResponses;
+  }
+
+   public static ListUserResponse convert2(List<User> users) {
+    ListUserResponse userResponses = new ListUserResponse();
+    for (User user : users) {
+      UserResponse userResponse = new UserResponse();
+      userResponse.setFirstName(user.getFirstName());
+      userResponse.setLastName(user.getLastName());
+      userResponse.setEmail(user.getEmail());
+      userResponse.setPhoto(user.getPhoto());
+      userResponse.setRoles(convertTo(user.getRoles()));
+      userResponses.add(userResponse);
+    }
+    return userResponses;
   }
 
 }

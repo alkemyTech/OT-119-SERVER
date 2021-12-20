@@ -12,24 +12,12 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-<<<<<<< Updated upstream
-@JsonRootName(value = "Users")
-=======
-@JsonRootName(value = "User")
->>>>>>> Stashed changes
 public class UserResponse {
 
-  private Long id;
   private String firstName;
   private String lastName;
   private String email;
   private String photo;
-<<<<<<< Updated upstream
-  private List<Role> roles;
-=======
   private List<RoleResponse> roles;
->>>>>>> Stashed changes
-
-
 
 }
