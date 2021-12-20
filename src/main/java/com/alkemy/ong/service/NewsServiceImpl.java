@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class NewsServiceImpl implements IGetNewsService, IDeleteNewsService {
 
-  private static final String NEWS_NOT_FOUND_MESSAGE = "New not found.";
+  private static final String NEWS_NOT_FOUND_MESSAGE = "News not found.";
 
   @Autowired
   private INewsRepository newsRepository;
