@@ -5,5 +5,5 @@ import com.alkemy.ong.model.entity.Comment;
 
 public interface IPostCommentsService {
 
-    void add(Long id, Comment comment, String authorizationHeader) throws OperationNotAllowedException;
+    void add(Comment comment, String authorizationHeader) throws OperationNotAllowedException;
 }

@@ -2,6 +2,8 @@ package com.alkemy.ong.controller;
 
 import com.alkemy.ong.exception.OperationNotAllowedException;
 import com.alkemy.ong.model.entity.Comment;
+import com.alkemy.ong.model.entity.News;
+import com.alkemy.ong.model.entity.User;
 import com.alkemy.ong.service.abstraction.IDeleteCommentsService;
 import com.alkemy.ong.service.abstraction.IGetCommentsService;
 import com.alkemy.ong.service.abstraction.IPostCommentsService;
@@ -11,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 
 @RestController
 public class CommentController {
@@ -34,11 +35,15 @@ public class CommentController {
   }
 
   @PostMapping(value = "/comments/{id}")
-  public ResponseEntity<Empty> postComment(@PathVariable("id") long id,
-                                    @RequestHeader(value = "Authorization") String authorizationHeader,
-                                    @Valid @RequestBody Comment comment) {
+  public ResponseEntity<Empty> postComment(@PathVariable("id") long user_id,
+                                           @RequestHeader(value = "Authorization") String authorizationHeader,
+                                           @RequestBody Comment comment) {
+    User user = new User();
+    user.setId(user_id);
+    comment.setUserId(user);
+
     try {
-      postCommentsService.add(id, comment, authorizationHeader);
+      postCommentsService.add(comment, authorizationHeader);
       return new ResponseEntity<>(HttpStatus.OK);
     }catch (OperationNotAllowedException exception){
       return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

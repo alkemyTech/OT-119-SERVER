@@ -6,6 +6,7 @@ import com.alkemy.ong.model.entity.Comment;
 import com.alkemy.ong.model.entity.Role;
 import com.alkemy.ong.model.entity.User;
 import com.alkemy.ong.repository.ICommentRepository;
+import com.alkemy.ong.repository.INewsRepository;
 import com.alkemy.ong.service.abstraction.IDeleteCommentsService;
 import com.alkemy.ong.service.abstraction.IGetCommentsService;
 import com.alkemy.ong.service.abstraction.IGetUserService;
@@ -46,7 +47,7 @@ public class CommentServiceImpl implements IDeleteCommentsService,
   }
 
   @Override
-  public void add(Long id, Comment comment, String authorizationHeader) throws OperationNotAllowedException {
+  public void add(Comment comment, String authorizationHeader) throws OperationNotAllowedException {
     throwExceptionIfIsNotARegisteredUser(
         getUserService.getBy(authorizationHeader),
         comment,
