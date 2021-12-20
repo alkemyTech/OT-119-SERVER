@@ -3,6 +3,7 @@ package com.alkemy.ong.controller;
 import com.alkemy.ong.exception.OperationNotAllowedException;
 import com.alkemy.ong.model.entity.Comment;
 import com.alkemy.ong.service.abstraction.IDeleteCommentsService;
+import com.alkemy.ong.service.abstraction.IGetCommentsService;
 import com.alkemy.ong.service.abstraction.IPostCommentsService;
 import com.fasterxml.jackson.databind.introspect.TypeResolutionContext.Empty;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class CommentController {
   @Autowired
   private IPostCommentsService postCommentsService;
 
+  @Autowired
+  private IGetCommentsService getCommentsService;
+
   @DeleteMapping(value = "/comments/{id}")
   public ResponseEntity<Empty> delete(@PathVariable("id") long id,
       @RequestHeader(value = "Authorization") String authorizationHeader)
@@ -35,6 +39,13 @@ public class CommentController {
                                     @Valid @RequestBody Comment comment)
           throws OperationNotAllowedException {
     postCommentsService.add(id, comment, authorizationHeader);
+    return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+  }
+
+  @GetMapping(value = "/comments")
+  public ResponseEntity<Empty> get(@RequestHeader(value = "Authorization") String authorizationHeader)
+          throws OperationNotAllowedException {
+    getCommentsService.getComments(authorizationHeader);
     return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
   }
 
