@@ -1,19 +1,24 @@
 package com.alkemy.ong.service;
 
 import com.alkemy.ong.common.DtoUtils;
-import com.alkemy.ong.common.JwtUtil;
 import com.alkemy.ong.common.EntityUtils;
+import com.alkemy.ong.common.JwtUtil;
+import com.alkemy.ong.config.security.ApplicationRole;
 import com.alkemy.ong.exception.UserAlreadyExistException;
+import com.alkemy.ong.model.entity.Role;
 import com.alkemy.ong.model.entity.User;
-import com.alkemy.ong.model.request.UserDetailsRequest;
-import com.alkemy.ong.model.response.UserDetailsResponse;
 import com.alkemy.ong.model.request.UserAuthenticationRequest;
+import com.alkemy.ong.model.request.UserDetailsRequest;
 import com.alkemy.ong.model.response.UserAuthenticatedResponse;
+import com.alkemy.ong.model.response.UserDetailsResponse;
 import com.alkemy.ong.repository.IUserRepository;
 import com.alkemy.ong.service.abstraction.IAuthenticationService;
 import com.alkemy.ong.service.abstraction.IDeleteUserService;
 import com.alkemy.ong.service.abstraction.IGetUserService;
-import com.alkemy.ong.service.abstraction.RegisterUserService;
+import com.alkemy.ong.service.abstraction.IRegisterUserService;
+import com.alkemy.ong.service.abstraction.IRoleService;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,25 +27,24 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserDetailsService, IDeleteUserService, IGetUserService,
-    RegisterUserService, IAuthenticationService {
-
+    IRegisterUserService, IAuthenticationService {
 
   private static final String USER_NOT_FOUND_MESSAGE = "User not found.";
-  private static final String USER_EMAIL_ERROR = "email address is already used.";
+  private static final String USER_EMAIL_ERROR = "Email address is already used.";
 
   @Autowired
   private JwtUtil jwtUtil;
   @Autowired
   private IUserRepository userRepository;
   @Autowired
-  private DtoUtils dtoUtils;
+  private PasswordEncoder passwordEncoder;
   @Autowired
-  private EntityUtils entityUtils;
-
+  private IRoleService roleService;
   @Autowired
   private AuthenticationManager authenticationManager;
 
@@ -64,12 +68,17 @@ public class UserServiceImpl implements UserDetailsService, IDeleteUserService, 
   @Override
   public UserDetailsResponse register(UserDetailsRequest userDetailsRequest)
       throws UserAlreadyExistException {
-    User userEntity = dtoUtils.convertTo(userDetailsRequest);
-    if (userRepository.findByEmail(userEntity.getEmail()) != null) {
+    if (userRepository.findByEmail(userDetailsRequest.getEmail()) != null) {
       throw new UserAlreadyExistException(USER_EMAIL_ERROR);
     }
-    User userSaved = userRepository.save(userEntity);
-    return EntityUtils.convertTo(userSaved);
+
+    User user = DtoUtils.convertTo(userDetailsRequest);
+    user.setPassword(passwordEncoder.encode(userDetailsRequest.getPassword()));
+    List<Role> roles = new ArrayList<>();
+    roles.add(roleService.findBy(ApplicationRole.USER.getFullRoleName()));
+    user.setRoles(roles);
+
+    return EntityUtils.convertTo(userRepository.save(user));
   }
 
   public UserAuthenticatedResponse authentication(

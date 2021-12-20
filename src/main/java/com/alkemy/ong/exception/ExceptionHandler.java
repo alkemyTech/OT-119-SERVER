@@ -85,5 +85,4 @@ public class ExceptionHandler {
     return new ErrorResponse(message, httpStatus.value());
   }
 
-
 }
