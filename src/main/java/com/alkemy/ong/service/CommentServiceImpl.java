@@ -42,6 +42,21 @@ public class CommentServiceImpl implements IDeleteCommentsService {
     return roles.stream().anyMatch(role -> nameRole.equals(role.getName()));
   }
 
+  private boolean isAdmin(User user){
+    boolean isRoleAdmin = hasRole(ApplicationRole.ADMIN.getFullRoleName(), user.getRoles());
+    return isRoleAdmin;
+  }
+
+  private boolean isUser(User user){
+    boolean isRoleUser = hasRole(ApplicationRole.USER.getFullRoleName(), user.getRoles());
+    return isRoleUser;
+  }
+
+  private boolean isAdminOrUser(User user){
+    boolean isAdminOrUser = this.isAdmin(user) || this.isUser(user);
+    return isAdminOrUser;
+  }
+
   private void throwExceptionIfOperationIsNotAllowed(User user, Comment comment, String message) {
     boolean isRoleAdmin = hasRole(ApplicationRole.ADMIN.getFullRoleName(), user.getRoles());
     if (!comment.getUserId().getId().equals(user.getId()) && !isRoleAdmin) {
