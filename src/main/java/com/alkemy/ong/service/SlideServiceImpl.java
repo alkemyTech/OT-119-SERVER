@@ -1,13 +1,18 @@
 package com.alkemy.ong.service;
 
+import com.alkemy.ong.common.EntityUtils;
+import com.alkemy.ong.model.entity.Slide;
+import com.alkemy.ong.model.response.ListSlideResponse;
 import com.alkemy.ong.repository.ISlideRepository;
 import com.alkemy.ong.service.abstraction.IDeleteSlideService;
+import com.alkemy.ong.service.abstraction.IGetSlideService;
+import java.util.List;
 import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SlideServiceImpl implements IDeleteSlideService {
+public class SlideServiceImpl implements IDeleteSlideService, IGetSlideService {
 
   private static final String SLIDE_NOT_FOUND_MESSAGE = "Slide not found.";
 
@@ -20,6 +25,14 @@ public class SlideServiceImpl implements IDeleteSlideService {
       throw new EntityNotFoundException(SLIDE_NOT_FOUND_MESSAGE);
     }
     slideRepository.deleteById(id);
+  }
+
+  @Override
+  public ListSlideResponse getAll() {
+    List<Slide> slides = slideRepository.findAll();
+    ListSlideResponse slideResponses = new ListSlideResponse();
+    slideResponses.setSlides(EntityUtils.convertTo(slides));
+    return slideResponses;
   }
 
 }

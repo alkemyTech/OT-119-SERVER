@@ -1,4 +1,4 @@
-package com.alkemy.ong.model.notifications;
+package com.alkemy.ong.common.Email;
 
 public interface IEmailContent {
 
