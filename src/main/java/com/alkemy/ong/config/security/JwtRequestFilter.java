@@ -1,6 +1,6 @@
 package com.alkemy.ong.config.security;
 
-import com.alkemy.ong.common.JwtUtil;
+import com.alkemy.ong.common.JwtUtils;
 import com.alkemy.ong.service.UserServiceImpl;
 import io.jsonwebtoken.Claims;
 import java.io.IOException;
@@ -29,7 +29,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
   private UserServiceImpl userDetailService;
 
   @Autowired
-  private JwtUtil jwtUtil;
+  private JwtUtils jwtUtils;
 
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
@@ -47,7 +47,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
   private void authentication(String authorizationHeader) {
     String jwtToken = authorizationHeader.replace(BEARER_PART, EMPTY);
-    Claims claims = jwtUtil.extractAllClaims(jwtToken);
+    Claims claims = jwtUtils.extractAllClaims(jwtToken);
     List<String> authorities = (List) claims.get(AUTHORITIES);
     if (authorities != null) {
       UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(

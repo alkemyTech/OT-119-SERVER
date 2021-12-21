@@ -2,7 +2,7 @@ package com.alkemy.ong.service;
 
 import com.alkemy.ong.common.DtoUtils;
 import com.alkemy.ong.common.EntityUtils;
-import com.alkemy.ong.common.JwtUtil;
+import com.alkemy.ong.common.JwtUtils;
 import com.alkemy.ong.config.security.ApplicationRole;
 import com.alkemy.ong.exception.UserAlreadyExistException;
 import com.alkemy.ong.model.entity.Role;
@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserDetailsService, IDeleteUserService, 
   private static final String USER_EMAIL_ERROR = "Email address is already used.";
 
   @Autowired
-  private JwtUtil jwtUtil;
+  private JwtUtils jwtUtils;
   @Autowired
   private IUserRepository userRepository;
   @Autowired
@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserDetailsService, IDeleteUserService, 
 
   @Override
   public User getBy(String authorizationHeader) {
-    return getUser(jwtUtil.extractUsername(authorizationHeader));
+    return getUser(jwtUtils.extractUsername(authorizationHeader));
   }
 
   @Override
@@ -95,7 +95,7 @@ public class UserServiceImpl implements UserDetailsService, IDeleteUserService, 
         new UsernamePasswordAuthenticationToken(userAuthenticationRequest.getEmail(),
             userAuthenticationRequest.getPassword()));
 
-    return new UserAuthenticatedResponse(jwtUtil.generateToken(user), user.getEmail());
+    return new UserAuthenticatedResponse(jwtUtils.generateToken(user), user.getEmail());
   }
 
   private User getUser(Long id) {
