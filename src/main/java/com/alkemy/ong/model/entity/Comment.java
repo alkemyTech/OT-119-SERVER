@@ -27,6 +27,7 @@ public class Comment {
   @Column(name = "BODY", nullable = false)
   private String body;
 
+
   @JoinColumn(name = "USERS_ID")
   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
   private User userId;

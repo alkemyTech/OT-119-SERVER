@@ -1,5 +1,6 @@
 package com.alkemy.ong.controller;
 
+import com.alkemy.ong.exception.CommentNotFoundException;
 import com.alkemy.ong.exception.OperationNotAllowedException;
 import com.alkemy.ong.model.entity.Comment;
 import com.alkemy.ong.model.entity.News;
@@ -74,8 +75,10 @@ public class CommentController {
     try {
       putCommentsService.update(user_id,comment,authorizationHeader);
       return new ResponseEntity<>(HttpStatus.OK);
-    }catch (OperationNotAllowedException exception){
-      return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    } catch (OperationNotAllowedException exception){
+      return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+    } catch (CommentNotFoundException exception){
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
   }
 }

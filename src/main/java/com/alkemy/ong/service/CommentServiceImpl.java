@@ -1,6 +1,7 @@
 package com.alkemy.ong.service;
 
 import com.alkemy.ong.config.security.ApplicationRole;
+import com.alkemy.ong.exception.CommentNotFoundException;
 import com.alkemy.ong.exception.OperationNotAllowedException;
 import com.alkemy.ong.model.entity.Comment;
 import com.alkemy.ong.model.entity.Role;
@@ -114,6 +115,9 @@ public class CommentServiceImpl implements IDeleteCommentsService,
     Comment commentToUpdate = commentRepository.getById(comment_id);
     if (commentToUpdate != null){
       isTheSameUser = commentToUpdate.getUserId().equals(user);
+    } else {
+      String message = "COMMENT NOT EXIST IN DATABASE";
+      throw new CommentNotFoundException(message);
     }
     return isTheSameUser;
   }
