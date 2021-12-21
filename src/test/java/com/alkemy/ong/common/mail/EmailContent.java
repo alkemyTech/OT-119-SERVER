@@ -1,4 +1,4 @@
-package com.alkemy.ong.common.Email;
+package com.alkemy.ong.common.mail;
 
 public class EmailContent implements IEmailContent {
 

@@ -1,6 +1,5 @@
-package com.alkemy.ong.common;
+package com.alkemy.ong.common.mail;
 
-import com.alkemy.ong.common.Email.IEmail;
 import com.alkemy.ong.exception.SendEmailException;
 import com.sendgrid.Method;
 import com.sendgrid.Request;
@@ -13,27 +12,26 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
-@PropertySource("classpath:application.properties")
+@Service
 public class EmailUtils {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(EmailUtils.class);
+
   @Value("${email.sender.sendgrid.token}")
   private String token;
 
   @Value("${email.sender.from}")
   private String emailFrom;
 
-  public void send(IEmail email)
-      throws SendEmailException {
+  public void send(IEmail email) throws SendEmailException {
     Email from = new Email(emailFrom);
     String subject = email.getSubject();
     Email to = new Email(email.getTo());
-    Content content = new Content(email.getContent().getContentType(),
-        email.getContent().getValue());
+
+    IEmailContent emailContent = email.getContent();
+    Content content = new Content(emailContent.getContentType(), emailContent.getValue());
     Mail mail = new Mail(from, subject, to, content);
     SendGrid sendGrid = new SendGrid(token);
     Request request = new Request();
@@ -46,11 +44,11 @@ public class EmailUtils {
       LOGGER.debug("API response: " + response.getBody());
       LOGGER.debug("API headers: " + response.getHeaders());
       if ((response.getStatusCode() != 202)) {
-        throw new SendEmailException(
-            "Error in SendGrid response, please check your configuration.");
+        throw new SendEmailException("Fails to send email: " + response.getBody());
       }
     } catch (IOException ex) {
       throw new SendEmailException(ex.getMessage());
     }
   }
+
 }

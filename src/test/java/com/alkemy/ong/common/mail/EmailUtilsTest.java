@@ -1,9 +1,6 @@
-package com.alkemy.ong.common;
+package com.alkemy.ong.common.mail;
 
-import com.alkemy.ong.common.Email.Email;
-import com.alkemy.ong.common.Email.EmailContent;
 import com.alkemy.ong.exception.SendEmailException;
-import java.io.IOException;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,13 +10,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
+@Ignore
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @TestPropertySource("/application.properties")
 public class EmailUtilsTest {
 
   @Autowired
-  EmailUtils emailUtils;
+  private EmailUtils emailUtils;
 
   @Value("${email.sender.to}")
   private String to;
@@ -31,22 +29,18 @@ public class EmailUtilsTest {
   private String contentType;
 
   @Test
-  public void sendEmailDefaultContentType() throws SendEmailException, IOException {
-    Email email = new Email();
-    email.setTo(to);
-    email.setSubject(subject);
-
-    EmailContent emailContent = new EmailContent();
-    emailContent.setContentType("text/plain");
-    emailContent.setValue(content);
-
-    email.setContent(emailContent);
+  public void sendEmailDefaultContentType() throws SendEmailException {
+    Email email = getEmail(to, subject, "text/plain", content);
     emailUtils.send(email);
   }
 
-  @Ignore
   @Test
-  public void sendEmailCustomContentType() throws SendEmailException, IOException {
+  public void sendEmailCustomContentType() throws SendEmailException {
+    Email email = getEmail(to, subject, contentType, content);
+    emailUtils.send(email);
+  }
+
+  private Email getEmail(String to, String subject, String contentType, String content) {
     Email email = new Email();
     email.setTo(to);
     email.setSubject(subject);
@@ -56,6 +50,7 @@ public class EmailUtilsTest {
     emailContent.setValue(content);
 
     email.setContent(emailContent);
-    emailUtils.send(email);
+    return email;
   }
+
 }
