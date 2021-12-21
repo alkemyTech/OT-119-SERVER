@@ -7,5 +7,6 @@ public interface IGetUserService {
 
   User getBy(String authorizationHeader);
 
-  ListUserResponse getList();
+  ListUserResponse list();
+
 }

@@ -65,23 +65,23 @@ public class EntityUtils {
   }
 
 
-  public static RoleResponse convertTo(Role role){
+  public static RoleResponse convertTo(Role role) {
     RoleResponse roleResponse = new RoleResponse();
-    roleResponse.setId(role.getId());
     roleResponse.setName(role.getName());
     roleResponse.setDescription(role.getDescription());
-    return  roleResponse;
+    return roleResponse;
   }
-  public static List<RoleResponse> convertTo(List<Role> roles){
+
+  public static List<RoleResponse> convertTo(List<Role> roles) {
     List<RoleResponse> roleResponses = new ArrayList<>();
-    for (Role role: roles) {
+    for (Role role : roles) {
       roleResponses.add(convertTo(role));
     }
     return roleResponses;
   }
 
-   public static ListUserResponse convert2(List<User> users) {
-    ListUserResponse userResponses = new ListUserResponse();
+  public static ListUserResponse convertToListUserResponse(List<User> users) {
+    List<UserResponse> userResponses = new ArrayList<>();
     for (User user : users) {
       UserResponse userResponse = new UserResponse();
       userResponse.setFirstName(user.getFirstName());
@@ -91,7 +91,7 @@ public class EntityUtils {
       userResponse.setRoles(convertTo(user.getRoles()));
       userResponses.add(userResponse);
     }
-    return userResponses;
+    return new ListUserResponse(userResponses);
   }
 
 }

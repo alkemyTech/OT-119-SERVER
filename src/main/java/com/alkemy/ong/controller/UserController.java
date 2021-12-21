@@ -1,11 +1,9 @@
 package com.alkemy.ong.controller;
 
 import com.alkemy.ong.model.response.ListUserResponse;
-import com.alkemy.ong.model.response.UserResponse;
 import com.alkemy.ong.service.abstraction.IDeleteUserService;
 import com.alkemy.ong.service.abstraction.IGetUserService;
 import com.fasterxml.jackson.databind.introspect.TypeResolutionContext.Empty;
-import java.util.List;
 import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,8 +28,7 @@ public class UserController {
   }
 
   @GetMapping(value = "/users")
-  public ResponseEntity<ListUserResponse> getList() {
-    ListUserResponse userResponses = getUserService.getList();
-    return new ResponseEntity<>(userResponses, HttpStatus.OK);
+  public ResponseEntity<ListUserResponse> list() {
+    return new ResponseEntity<>(getUserService.list(), HttpStatus.OK);
   }
 }
