@@ -62,7 +62,8 @@ public class CommentServiceImpl implements IDeleteCommentsService,
 
   @Override
   public List<Comment> getCommentsFromNews(Long news_id, String authorizationHeader) throws OperationNotAllowedException {
-
+    User user = getUserService.getBy(authorizationHeader);
+    validateDataToGetCommentsFromNews(user);
     List<Comment> comments = commentRepository.findCommentsByNewsId(news_id);
     return comments;
   }
@@ -134,8 +135,11 @@ public class CommentServiceImpl implements IDeleteCommentsService,
     }
   }
 
-  private void validateDataToGetCommentsFromNews(Long news_id, ){
-
+  private void validateDataToGetCommentsFromNews(User user) throws OperationNotAllowedException{
+    if (!isAdminOrUser(user)){
+      String message = "OPERATION DONT ALLOWED";
+      throw new OperationNotAllowedException(message);
+    }
   }
 
   private Comment getComment(Long id) {
