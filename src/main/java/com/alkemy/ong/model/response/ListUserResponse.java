@@ -8,10 +8,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class ListSlideResponse {
+@AllArgsConstructor
+public class ListUserResponse {
 
-  private List<SlideResponse> slides;
+  private List<UserResponse> users;
 
 }

@@ -9,6 +9,7 @@ import com.alkemy.ong.model.entity.Role;
 import com.alkemy.ong.model.entity.User;
 import com.alkemy.ong.model.request.UserAuthenticationRequest;
 import com.alkemy.ong.model.request.UserDetailsRequest;
+import com.alkemy.ong.model.response.ListUserResponse;
 import com.alkemy.ong.model.response.UserAuthenticatedResponse;
 import com.alkemy.ong.model.response.UserDetailsResponse;
 import com.alkemy.ong.repository.IUserRepository;
@@ -54,6 +55,12 @@ public class UserServiceImpl implements UserDetailsService, IDeleteUserService, 
   }
 
   @Override
+  public ListUserResponse list() {
+    List<User> users = userRepository.findAll();
+    return EntityUtils.convertToListUserResponse(users);
+  }
+
+  @Override
   public User getBy(String authorizationHeader) {
     return getUser(jwtUtil.extractUsername(authorizationHeader));
   }
@@ -77,7 +84,6 @@ public class UserServiceImpl implements UserDetailsService, IDeleteUserService, 
     List<Role> roles = new ArrayList<>();
     roles.add(roleService.findBy(ApplicationRole.USER.getFullRoleName()));
     user.setRoles(roles);
-
     return EntityUtils.convertTo(userRepository.save(user));
   }
 
