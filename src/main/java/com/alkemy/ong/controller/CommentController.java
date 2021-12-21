@@ -14,6 +14,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
+
 
 @RestController
 public class CommentController {
@@ -55,9 +58,21 @@ public class CommentController {
   }
 
   @GetMapping(value = "/comments")
-  public ResponseEntity<Empty> getAllComments(@RequestHeader(value = "Authorization") String authorizationHeader){
+  public ResponseEntity<Object> getAllComments(@RequestHeader(value = "Authorization") String authorizationHeader){
     try {
-      getCommentsService.getComments(authorizationHeader);
+      List<Comment> comments = getCommentsService.getComments(authorizationHeader);
+      return new ResponseEntity<>(comments,HttpStatus.OK);
+    }catch (OperationNotAllowedException exception){
+      return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+  }
+
+  @PutMapping(value = "/comments/{id}")
+  public ResponseEntity<Empty> updateComment(@PathVariable("id") Long user_id,
+                                             @RequestHeader(value = "Authorization") String authorizationHeader,
+                                             @RequestBody Comment comment){
+    try {
+      putCommentsService.update(user_id,comment,authorizationHeader);
       return new ResponseEntity<>(HttpStatus.OK);
     }catch (OperationNotAllowedException exception){
       return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

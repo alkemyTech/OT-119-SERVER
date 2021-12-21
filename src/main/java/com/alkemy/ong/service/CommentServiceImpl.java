@@ -6,7 +6,6 @@ import com.alkemy.ong.model.entity.Comment;
 import com.alkemy.ong.model.entity.Role;
 import com.alkemy.ong.model.entity.User;
 import com.alkemy.ong.repository.ICommentRepository;
-import com.alkemy.ong.repository.INewsRepository;
 import com.alkemy.ong.service.abstraction.*;
 
 import java.util.List;
@@ -61,8 +60,12 @@ public class CommentServiceImpl implements IDeleteCommentsService,
   }
 
   @Override
-  public void update(Long id, String authorizationHeader) throws OperationNotAllowedException {
-
+  public void update(Long id, Comment comment, String authorizationHeader) throws OperationNotAllowedException {
+    User user = getUserService.getBy(authorizationHeader);
+    validateDataToUpdateComment(user,comment);
+    Comment commentToUpdate = commentRepository.getById(comment.getId());
+    String bodyUpdated = comment.getBody();
+    commentToUpdate.setBody(bodyUpdated);
   }
 
   private boolean hasRole(String nameRole, List<Role> roles) {
@@ -76,21 +79,48 @@ public class CommentServiceImpl implements IDeleteCommentsService,
     }
   }
 
-  private void validateDataToComment(User user, Comment comment) {
+  private boolean isAdmin(User user){
     boolean isRoleAdmin = hasRole(ApplicationRole.ADMIN.getFullRoleName(), user.getRoles());
+    return isRoleAdmin;
+  }
+
+  private boolean isUser(User user){
     boolean isRoleUser = hasRole(ApplicationRole.USER.getFullRoleName(), user.getRoles());
+    return isRoleUser;
+  }
+
+  private boolean isAdminOrUser(User user){
+    boolean isAdminOrUser = this.isAdmin(user) || this.isUser(user);
+    return isAdminOrUser;
+  }
+  private void validateDataToComment(User user, Comment comment) {
     boolean isTheSameId = comment.getUserId().getId().equals(user.getId());
-    boolean isAdminOrUser = isRoleAdmin || isRoleUser;
-    if (!isTheSameId && !isAdminOrUser) {
+    if (!isTheSameId && !isAdminOrUser(user)) {
       String message = IS_NOT_ABLE_TO_ADD_COMMENT_MESSAGE;
       throw new OperationNotAllowedException(message);
     }
   }
 
   private void validateDataToSeeAllComments(User user) {
-    boolean isRoleAdmin = hasRole(ApplicationRole.ADMIN.getFullRoleName(), user.getRoles());
-    if (!isRoleAdmin) {
+    if (!isAdmin(user)) {
       String message = USER_IS_NOT_ABLE_TO_SEE_ALL_COMMENTS;
+      throw new OperationNotAllowedException(message);
+    }
+  }
+
+  private boolean areFromTheSameUser(User user,Comment comment){
+    boolean isTheSameUser = false;
+    Long comment_id = comment.getId();
+    Comment commentToUpdate = commentRepository.getById(comment_id);
+    if (commentToUpdate != null){
+      isTheSameUser = commentToUpdate.getUserId().equals(user);
+    }
+    return isTheSameUser;
+  }
+
+  private void validateDataToUpdateComment(User user,Comment comment) throws OperationNotAllowedException {
+    if (!areFromTheSameUser(user,comment) || !isAdmin(user)){
+      String message = "ARE NOT THE AUTOR OF COMMENT OR ADMIN";
       throw new OperationNotAllowedException(message);
     }
   }
@@ -102,5 +132,4 @@ public class CommentServiceImpl implements IDeleteCommentsService,
     }
     return commentOptional.get();
   }
-
 }
