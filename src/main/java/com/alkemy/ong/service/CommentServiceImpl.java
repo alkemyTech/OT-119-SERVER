@@ -24,8 +24,6 @@ public class CommentServiceImpl implements IDeleteCommentsService,
 
   private static final String COMMENT_NOT_FOUND_MESSAGE = "Comment not found.";
   private static final String USER_IS_NOT_ABLE_TO_DELETE_COMMENT_MESSAGE = "User is not able to delete comment.";
-  private static final String IS_NOT_ABLE_TO_ADD_COMMENT_MESSAGE = "Is not able to add comment.";
-  private static final String USER_IS_NOT_ABLE_TO_SEE_ALL_COMMENTS = "User is not able to see all comments.";
 
   @Autowired
   private ICommentRepository commentRepository;
@@ -102,17 +100,18 @@ public class CommentServiceImpl implements IDeleteCommentsService,
     boolean isAdminOrUser = this.isAdmin(user) || this.isUser(user);
     return isAdminOrUser;
   }
+
   private void validateDataToComment(User user, Comment comment) {
     boolean isTheSameId = comment.getUserId().getId().equals(user.getId());
     if (!isTheSameId && !isAdminOrUser(user)) {
-      String message = IS_NOT_ABLE_TO_ADD_COMMENT_MESSAGE;
+      String message = "Is not able to add comment.";
       throw new OperationNotAllowedException(message);
     }
   }
 
   private void validateDataToSeeAllComments(User user) {
     if (!isAdmin(user)) {
-      String message = USER_IS_NOT_ABLE_TO_SEE_ALL_COMMENTS;
+      String message = "USER CANT SEE THIS INFORMATION";
       throw new OperationNotAllowedException(message);
     }
   }
