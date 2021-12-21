@@ -61,6 +61,13 @@ public class CommentServiceImpl implements IDeleteCommentsService,
   }
 
   @Override
+  public List<Comment> getCommentsFromNews(Long news_id, String authorizationHeader) throws OperationNotAllowedException {
+
+    List<Comment> comments = commentRepository.findCommentsByNewsId(news_id);
+    return comments;
+  }
+
+  @Override
   public void update(Long id, Comment comment, String authorizationHeader) throws OperationNotAllowedException {
     User user = getUserService.getBy(authorizationHeader);
     validateDataToUpdateComment(user,comment);
@@ -125,6 +132,10 @@ public class CommentServiceImpl implements IDeleteCommentsService,
       String message = "ARE NOT THE AUTOR OF COMMENT OR ADMIN";
       throw new OperationNotAllowedException(message);
     }
+  }
+
+  private void validateDataToGetCommentsFromNews(Long news_id, ){
+
   }
 
   private Comment getComment(Long id) {
