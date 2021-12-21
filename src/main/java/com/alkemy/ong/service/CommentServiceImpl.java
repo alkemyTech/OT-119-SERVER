@@ -109,13 +109,11 @@ public class CommentServiceImpl implements IDeleteCommentsService,
     }
   }
 
-  private boolean areFromTheSameUser(User user,Comment comment){
-    boolean isTheSameUser = false;
+  private boolean areFromTheSameUser(User user,Comment comment) throws CommentNotFoundException{
+    boolean isTheSameUser = true;
     Long comment_id = comment.getId();
-    Comment commentToUpdate = commentRepository.getById(comment_id);
-    if (commentToUpdate != null){
-      isTheSameUser = commentToUpdate.getUserId().equals(user);
-    } else {
+    Comment commentToUpdate = commentRepository.findCommentByUserIdAndId(user,comment_id);
+    if (commentToUpdate == null){
       String message = "COMMENT NOT EXIST IN DATABASE";
       throw new CommentNotFoundException(message);
     }

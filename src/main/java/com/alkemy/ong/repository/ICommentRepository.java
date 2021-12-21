@@ -10,5 +10,6 @@ import java.util.List;
 public interface ICommentRepository extends JpaRepository<Comment, Long> {
 
     List<Comment> findByOrderByTimestampAsc();
-
+    List<Comment> findCommentsByNewsId(Long news_id);
+    Comment findCommentByUserIdAndId(User user_id, Long comment_id);
 }
