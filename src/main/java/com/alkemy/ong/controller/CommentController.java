@@ -7,6 +7,7 @@ import com.alkemy.ong.model.entity.User;
 import com.alkemy.ong.service.abstraction.IDeleteCommentsService;
 import com.alkemy.ong.service.abstraction.IGetCommentsService;
 import com.alkemy.ong.service.abstraction.IPostCommentsService;
+import com.alkemy.ong.service.abstraction.IPutCommentsService;
 import com.fasterxml.jackson.databind.introspect.TypeResolutionContext.Empty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,9 @@ public class CommentController {
 
   @Autowired
   private IGetCommentsService getCommentsService;
+
+  @Autowired
+  private IPutCommentsService putCommentsService;
 
   @DeleteMapping(value = "/comments/{id}")
   public ResponseEntity<Empty> delete(@PathVariable("id") long id,
