@@ -1,9 +1,10 @@
 package com.alkemy.ong.service.abstraction;
 
 import com.alkemy.ong.model.request.CategoryDetailsRequest;
+import com.alkemy.ong.model.response.CategoryDetailsResponse;
 
 public interface ICreateCategoryService {
 
-  void createCategory(CategoryDetailsRequest categoryDetailsRequest);
+  CategoryDetailsResponse create(CategoryDetailsRequest categoryDetailsRequest);
 
 }

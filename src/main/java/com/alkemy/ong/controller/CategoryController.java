@@ -41,10 +41,10 @@ public class CategoryController {
   }
 
   @PostMapping(value = "/categories")
-  public ResponseEntity<Empty> create(
+  public ResponseEntity<CategoryDetailsResponse> create(
       @Valid @RequestBody CategoryDetailsRequest categoryDetailsRequest) {
-    createCategoryService.createCategory(categoryDetailsRequest);
-    return new ResponseEntity<>(HttpStatus.CREATED);
+    return ResponseEntity.status(HttpStatus.CREATED)
+        .body(createCategoryService.create(categoryDetailsRequest));
   }
 
 }

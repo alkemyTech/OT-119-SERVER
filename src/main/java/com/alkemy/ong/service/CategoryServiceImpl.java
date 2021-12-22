@@ -37,8 +37,11 @@ public class CategoryServiceImpl implements IDeleteCategoryService, IGetCategory
   }
 
   @Override
-  public void createCategory(CategoryDetailsRequest categoryDetailsRequest) {
-    categoryRepository.save(DtoUtils.convertTo(categoryDetailsRequest));
+  public CategoryDetailsResponse create(CategoryDetailsRequest categoryDetailsRequest) {
+    Category category = DtoUtils.convertTo(categoryDetailsRequest);
+    category.setSoftDelete(false);
+    categoryRepository.save(category);
+    return EntityUtils.convertTo(category);
   }
 
   private Category getCategory(Long id) {
