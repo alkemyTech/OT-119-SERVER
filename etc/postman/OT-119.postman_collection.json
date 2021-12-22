@@ -143,6 +143,34 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "category post",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"salio bien bien\" ,\r\n    \"description\":\"idk\" ,\r\n    \"image\": \"/img.jpg\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/categories",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"categories"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"event": [
