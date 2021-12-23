@@ -3,7 +3,7 @@ package com.alkemy.ong.common.mail;
 public class Email implements IEmail {
 
   private String subject;
-  private String to;
+  private IEmailAddress to;
   private IEmailContent Content;
 
   @Override
@@ -16,11 +16,11 @@ public class Email implements IEmail {
   }
 
   @Override
-  public String getTo() {
+  public IEmailAddress getTo() {
     return to;
   }
 
-  public void setTo(String to) {
+  public void setTo(IEmailAddress to) {
     this.to = to;
   }
 

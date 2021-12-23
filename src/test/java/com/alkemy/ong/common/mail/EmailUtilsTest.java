@@ -19,8 +19,10 @@ public class EmailUtilsTest {
   @Autowired
   private EmailUtils emailUtils;
 
-  @Value("${email.sender.to}")
-  private String to;
+  @Value("${email.sender.to.address}")
+  private String toAddress;
+  @Value("${email.sender.to.name}")
+  private String toName;
   @Value("${email.sender.subject}")
   private String subject;
   @Value("${email.sender.content}")
@@ -30,19 +32,25 @@ public class EmailUtilsTest {
 
   @Test
   public void sendEmailDefaultContentType() throws SendEmailException {
-    Email email = getEmail(to, subject, "text/plain", content);
+    Email email = getEmail(toAddress, toName, subject, "text/plain", content);
     emailUtils.send(email);
   }
 
   @Test
   public void sendEmailCustomContentType() throws SendEmailException {
-    Email email = getEmail(to, subject, contentType, content);
+    Email email = getEmail(toAddress, toName, subject, contentType, content);
     emailUtils.send(email);
   }
 
-  private Email getEmail(String to, String subject, String contentType, String content) {
+  private Email getEmail(String toAddress, String toName, String subject, String contentType,
+      String content) {
+
+    EmailAddress toEmailAddress = new EmailAddress();
+    toEmailAddress.setAddress(toAddress);
+    toEmailAddress.setName(toName);
+
     Email email = new Email();
-    email.setTo(to);
+    email.setTo(toEmailAddress);
     email.setSubject(subject);
 
     EmailContent emailContent = new EmailContent();
