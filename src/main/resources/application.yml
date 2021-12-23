@@ -3,3 +3,4 @@ amazonProperties:
   accessKey: "foo"
   secretKey: "foo"
   bucketName: cohorte-diciembre-914caf2d
+  region: us-east-1
