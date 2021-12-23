@@ -171,6 +171,76 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "uploadFile amazon S3",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/nazar/Desktop/skillgap.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/uploadFile",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"uploadFile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete file amazon s3",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "file",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "url",
+							"value": "https://s3.us-east-1.amazonaws.com/cohorte-diciembre-914caf2d/1640279356506-skillgap.png",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/deleteFile?file=us-east-1/cohorte-diciembre-914caf2d/1640276904679-skillgap.png",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"deleteFile"
+					],
+					"query": [
+						{
+							"key": "file",
+							"value": "us-east-1/cohorte-diciembre-914caf2d/1640276904679-skillgap.png"
+						}
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"event": [
