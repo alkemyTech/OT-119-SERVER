@@ -1,0 +1,6 @@
+amazonProperties:
+  endpointUrl: https://s3.us-east-1.amazonaws.com
+  accessKey: "foo"
+  secretKey: "foo"
+  bucketName: cohorte-diciembre-914caf2d
+  region: us-east-1
