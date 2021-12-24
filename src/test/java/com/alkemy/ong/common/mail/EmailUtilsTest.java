@@ -1,5 +1,8 @@
 package com.alkemy.ong.common.mail;
 
+import com.alkemy.ong.common.mail.template.Email;
+import com.alkemy.ong.common.mail.template.EmailAddress;
+import com.alkemy.ong.common.mail.template.EmailContent;
 import com.alkemy.ong.exception.SendEmailException;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -32,33 +35,21 @@ public class EmailUtilsTest {
 
   @Test
   public void sendEmailDefaultContentType() throws SendEmailException {
-    EmailTest emailTest = getEmail(toAddress, toName, subject, "text/plain", content);
+    Email emailTest = buildEmail(toAddress, toName, subject, "text/plain", content);
     emailUtils.send(emailTest);
   }
 
   @Test
   public void sendEmailCustomContentType() throws SendEmailException {
-    EmailTest emailTest = getEmail(toAddress, toName, subject, contentType, content);
+    Email emailTest = buildEmail(toAddress, toName, subject, contentType, content);
     emailUtils.send(emailTest);
   }
 
-  private EmailTest getEmail(String toAddress, String toName, String subject, String contentType,
+  private Email buildEmail(String toAddress, String toName, String subject, String contentType,
       String content) {
-
-    EmailAddressTest toEmailAddressTest = new EmailAddressTest();
-    toEmailAddressTest.setAddress(toAddress);
-    toEmailAddressTest.setName(toName);
-
-    EmailTest emailTest = new EmailTest();
-    emailTest.setTo(toEmailAddressTest);
-    emailTest.setSubject(subject);
-
-    EmailContentTest emailContentTest = new EmailContentTest();
-    emailContentTest.setContentType(contentType);
-    emailContentTest.setValue(content);
-
-    emailTest.setContent(emailContentTest);
-    return emailTest;
+    return new Email(subject,
+        new EmailAddress(toAddress, toName),
+        new EmailContent(content, contentType));
   }
 
 }
