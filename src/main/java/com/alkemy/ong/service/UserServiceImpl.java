@@ -87,6 +87,7 @@ public class UserServiceImpl implements UserDetailsService, IDeleteUserService, 
     return EntityUtils.convertTo(userRepository.save(user));
   }
 
+  @Override
   public UserAuthenticatedResponse authentication(
       UserAuthenticationRequest userAuthenticationRequest) {
     User user = getUser(userAuthenticationRequest.getEmail());
