@@ -32,33 +32,33 @@ public class EmailUtilsTest {
 
   @Test
   public void sendEmailDefaultContentType() throws SendEmailException {
-    Email email = getEmail(toAddress, toName, subject, "text/plain", content);
-    emailUtils.send(email);
+    EmailTest emailTest = getEmail(toAddress, toName, subject, "text/plain", content);
+    emailUtils.send(emailTest);
   }
 
   @Test
   public void sendEmailCustomContentType() throws SendEmailException {
-    Email email = getEmail(toAddress, toName, subject, contentType, content);
-    emailUtils.send(email);
+    EmailTest emailTest = getEmail(toAddress, toName, subject, contentType, content);
+    emailUtils.send(emailTest);
   }
 
-  private Email getEmail(String toAddress, String toName, String subject, String contentType,
+  private EmailTest getEmail(String toAddress, String toName, String subject, String contentType,
       String content) {
 
-    EmailAddress toEmailAddress = new EmailAddress();
-    toEmailAddress.setAddress(toAddress);
-    toEmailAddress.setName(toName);
+    EmailAddressTest toEmailAddressTest = new EmailAddressTest();
+    toEmailAddressTest.setAddress(toAddress);
+    toEmailAddressTest.setName(toName);
 
-    Email email = new Email();
-    email.setTo(toEmailAddress);
-    email.setSubject(subject);
+    EmailTest emailTest = new EmailTest();
+    emailTest.setTo(toEmailAddressTest);
+    emailTest.setSubject(subject);
 
-    EmailContent emailContent = new EmailContent();
-    emailContent.setContentType(contentType);
-    emailContent.setValue(content);
+    EmailContentTest emailContentTest = new EmailContentTest();
+    emailContentTest.setContentType(contentType);
+    emailContentTest.setValue(content);
 
-    email.setContent(emailContent);
-    return email;
+    emailTest.setContent(emailContentTest);
+    return emailTest;
   }
 
 }
