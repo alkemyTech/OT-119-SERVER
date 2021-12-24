@@ -22,14 +22,16 @@ public class EmailUtils {
   @Value("${email.sender.sendgrid.token}")
   private String token;
 
-  @Value("${email.sender.from}")
-  private String emailFrom;
+  @Value("${email.sender.from.address}")
+  private String fromAddress;
+
+  @Value("${email.sender.from.name}")
+  private String fromName;
 
   public void send(IEmail email) throws SendEmailException {
-    Email from = new Email(emailFrom);
+    Email from = new Email(fromAddress, fromName);
     String subject = email.getSubject();
-    Email to = new Email(email.getTo());
-
+    Email to = new Email(email.getTo().getAddress(), email.getTo().getName());
     IEmailContent emailContent = email.getContent();
     Content content = new Content(emailContent.getContentType(), emailContent.getValue());
     Mail mail = new Mail(from, subject, to, content);
