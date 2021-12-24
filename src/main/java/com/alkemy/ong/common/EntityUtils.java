@@ -1,12 +1,14 @@
 package com.alkemy.ong.common;
 
 import com.alkemy.ong.model.entity.Category;
+import com.alkemy.ong.model.entity.Comment;
 import com.alkemy.ong.model.entity.News;
 import com.alkemy.ong.model.entity.Organization;
 import com.alkemy.ong.model.entity.Role;
 import com.alkemy.ong.model.entity.Slide;
 import com.alkemy.ong.model.entity.User;
 import com.alkemy.ong.model.response.CategoryDetailsResponse;
+import com.alkemy.ong.model.response.CommentResponse;
 import com.alkemy.ong.model.response.ListUserResponse;
 import com.alkemy.ong.model.response.NewsDetailsResponse;
 import com.alkemy.ong.model.response.OrganizationResponse;
@@ -94,4 +96,16 @@ public class EntityUtils {
     return new ListUserResponse(userResponses);
   }
 
+  public static List<CommentResponse> convertToListCommentsResponse(Collection<Comment> comments) {
+    List<CommentResponse> commentResponses = new ArrayList<>();
+    for (Comment comment : comments) {
+      CommentResponse commentResponse = new CommentResponse();
+      commentResponse.setId(comment.getId());
+      commentResponse.setBody(comment.getBody());
+      commentResponse.setTimestamp(comment.getTimestamp());
+      commentResponses.add(commentResponse);
+    }
+    return commentResponses;
+
+  }
 }
