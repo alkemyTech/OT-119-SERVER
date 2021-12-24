@@ -1,13 +1,17 @@
 package com.alkemy.ong.service;
 
+import com.alkemy.ong.common.EntityUtils;
 import com.alkemy.ong.config.security.ApplicationRole;
 import com.alkemy.ong.exception.OperationNotAllowedException;
 import com.alkemy.ong.model.entity.Comment;
 import com.alkemy.ong.model.entity.Role;
 import com.alkemy.ong.model.entity.User;
+import com.alkemy.ong.model.response.ListCommentsResponse;
 import com.alkemy.ong.repository.ICommentRepository;
 import com.alkemy.ong.service.abstraction.IDeleteCommentsService;
+import com.alkemy.ong.service.abstraction.IGetCommentService;
 import com.alkemy.ong.service.abstraction.IGetUserService;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javax.persistence.EntityNotFoundException;
@@ -15,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CommentServiceImpl implements IDeleteCommentsService {
+public class CommentServiceImpl implements IDeleteCommentsService, IGetCommentService {
 
   private static final String COMMENT_NOT_FOUND_MESSAGE = "Comment not found.";
   private static final String USER_IS_NOT_ABLE_TO_DELETE_COMMENT_MESSAGE = "User is not able to delete comment.";
@@ -55,6 +59,20 @@ public class CommentServiceImpl implements IDeleteCommentsService {
       throw new EntityNotFoundException(COMMENT_NOT_FOUND_MESSAGE);
     }
     return commentOptional.get();
+  }
+
+  @Override
+  public ListCommentsResponse getComments(Long newsId) {
+    List<Comment> comments = commentRepository.findAll();
+    List<Comment> filteredComments = new ArrayList<>();
+    ListCommentsResponse commentResponse = new ListCommentsResponse();
+    for (Comment comment : comments) {
+      if (comment.getNewsId().getId() == newsId) {
+        filteredComments.add(comment);
+      }
+    }
+    commentResponse.setComments((EntityUtils.convertToListCommentsResponse(filteredComments)));
+    return commentResponse;
   }
 
 }
