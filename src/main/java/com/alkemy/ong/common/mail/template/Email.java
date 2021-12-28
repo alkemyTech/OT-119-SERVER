@@ -4,7 +4,7 @@ import com.alkemy.ong.common.mail.IEmail;
 import com.alkemy.ong.common.mail.IEmailAddress;
 import com.alkemy.ong.common.mail.IEmailContent;
 
-public class Email implements IEmail {
+public final class Email implements IEmail {
 
   private final String subject;
   private final IEmailAddress to;

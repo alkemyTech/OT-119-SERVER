@@ -2,7 +2,7 @@ package com.alkemy.ong.common.mail.template;
 
 import com.alkemy.ong.common.mail.IEmailContent;
 
-public class EmailContent implements IEmailContent {
+public final class EmailContent implements IEmailContent {
 
   private final String value;
   private final String contentType;
