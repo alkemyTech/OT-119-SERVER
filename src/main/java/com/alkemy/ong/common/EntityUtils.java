@@ -87,6 +87,7 @@ public class EntityUtils {
     activityDetailsResponse.setName(activity.getName());
     activityDetailsResponse.setContent(activity.getContent());
     activityDetailsResponse.setImage(activity.getImage());
+    activityDetailsResponse.setTimestamp(activity.getTimestamps());
     return activityDetailsResponse;
   }
 

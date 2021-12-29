@@ -33,7 +33,6 @@ public class DtoUtils {
     activity.setName(activityDetailsRequest.getName());
     activity.setContent(activityDetailsRequest.getContent());
     activity.setImage(activityDetailsRequest.getImage());
-    activity.setTimestamps(activityDetailsRequest.getTimestamp());
     return activity;
   }
 

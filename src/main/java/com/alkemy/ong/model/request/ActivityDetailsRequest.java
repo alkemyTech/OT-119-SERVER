@@ -19,5 +19,4 @@ public class ActivityDetailsRequest {
   private String content;
   @NotBlank(message = "Image cannot be empty.")
   private String image;
-  private Timestamp timestamp;
 }
