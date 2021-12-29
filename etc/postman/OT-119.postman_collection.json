@@ -171,7 +171,39 @@
 				}
 			},
 			"response": []
-		}
+		},
+        {
+			"name": "Activity",
+			"item": [
+				{
+					"name": "POST /activities: create activites",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Actividad 1\",\n    \"content\": \"Contenido de actividad 1\",\n    \"image\": \"http://somosmas/actividad1.png\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/activities",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"activities"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+        }
 	],
 	"event": [
 		{
