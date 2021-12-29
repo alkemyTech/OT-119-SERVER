@@ -18,7 +18,7 @@ public class ActivityController {
   private ICreateActivityService createActivityService;
 
   @PostMapping("/activities")
-  public ResponseEntity<ActivityDetailsResponse> createActivity(@Valid @RequestBody
+  public ResponseEntity<ActivityDetailsResponse> create(@Valid @RequestBody
       ActivityDetailsRequest activityDetailsRequest) {
     ActivityDetailsResponse activityDetailsResponse = createActivityService.create(
         activityDetailsRequest);
