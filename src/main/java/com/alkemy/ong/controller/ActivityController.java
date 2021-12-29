@@ -2,7 +2,7 @@ package com.alkemy.ong.controller;
 
 import com.alkemy.ong.model.request.ActivityDetailsRequest;
 import com.alkemy.ong.model.response.ActivityDetailsResponse;
-import com.alkemy.ong.service.ActivityServiceImpl;
+import com.alkemy.ong.service.abstraction.ICreateActivityService;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class ActivityController {
 
   @Autowired
-  private ActivityServiceImpl activityService;
+  private ICreateActivityService createActivityService;
 
   @PostMapping("/activities")
   public ResponseEntity<ActivityDetailsResponse> createActivity(@Valid @RequestBody
       ActivityDetailsRequest activityDetailsRequest) {
-    ActivityDetailsResponse activityDetailsResponse = activityService.create(
+    ActivityDetailsResponse activityDetailsResponse = createActivityService.create(
         activityDetailsRequest);
     return ResponseEntity.status(HttpStatus.CREATED).body(activityDetailsResponse);
   }

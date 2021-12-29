@@ -14,11 +14,12 @@ import org.springframework.stereotype.Service;
 public class ActivityServiceImpl implements ICreateActivityService {
 
   @Autowired
-  IActivityRepository activityRepository;
+  private IActivityRepository activityRepository;
 
   @Override
   public ActivityDetailsResponse create(ActivityDetailsRequest activityRequest) {
     Activity activity = DtoUtils.convertTo(activityRequest);
     return EntityUtils.convertTo(activityRepository.save(activity));
   }
+
 }
