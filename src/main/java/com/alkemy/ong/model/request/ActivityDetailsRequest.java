@@ -1,6 +1,5 @@
 package com.alkemy.ong.model.request;
 
-import java.sql.Timestamp;
 import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
