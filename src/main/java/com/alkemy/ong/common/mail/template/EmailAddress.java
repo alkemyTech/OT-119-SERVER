@@ -2,7 +2,7 @@ package com.alkemy.ong.common.mail.template;
 
 import com.alkemy.ong.common.mail.IEmailAddress;
 
-public final class EmailAddress implements IEmailAddress {
+public class EmailAddress implements IEmailAddress {
 
   private final String address;
   private final String name;
