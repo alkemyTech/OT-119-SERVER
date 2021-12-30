@@ -1,5 +1,6 @@
 package com.alkemy.ong.model.response;
 
+import java.sql.Timestamp;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,11 +10,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDetailsResponse {
+public class ActivityDetailsResponse {
 
-  private String firstName;
-  private String lastName;
-  private String email;
-  private String token;
+  private String name;
+  private String content;
+  private String image;
+  private Timestamp timestamp;
 
 }

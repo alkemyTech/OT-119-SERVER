@@ -84,7 +84,10 @@ public class UserServiceImpl implements UserDetailsService, IDeleteUserService, 
     List<Role> roles = new ArrayList<>();
     roles.add(roleService.findBy(ApplicationRole.USER.getFullRoleName()));
     user.setRoles(roles);
-    return EntityUtils.convertTo(userRepository.save(user));
+    User userCreated = userRepository.save(user);
+    UserDetailsResponse userDetailsResponse = EntityUtils.convertTo(userCreated);
+    userDetailsResponse.setToken(jwtUtils.generateToken(userCreated));
+    return userDetailsResponse;
   }
 
   @Override
