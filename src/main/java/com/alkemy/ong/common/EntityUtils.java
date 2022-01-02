@@ -13,6 +13,7 @@ import com.alkemy.ong.model.response.ListUserResponse;
 import com.alkemy.ong.model.response.NewsDetailsResponse;
 import com.alkemy.ong.model.response.OrganizationResponse;
 import com.alkemy.ong.model.response.RoleResponse;
+import com.alkemy.ong.model.response.SlideDetailsResponse;
 import com.alkemy.ong.model.response.SlideResponse;
 import com.alkemy.ong.model.response.UserDetailsResponse;
 import com.alkemy.ong.model.response.UserResponse;
@@ -105,4 +106,11 @@ public class EntityUtils {
     return new ListUserResponse(userResponses);
   }
 
+  public static SlideDetailsResponse converToSlideDetailsResponse(Slide slide) {
+    SlideDetailsResponse slideDetailsResponse = new SlideDetailsResponse();
+    OrganizationResponse organizationResponse = convertTo(slide.getOrganizationId());
+    slideDetailsResponse.setOrganization(organizationResponse);
+    BeanUtils.copyProperties(slide, slideDetailsResponse);
+    return slideDetailsResponse;
+  }
 }
