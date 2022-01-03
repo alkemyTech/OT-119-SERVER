@@ -10,11 +10,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class CommentResponse {
 
-  private long id;
   private String body;
+  private String username;
   private Timestamp timestamp;
-
 }
