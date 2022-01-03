@@ -66,7 +66,6 @@ public class EntityUtils {
     return slideResponses;
   }
 
-
   public static RoleResponse convertTo(Role role) {
     RoleResponse roleResponse = new RoleResponse();
     roleResponse.setName(role.getName());
@@ -100,12 +99,11 @@ public class EntityUtils {
     List<CommentResponse> commentResponses = new ArrayList<>();
     for (Comment comment : comments) {
       CommentResponse commentResponse = new CommentResponse();
-      commentResponse.setId(comment.getId());
+      commentResponse.setUsername(comment.getUserId().getUsername());
       commentResponse.setBody(comment.getBody());
       commentResponse.setTimestamp(comment.getTimestamp());
       commentResponses.add(commentResponse);
     }
     return commentResponses;
-
   }
 }
