@@ -11,7 +11,6 @@ import com.alkemy.ong.repository.ICommentRepository;
 import com.alkemy.ong.service.abstraction.IDeleteCommentsService;
 import com.alkemy.ong.service.abstraction.IGetCommentService;
 import com.alkemy.ong.service.abstraction.IGetUserService;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javax.persistence.EntityNotFoundException;
@@ -63,15 +62,9 @@ public class CommentServiceImpl implements IDeleteCommentsService, IGetCommentSe
 
   @Override
   public ListCommentsResponse getComments(Long newsId) {
-    List<Comment> comments = commentRepository.findAll();
-    List<Comment> filteredComments = new ArrayList<>();
+    List<Comment> comments = commentRepository.findAllCommentsByNewsId(newsId);
     ListCommentsResponse commentResponse = new ListCommentsResponse();
-    for (Comment comment : comments) {
-      if (comment.getNewsId().getId() == newsId) {
-        filteredComments.add(comment);
-      }
-    }
-    commentResponse.setComments((EntityUtils.convertToListCommentsResponse(filteredComments)));
+    commentResponse.setComments((EntityUtils.convertToListCommentsResponse(comments)));
     return commentResponse;
   }
 
