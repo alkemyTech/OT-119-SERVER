@@ -10,8 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ICommentRepository extends JpaRepository<Comment, Long> {
 
-  @Query(value = "SELECT * FROM comments WHERE news_id = :newsId",
-  nativeQuery = true)
-  List<Comment> findAllCommentsByNewsId(@Param("newsId") Long newsId);
+  @Query(value = "from Comment c where c.newsId.id = :id")
+  List<Comment> findAllCommentsByNewsId(@Param("id") Long id);
 
 }

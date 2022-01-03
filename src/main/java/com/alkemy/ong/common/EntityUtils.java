@@ -9,6 +9,7 @@ import com.alkemy.ong.model.entity.Slide;
 import com.alkemy.ong.model.entity.User;
 import com.alkemy.ong.model.response.CategoryDetailsResponse;
 import com.alkemy.ong.model.response.CommentResponse;
+import com.alkemy.ong.model.response.ListCommentsResponse;
 import com.alkemy.ong.model.response.ListUserResponse;
 import com.alkemy.ong.model.response.NewsDetailsResponse;
 import com.alkemy.ong.model.response.OrganizationResponse;
@@ -95,15 +96,21 @@ public class EntityUtils {
     return new ListUserResponse(userResponses);
   }
 
-  public static List<CommentResponse> convertToListCommentsResponse(Collection<Comment> comments) {
+  public static ListCommentsResponse convertToListCommentsResponse(Collection<Comment> comments) {
     List<CommentResponse> commentResponses = new ArrayList<>();
     for (Comment comment : comments) {
-      CommentResponse commentResponse = new CommentResponse();
-      commentResponse.setUsername(comment.getUserId().getUsername());
-      commentResponse.setBody(comment.getBody());
-      commentResponse.setTimestamp(comment.getTimestamp());
+      CommentResponse commentResponse = convertTo(comment);
       commentResponses.add(commentResponse);
     }
-    return commentResponses;
+    return new ListCommentsResponse(commentResponses);
   }
+
+  private static CommentResponse convertTo(Comment comment) {
+    CommentResponse commentResponse = new CommentResponse();
+    commentResponse.setUsername(comment.getUserId().getUsername());
+    commentResponse.setBody(comment.getBody());
+    commentResponse.setTimestamp(comment.getTimestamp());
+    return commentResponse;
+  }
+
 }

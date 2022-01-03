@@ -63,9 +63,7 @@ public class CommentServiceImpl implements IDeleteCommentsService, IGetCommentSe
   @Override
   public ListCommentsResponse getComments(Long newsId) {
     List<Comment> comments = commentRepository.findAllCommentsByNewsId(newsId);
-    ListCommentsResponse commentResponse = new ListCommentsResponse();
-    commentResponse.setComments((EntityUtils.convertToListCommentsResponse(comments)));
-    return commentResponse;
+    return EntityUtils.convertToListCommentsResponse(comments);
   }
 
 }
