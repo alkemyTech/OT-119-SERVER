@@ -12,5 +12,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ListCommentsResponse {
 
-  public List<CommentResponse> comments;
+
+  private List<CommentResponse> comments;
+
 }

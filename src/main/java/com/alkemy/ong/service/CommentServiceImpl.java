@@ -20,8 +20,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+
 public class CommentServiceImpl implements IDeleteCommentsService, IGetCommentService,
     IUpdateCommentService {
+public class CommentServiceImpl implements IDeleteCommentsService, IGetCommentService {
 
   private static final String COMMENT_NOT_FOUND_MESSAGE = "Comment not found.";
   private static final String USER_IS_NOT_ABLE_TO_DELETE_COMMENT_MESSAGE = "User is not able to delete comment.";
@@ -70,6 +72,7 @@ public class CommentServiceImpl implements IDeleteCommentsService, IGetCommentSe
   @Override
   public ListCommentsResponse getComments(Long newsId) {
     List<Comment> comments = commentRepository.findAllCommentsByNewsId(newsId);
+
     ListCommentsResponse commentResponse = new ListCommentsResponse();
     commentResponse.setComments((EntityUtils.convertToListCommentsResponse(comments)));
     return commentResponse;
