@@ -1,9 +1,8 @@
 package com.alkemy.ong.controller;
 
 import com.alkemy.ong.model.response.ListSlideResponse;
-import com.alkemy.ong.model.response.SlideDetailsResponse;
+import com.alkemy.ong.model.response.SlideResponse;
 import com.alkemy.ong.service.abstraction.IDeleteSlideService;
-import com.alkemy.ong.service.abstraction.IGetByIdSlideService;
 import com.alkemy.ong.service.abstraction.IGetSlideService;
 import com.fasterxml.jackson.databind.introspect.TypeResolutionContext.Empty;
 import javax.persistence.EntityNotFoundException;
@@ -24,7 +23,7 @@ public class SlideController {
   private IGetSlideService getSlideService;
 
   @Autowired
-  private IGetByIdSlideService getByIdSlideService;
+  private IGetSlideService getByIdSlideService;
 
   @DeleteMapping(value = "/slides/{id}")
   public ResponseEntity<Empty> delete(@PathVariable("id") long id) throws EntityNotFoundException {
@@ -39,9 +38,9 @@ public class SlideController {
   }
 
   @GetMapping(value = "/slides/{id}")
-  public ResponseEntity<SlideDetailsResponse> getById(@PathVariable Long id) {
-    SlideDetailsResponse slideDetailsResponse = getByIdSlideService.getById(id);
-    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(slideDetailsResponse);
+  public ResponseEntity<SlideResponse> getById(@PathVariable Long id) {
+    SlideResponse slideDetailsResponse = getByIdSlideService.getById(id);
+    return ResponseEntity.status(HttpStatus.OK).body(slideDetailsResponse);
   }
 }
 

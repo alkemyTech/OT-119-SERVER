@@ -87,7 +87,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .hasAnyRole(ApplicationRole.ADMIN.getName())
         .antMatchers(HttpMethod.POST, "/activities")
         .hasAnyRole(ApplicationRole.ADMIN.getName())
-        .antMatchers(HttpMethod.GET, "/slides/")
+        .antMatchers(HttpMethod.GET, "/slides/{\\d+}")
         .hasAnyRole(ApplicationRole.ADMIN.getName(), ApplicationRole.USER.getName())
         .anyRequest()
         .authenticated()
