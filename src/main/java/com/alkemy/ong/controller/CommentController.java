@@ -2,6 +2,7 @@ package com.alkemy.ong.controller;
 
 import com.alkemy.ong.exception.OperationNotAllowedException;
 import com.alkemy.ong.model.request.CommentRequest;
+import com.alkemy.ong.model.response.CommentResponse;
 import com.alkemy.ong.service.abstraction.IDeleteCommentsService;
 import com.alkemy.ong.service.abstraction.IUpdateCommentService;
 import com.fasterxml.jackson.databind.introspect.TypeResolutionContext.Empty;
@@ -32,9 +33,13 @@ public class CommentController {
   }
 
   @PutMapping(value = "/comments/{id}")
-  public void updateComment(@PathVariable("id") long id,
+  public ResponseEntity<CommentResponse> update(@PathVariable("id") long id,
       @RequestBody CommentRequest commentRequest,
       @RequestHeader(value = "Authorization") String authorizationHeader) {
-    updateCommentService.updateComment(commentRequest.getBody(), id, authorizationHeader);
+    CommentResponse commentResponse = updateCommentService.update(commentRequest,
+        id,
+        authorizationHeader);
+    return new ResponseEntity<>(commentResponse, HttpStatus.OK);
   }
+
 }

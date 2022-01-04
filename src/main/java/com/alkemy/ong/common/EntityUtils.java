@@ -11,9 +11,8 @@ import com.alkemy.ong.model.entity.User;
 import com.alkemy.ong.model.response.ActivityDetailsResponse;
 import com.alkemy.ong.model.response.CategoryDetailsResponse;
 import com.alkemy.ong.model.response.CommentResponse;
-import com.alkemy.ong.model.response.ListSlideResponse;
-import com.alkemy.ong.model.response.CommentResponse;
 import com.alkemy.ong.model.response.ListCommentsResponse;
+import com.alkemy.ong.model.response.ListSlideResponse;
 import com.alkemy.ong.model.response.ListUserResponse;
 import com.alkemy.ong.model.response.NewsDetailsResponse;
 import com.alkemy.ong.model.response.OrganizationResponse;
@@ -114,7 +113,6 @@ public class EntityUtils {
     }
     return new ListUserResponse(userResponses);
   }
-
 
   public static ListCommentsResponse convertToListCommentsResponse(Collection<Comment> comments) {
     List<CommentResponse> commentResponses = new ArrayList<>();
