@@ -1,5 +1,6 @@
 {
 	"info": {
+
 		"_postman_id": "410b04e2-367a-4a3f-9d5a-ce1808970ec0",
 		"name": "SomosMas",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -21,6 +22,38 @@
 							"path": [
 								"organization",
 								"public"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Activity",
+			"item": [
+				{
+					"name": "POST /activities: create activites",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Actividad 1\",\n    \"content\": \"Contenido de actividad 1\",\n    \"image\": \"http://somosmas/actividad1.png\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/activities",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"activities"
 							]
 						}
 					},
@@ -186,6 +219,40 @@
 			},
 			"response": []
 		},
+
+		{
+			"name": "Update comment",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwic3ViIjoidXNlckBlbWFpbC5jb20iLCJpYXQiOjE2NDEyOTY5MDAsImV4cCI6MTY0MTMzMjkwMH0.3lLs1QFI7Qv-Z3Szi8b5Vtfnz8Ko9HBUhKkOkF0iEb0",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"body\" : \"update5\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{somosmas}}/comments/1",
+					"host": [
+						"{{somosmas}}"
+					],
+					"path": [
+						"comments",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
         {
 			"name": "Activity",
 			"item": [
