@@ -9,6 +9,7 @@ import com.alkemy.ong.model.entity.Slide;
 import com.alkemy.ong.model.entity.User;
 import com.alkemy.ong.model.response.ActivityDetailsResponse;
 import com.alkemy.ong.model.response.CategoryDetailsResponse;
+import com.alkemy.ong.model.response.ListSlideResponse;
 import com.alkemy.ong.model.response.ListUserResponse;
 import com.alkemy.ong.model.response.NewsDetailsResponse;
 import com.alkemy.ong.model.response.OrganizationResponse;
@@ -18,6 +19,7 @@ import com.alkemy.ong.model.response.UserDetailsResponse;
 import com.alkemy.ong.model.response.UserResponse;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import org.springframework.beans.BeanUtils;
 
@@ -34,9 +36,14 @@ public class EntityUtils {
     return userDetailsResponse;
   }
 
-  public static OrganizationResponse convertTo(Organization organization) {
+  public static OrganizationResponse convertTo(Organization organization, ListSlideResponse slideResponse) {
     OrganizationResponse organizationResponse = new OrganizationResponse();
-    BeanUtils.copyProperties(organization, organizationResponse);
+    organizationResponse.setImage(organization.getImage());
+    organizationResponse.setAddress(organization.getAddress());
+    organizationResponse.setPhone(organization.getPhone());
+    organizationResponse.setEmail(organization.getEmail());
+    slideResponse.getSlides().sort(Comparator.comparing(SlideResponse::getOrder));
+    organizationResponse.setSlides(slideResponse);
     return organizationResponse;
   }
 
