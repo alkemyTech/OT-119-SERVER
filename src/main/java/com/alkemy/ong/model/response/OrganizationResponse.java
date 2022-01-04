@@ -1,6 +1,7 @@
 package com.alkemy.ong.model.response;
 
 import com.fasterxml.jackson.annotation.JsonRootName;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,6 @@ public class OrganizationResponse {
   private String address;
   private Integer phone;
   private String email;
-  private ListSlideResponse slides;
+  private List<SlideResponse> slides;
 
 }

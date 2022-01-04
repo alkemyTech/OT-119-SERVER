@@ -46,7 +46,7 @@ public class EntityUtils {
     organizationResponse.setPhone(organization.getPhone());
     organizationResponse.setEmail(organization.getEmail());
     slideResponse.getSlides().sort(Comparator.comparing(SlideResponse::getOrder));
-    organizationResponse.setSlides(slideResponse);
+    organizationResponse.setSlides(slideResponse.getSlides());
     return organizationResponse;
   }
 
