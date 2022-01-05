@@ -1,7 +1,6 @@
 {
 	"info": {
-
-		"_postman_id": "410b04e2-367a-4a3f-9d5a-ce1808970ec0",
+		"_postman_id": "fd4dcc5f-c47b-48d3-88b8-7f0fec64e2e4",
 		"name": "SomosMas",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -22,6 +21,38 @@
 							"path": [
 								"organization",
 								"public"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Activity",
+			"item": [
+				{
+					"name": "POST /activities: create activites",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Actividad 1\",\n    \"content\": \"Contenido de actividad 1\",\n    \"image\": \"http://somosmas/actividad1.png\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/activities",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"activities"
 							]
 						}
 					},
@@ -191,7 +222,12 @@
 						"news",
 						"1",
 						"comments"
-
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "category post",
 			"request": {
 				"method": "POST",
@@ -219,7 +255,6 @@
 			},
 			"response": []
 		},
-
 		{
 			"name": "Update comment",
 			"request": {
@@ -253,38 +288,6 @@
 			},
 			"response": []
 		}
-        {
-			"name": "Activity",
-			"item": [
-				{
-					"name": "POST /activities: create activites",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"Actividad 1\",\n    \"content\": \"Contenido de actividad 1\",\n    \"image\": \"http://somosmas/actividad1.png\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost:8080/activities",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"activities"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-        }
 	],
 	"event": [
 		{
