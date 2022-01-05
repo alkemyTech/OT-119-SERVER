@@ -10,7 +10,9 @@ import com.alkemy.ong.model.entity.Slide;
 import com.alkemy.ong.model.entity.User;
 import com.alkemy.ong.model.response.ActivityDetailsResponse;
 import com.alkemy.ong.model.response.CategoryDetailsResponse;
+import com.alkemy.ong.model.response.CategoryResponse;
 import com.alkemy.ong.model.response.CommentResponse;
+import com.alkemy.ong.model.response.ListCategoryResponse;
 import com.alkemy.ong.model.response.ListCommentsResponse;
 import com.alkemy.ong.model.response.ListSlideResponse;
 import com.alkemy.ong.model.response.ListUserResponse;
@@ -129,6 +131,23 @@ public class EntityUtils {
     commentResponse.setBody(comment.getBody());
     commentResponse.setTimestamp(comment.getTimestamp());
     return commentResponse;
+  }
+
+  private static CategoryResponse convertToCategoryResponse(
+      Category category) {
+    CategoryResponse categoryResponse = new CategoryResponse();
+    categoryResponse.setName(category.getName());
+    return categoryResponse;
+  }
+
+  public static ListCategoryResponse convertToListCategoryResponse(
+      Collection<Category> categories) {
+    List<CategoryResponse> categoryResponses = new ArrayList<>();
+    for (Category category : categories) {
+      CategoryResponse categoryResponse = convertToCategoryResponse(category);
+      categoryResponses.add(categoryResponse);
+    }
+    return new ListCategoryResponse(categoryResponses);
   }
 
 }
