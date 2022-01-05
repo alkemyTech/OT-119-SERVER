@@ -5,10 +5,12 @@ import com.alkemy.ong.common.EntityUtils;
 import com.alkemy.ong.model.entity.Category;
 import com.alkemy.ong.model.request.CategoryDetailsRequest;
 import com.alkemy.ong.model.response.CategoryDetailsResponse;
+import com.alkemy.ong.model.response.ListCategoryResponse;
 import com.alkemy.ong.repository.ICategoryRepository;
 import com.alkemy.ong.service.abstraction.ICreateCategoryService;
 import com.alkemy.ong.service.abstraction.IDeleteCategoryService;
 import com.alkemy.ong.service.abstraction.IGetCategoryService;
+import java.util.List;
 import java.util.Optional;
 import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,4 +54,9 @@ public class CategoryServiceImpl implements IDeleteCategoryService, IGetCategory
     return categoryOptional.get();
   }
 
+  @Override
+  public ListCategoryResponse list() {
+    List<Category> categories = categoryRepository.findAll();
+    return EntityUtils.convertToListCategoryResponse(categories);
+  }
 }
