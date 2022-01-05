@@ -2,6 +2,7 @@ package com.alkemy.ong.controller;
 
 import com.alkemy.ong.model.request.CategoryDetailsRequest;
 import com.alkemy.ong.model.response.CategoryDetailsResponse;
+import com.alkemy.ong.model.response.ListCategoryResponse;
 import com.alkemy.ong.service.abstraction.ICreateCategoryService;
 import com.alkemy.ong.service.abstraction.IDeleteCategoryService;
 import com.alkemy.ong.service.abstraction.IGetCategoryService;
@@ -45,6 +46,11 @@ public class CategoryController {
       @Valid @RequestBody CategoryDetailsRequest categoryDetailsRequest) {
     return ResponseEntity.status(HttpStatus.CREATED)
         .body(createCategoryService.create(categoryDetailsRequest));
+  }
+
+  @GetMapping(value = "/categories")
+  public ResponseEntity<ListCategoryResponse> list() {
+    return new ResponseEntity<>(getCategoryService.list(), HttpStatus.OK);
   }
 
 }
