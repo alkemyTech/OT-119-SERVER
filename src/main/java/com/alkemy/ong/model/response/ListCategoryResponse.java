@@ -12,5 +12,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ListCategoryResponse {
 
-  private List<CategoryResponse> categories;
+  private List<CategoryDetailsResponse> categories;
+
 }

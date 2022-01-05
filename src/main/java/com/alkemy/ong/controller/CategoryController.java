@@ -3,7 +3,6 @@ package com.alkemy.ong.controller;
 import com.alkemy.ong.model.request.CategoryDetailsRequest;
 import com.alkemy.ong.model.response.CategoryDetailsResponse;
 import com.alkemy.ong.model.response.ListCategoryResponse;
-import com.alkemy.ong.repository.ICategoryRepository;
 import com.alkemy.ong.service.abstraction.ICreateCategoryService;
 import com.alkemy.ong.service.abstraction.IDeleteCategoryService;
 import com.alkemy.ong.service.abstraction.IGetCategoryService;
@@ -29,8 +28,6 @@ public class CategoryController {
   private IGetCategoryService getCategoryService;
   @Autowired
   private ICreateCategoryService createCategoryService;
-  @Autowired
-  private ICategoryRepository categoryRepository;
 
   @DeleteMapping(value = "/categories/{id}")
   public ResponseEntity<Empty> delete(@PathVariable long id) throws EntityNotFoundException {
@@ -55,4 +52,5 @@ public class CategoryController {
   public ResponseEntity<ListCategoryResponse> list() {
     return new ResponseEntity<>(getCategoryService.list(), HttpStatus.OK);
   }
+
 }
