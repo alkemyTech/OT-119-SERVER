@@ -35,7 +35,6 @@ public class ImageUtils {
         SdkClientException e) {
       LOGGER.error(e.getMessage());
     }
-    String url = amazonS3.getUrl(amazonClient.getBucketName(), fileName).toExternalForm();
-    return url;
+    return amazonS3.getUrl(amazonClient.getBucketName(), fileName).toExternalForm();
   }
 }
