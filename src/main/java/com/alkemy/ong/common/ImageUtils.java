@@ -4,6 +4,7 @@ import com.alkemy.ong.common.mail.EmailUtils;
 import com.alkemy.ong.config.AmazonClient;
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import java.io.InputStream;
@@ -29,6 +30,7 @@ public class ImageUtils {
       metadata.setContentType(contentType);
       PutObjectRequest request = new PutObjectRequest(amazonClient.getBucketName(), fileName,
           inputStream, metadata);
+      request.setCannedAcl(CannedAccessControlList.PublicRead);
       amazonS3.putObject(request);
     } catch (
         AmazonClientException e) {
