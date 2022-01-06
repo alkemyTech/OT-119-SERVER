@@ -1,6 +1,7 @@
 package com.alkemy.ong.controller;
 
 import com.alkemy.ong.model.response.ListSlideResponse;
+import com.alkemy.ong.model.response.SlideResponse;
 import com.alkemy.ong.service.abstraction.IDeleteSlideService;
 import com.alkemy.ong.service.abstraction.IGetSlideService;
 import com.fasterxml.jackson.databind.introspect.TypeResolutionContext.Empty;
@@ -33,5 +34,10 @@ public class SlideController {
     return ResponseEntity.ok().body(listSlideResponse);
   }
 
+  @GetMapping(value = "/slides/{id}")
+  public ResponseEntity<SlideResponse> getById(@PathVariable Long id) {
+    SlideResponse slideDetailsResponse = getSlideService.getBy(id);
+    return ResponseEntity.status(HttpStatus.OK).body(slideDetailsResponse);
+  }
 }
 

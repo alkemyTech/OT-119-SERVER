@@ -41,6 +41,6 @@ public class Slide {
 
   @JoinColumn(name = "ORGANIZATION_ID")
   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-  private Organization organizationId;
+  private Organization organization;
 
 }
