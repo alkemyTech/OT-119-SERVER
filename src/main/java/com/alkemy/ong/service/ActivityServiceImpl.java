@@ -3,7 +3,6 @@ package com.alkemy.ong.service;
 import com.alkemy.ong.common.DtoUtils;
 import com.alkemy.ong.common.EntityUtils;
 import com.alkemy.ong.model.entity.Activity;
-import com.alkemy.ong.model.entity.User;
 import com.alkemy.ong.model.request.ActivityDetailsRequest;
 import com.alkemy.ong.model.response.ActivityDetailsResponse;
 import com.alkemy.ong.repository.IActivityRepository;

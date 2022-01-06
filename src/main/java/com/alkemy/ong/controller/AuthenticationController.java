@@ -1,6 +1,5 @@
 package com.alkemy.ong.controller;
 
-import com.alkemy.ong.common.mail.EmailUtils;
 import com.alkemy.ong.common.mail.template.EmailAddress;
 import com.alkemy.ong.exception.SendEmailException;
 import com.alkemy.ong.exception.UserAlreadyExistException;
@@ -26,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 public class AuthenticationController {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(EmailUtils.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticationController.class);
 
   @Autowired
   private IRegisterUserService registerUserService;
