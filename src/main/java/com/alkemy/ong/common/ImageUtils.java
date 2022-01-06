@@ -2,6 +2,7 @@ package com.alkemy.ong.common;
 
 import com.alkemy.ong.common.mail.EmailUtils;
 import com.alkemy.ong.config.AmazonClient;
+import com.alkemy.ong.exception.CustomException;
 import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
@@ -23,7 +24,8 @@ public class ImageUtils {
   @Autowired
   private AmazonS3 amazonS3;
 
-  public String upload(InputStream inputStream, String fileName, String contentType) {
+  public String upload(InputStream inputStream, String fileName, String contentType)
+      throws CustomException {
     try {
       ObjectMetadata metadata = new ObjectMetadata();
       metadata.setContentType(contentType);
@@ -34,6 +36,8 @@ public class ImageUtils {
     } catch (
         SdkClientException e) {
       LOGGER.error(e.getMessage());
+      throw new CustomException(
+          "There was an internal error with the Amazon S3 service. Please contact the support or try again later.");
     }
     return amazonS3.getUrl(amazonClient.getBucketName(), fileName).toExternalForm();
   }
