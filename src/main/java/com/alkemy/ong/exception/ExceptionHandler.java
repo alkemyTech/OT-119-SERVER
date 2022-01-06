@@ -77,6 +77,14 @@ public class ExceptionHandler {
         .body(buildResponse(e, HttpStatus.BAD_REQUEST));
   }
 
+  @org.springframework.web.bind.annotation.ExceptionHandler(CustomException.class)
+  public ResponseEntity<ErrorResponse> handleCustomException(
+      HttpServletRequest request,
+      CustomException e) {
+    return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+        .body(buildResponse(e, HttpStatus.SERVICE_UNAVAILABLE));
+  }
+
   private ErrorResponse buildResponse(Exception e, HttpStatus httpStatus) {
     return new ErrorResponse(e, httpStatus.value());
   }

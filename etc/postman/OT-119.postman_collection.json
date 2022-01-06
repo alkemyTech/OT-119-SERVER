@@ -287,6 +287,71 @@
 				}
 			},
 			"response": []
+<<<<<<< HEAD
+=======
+		},
+        {
+			"name": "Activity",
+			"item": [
+				{
+					"name": "POST /activities: create activites",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Actividad 1\",\n    \"content\": \"Contenido de actividad 1\",\n    \"image\": \"http://somosmas/actividad1.png\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/activities",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"activities"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+        },
+		{
+			"name": "GET Slides/id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwic3ViIjoicGFibG9hc2Rhc2Rhc0BnbWFpbC5jb20iLCJpYXQiOjE2NDE0NDk2MjgsImV4cCI6MTY0MTQ4NTYyOH0.urqu3fHuUEAk91ezL0oO6t-rBXU9y2N3Y7C3Qn15TWE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/slides/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"slides",
+						"1"
+					]
+				}
+			},
+			"response": []
+>>>>>>> 9d98f7547e860bac0742644cd7a625b8945169e8
 		}
 	],
 	"event": [

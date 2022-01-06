@@ -40,7 +40,8 @@ public class EntityUtils {
     return userDetailsResponse;
   }
 
-  public static OrganizationResponse convertTo(Organization organization, ListSlideResponse slideResponse) {
+  public static OrganizationResponse convertTo(Organization organization,
+      ListSlideResponse slideResponse) {
     OrganizationResponse organizationResponse = new OrganizationResponse();
     organizationResponse.setImage(organization.getImage());
     organizationResponse.setAddress(organization.getAddress());
@@ -115,6 +116,19 @@ public class EntityUtils {
     return new ListUserResponse(userResponses);
   }
 
+  public static OrganizationResponse convertTo(Organization organization) {
+    OrganizationResponse organizationResponse = new OrganizationResponse();
+    BeanUtils.copyProperties(organization, organizationResponse);
+    return organizationResponse;
+  }
+
+  public static SlideResponse convertToSlideDetailsResponse(Slide slide) {
+    SlideResponse slideResponse = new SlideResponse();
+    slideResponse.setOrganization(convertTo(slide.getOrganization()));
+    BeanUtils.copyProperties(slide, slideResponse);
+    return slideResponse;
+  }
+
   public static ListCommentsResponse convertToListCommentsResponse(Collection<Comment> comments) {
     List<CommentResponse> commentResponses = new ArrayList<>();
     for (Comment comment : comments) {
@@ -132,7 +146,8 @@ public class EntityUtils {
     return commentResponse;
   }
 
-  public static ListCategoryResponse convertToListCategoryResponse(Collection<Category> categories) {
+  public static ListCategoryResponse convertToListCategoryResponse(
+      Collection<Category> categories) {
     List<CategoryDetailsResponse> categoryResponses = new ArrayList<>();
     for (Category category : categories) {
       CategoryDetailsResponse categoryResponse = new CategoryDetailsResponse();
