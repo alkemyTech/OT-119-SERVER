@@ -191,7 +191,12 @@
 						"news",
 						"1",
 						"comments"
-
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "category post",
 			"request": {
 				"method": "POST",
@@ -252,7 +257,7 @@
 				}
 			},
 			"response": []
-		}
+		},
         {
 			"name": "Activity",
 			"item": [
@@ -284,7 +289,37 @@
 					"response": []
 				}
 			]
-        }
+        },
+		{
+			"name": "GET Slides/id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwic3ViIjoicGFibG9hc2Rhc2Rhc0BnbWFpbC5jb20iLCJpYXQiOjE2NDE0NDk2MjgsImV4cCI6MTY0MTQ4NTYyOH0.urqu3fHuUEAk91ezL0oO6t-rBXU9y2N3Y7C3Qn15TWE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/slides/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"slides",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
 	],
 	"event": [
 		{
