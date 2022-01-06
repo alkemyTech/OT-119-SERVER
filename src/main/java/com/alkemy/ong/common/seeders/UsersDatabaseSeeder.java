@@ -1,6 +1,5 @@
 package com.alkemy.ong.common.seeders;
 
-
 import com.alkemy.ong.config.security.ApplicationRole;
 import com.alkemy.ong.model.entity.Role;
 import com.alkemy.ong.model.entity.User;
@@ -8,17 +7,18 @@ import com.alkemy.ong.repository.IRoleRepository;
 import com.alkemy.ong.repository.IUserRepository;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class UsersDatabaseSeeder {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(UsersDatabaseSeeder.class);
 
   @Autowired
   private IUserRepository userRepository;
@@ -27,28 +27,15 @@ public class UsersDatabaseSeeder {
   @Autowired
   private PasswordEncoder passwordEncoder;
 
-  protected final Log logger = LogFactory.getLog(getClass());
-
-  public UsersDatabaseSeeder(
-      IUserRepository userRepository,
-      IRoleRepository roleRepository,
-      PasswordEncoder passwordEncoder) {
-    this.userRepository = userRepository;
-    this.roleRepository = roleRepository;
-    this.passwordEncoder = passwordEncoder;
-  }
-
   @EventListener
   public void seed(ContextRefreshedEvent event) {
     createRoles();
     seedUsersTable();
   }
 
-
   private void createUsers(ApplicationRole applicationRole) {
     for (int i = 0; i < 10; i++) {
       List<Role> roles = new ArrayList<>();
-      createRoles();
       User user = new User();
       user.setFirstName("Test");
       user.setLastName(applicationRole.getName() + i);
@@ -78,13 +65,11 @@ public class UsersDatabaseSeeder {
     if (users.isEmpty()) {
       createUsers(ApplicationRole.ADMIN);
       createUsers(ApplicationRole.USER);
-      logger.info("Users Seeded");
+      LOGGER.info("Users Seeded");
     } else {
-      logger.info("Users Seeding Not Required");
+      LOGGER.info("Users Seeding Not Required");
     }
   }
-
-
 }
 
 
