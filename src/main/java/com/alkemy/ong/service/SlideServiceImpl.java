@@ -41,10 +41,10 @@ public class SlideServiceImpl implements IDeleteSlideService, IGetSlideService {
   @Override
   public SlideResponse getBy(Long id) {
     Optional<Slide> slideOptional = slideRepository.findById(id);
-    if(slideOptional.isEmpty()){
+    if (slideOptional.isEmpty()) {
       throw new EntityNotFoundException(SLIDE_NOT_FOUND_MESSAGE);
     }
-    return EntityUtils.converToSlideDetailsResponse(slideOptional.get());
+    return EntityUtils.convertToSlideDetailsResponse(slideOptional.get());
   }
 
 

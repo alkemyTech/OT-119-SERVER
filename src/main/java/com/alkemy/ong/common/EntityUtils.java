@@ -116,16 +116,15 @@ public class EntityUtils {
     return new ListUserResponse(userResponses);
   }
 
-  public static OrganizationResponse converTo(Organization organization) {
+  public static OrganizationResponse convertTo(Organization organization) {
     OrganizationResponse organizationResponse = new OrganizationResponse();
     BeanUtils.copyProperties(organization, organizationResponse);
     return organizationResponse;
   }
 
-  public static SlideResponse converToSlideDetailsResponse(Slide slide) {
+  public static SlideResponse convertToSlideDetailsResponse(Slide slide) {
     SlideResponse slideResponse = new SlideResponse();
-    OrganizationResponse organizationResponse = converTo(slide.getOrganizationId());
-    slideResponse.setOrganization(organizationResponse);
+    slideResponse.setOrganization(convertTo(slide.getOrganization()));
     BeanUtils.copyProperties(slide, slideResponse);
     return slideResponse;
   }
