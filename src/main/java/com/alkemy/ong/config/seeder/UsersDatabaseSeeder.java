@@ -1,4 +1,4 @@
-package com.alkemy.ong.common.seeders;
+package com.alkemy.ong.config.seeder;
 
 import com.alkemy.ong.config.security.ApplicationRole;
 import com.alkemy.ong.model.entity.Role;
@@ -7,8 +7,6 @@ import com.alkemy.ong.repository.IRoleRepository;
 import com.alkemy.ong.repository.IUserRepository;
 import java.util.ArrayList;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
@@ -18,7 +16,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class UsersDatabaseSeeder {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(UsersDatabaseSeeder.class);
+  private static final String PASSWORD = "test1234";
+  private static final String HOST_EMAIL = "@test.com";
+  private static final String DEFAULT_FIRST_NAME = "Test";
 
   @Autowired
   private IUserRepository userRepository;
@@ -29,18 +29,25 @@ public class UsersDatabaseSeeder {
 
   @EventListener
   public void seed(ContextRefreshedEvent event) {
-    createRoles();
-    seedUsersTable();
+    List<Role> roles = roleRepository.findAll();
+    if (roles.isEmpty()) {
+      createRoles();
+    }
+
+    List<User> users = userRepository.findAll();
+    if (users.isEmpty()) {
+      createUsers();
+    }
   }
 
   private void createUsers(ApplicationRole applicationRole) {
-    for (int i = 0; i < 10; i++) {
-      List<Role> roles = new ArrayList<>();
+    for (int index = 0; index < 10; index++) {
       User user = new User();
-      user.setFirstName("Test");
-      user.setLastName(applicationRole.getName() + i);
-      user.setEmail(applicationRole.getName() + i + "@test.com");
-      user.setPassword(passwordEncoder.encode("test1234"));
+      user.setFirstName(DEFAULT_FIRST_NAME);
+      user.setLastName(applicationRole.getName() + index);
+      user.setEmail(applicationRole.getName() + index + HOST_EMAIL);
+      user.setPassword(passwordEncoder.encode(PASSWORD));
+      List<Role> roles = new ArrayList<>();
       roles.add(roleRepository.findByName(applicationRole.getFullRoleName()));
       user.setRoles(roles);
       userRepository.save(user);
@@ -60,15 +67,9 @@ public class UsersDatabaseSeeder {
     createRole(2L, ApplicationRole.USER);
   }
 
-  private void seedUsersTable() {
-    List<User> users = userRepository.findAll();
-    if (users.isEmpty()) {
-      createUsers(ApplicationRole.ADMIN);
-      createUsers(ApplicationRole.USER);
-      LOGGER.info("Users Seeded");
-    } else {
-      LOGGER.info("Users Seeding Not Required");
-    }
+  private void createUsers() {
+    createUsers(ApplicationRole.ADMIN);
+    createUsers(ApplicationRole.USER);
   }
 }
 
