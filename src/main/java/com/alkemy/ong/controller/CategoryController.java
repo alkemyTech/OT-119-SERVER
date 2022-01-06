@@ -1,5 +1,6 @@
 package com.alkemy.ong.controller;
 
+import com.alkemy.ong.model.entity.Category;
 import com.alkemy.ong.model.request.CategoryDetailsRequest;
 import com.alkemy.ong.model.response.CategoryDetailsResponse;
 import com.alkemy.ong.model.response.ListCategoryResponse;
@@ -7,9 +8,12 @@ import com.alkemy.ong.service.abstraction.ICreateCategoryService;
 import com.alkemy.ong.service.abstraction.IDeleteCategoryService;
 import com.alkemy.ong.service.abstraction.IGetCategoryService;
 import com.fasterxml.jackson.databind.introspect.TypeResolutionContext.Empty;
+import java.util.List;
 import javax.persistence.EntityNotFoundException;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,7 +21,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 public class CategoryController {
@@ -51,6 +57,13 @@ public class CategoryController {
   @GetMapping(value = "/categories")
   public ResponseEntity<ListCategoryResponse> list() {
     return new ResponseEntity<>(getCategoryService.list(), HttpStatus.OK);
+  }
+
+  @GetMapping(value = "/categories", params = "page")
+  public List<Category> findPaginated(@RequestParam("page") int page,
+      UriComponentsBuilder uriBuilder, HttpServletResponse response) {
+    Page
+
   }
 
 }
