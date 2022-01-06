@@ -3,10 +3,9 @@ package com.alkemy.ong.service;
 import com.alkemy.ong.common.EntityUtils;
 import com.alkemy.ong.model.entity.Slide;
 import com.alkemy.ong.model.response.ListSlideResponse;
-import com.alkemy.ong.model.response.SlideDetailsResponse;
+import com.alkemy.ong.model.response.SlideResponse;
 import com.alkemy.ong.repository.ISlideRepository;
 import com.alkemy.ong.service.abstraction.IDeleteSlideService;
-import com.alkemy.ong.service.abstraction.IGetByIdSlideService;
 import com.alkemy.ong.service.abstraction.IGetSlideService;
 import java.util.List;
 import java.util.Optional;
@@ -15,8 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SlideServiceImpl implements IDeleteSlideService, IGetSlideService,
-    IGetByIdSlideService {
+
+public class SlideServiceImpl implements IDeleteSlideService, IGetSlideService {
 
   private static final String SLIDE_NOT_FOUND_MESSAGE = "Slide not found.";
 
@@ -40,12 +39,14 @@ public class SlideServiceImpl implements IDeleteSlideService, IGetSlideService,
   }
 
   @Override
-  public SlideDetailsResponse getById(Long Id) {
-    Optional<Slide> slideOptional = slideRepository.findById(Id);
-    if (slideOptional.isEmpty()) {
+  public SlideResponse getBy(Long id) {
+    Optional<Slide> slideOptional = slideRepository.findById(id);
+    if(slideOptional.isEmpty()){
       throw new EntityNotFoundException(SLIDE_NOT_FOUND_MESSAGE);
     }
     return EntityUtils.converToSlideDetailsResponse(slideOptional.get());
   }
+
+
 }
 

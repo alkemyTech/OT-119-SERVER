@@ -1,5 +1,6 @@
 package com.alkemy.ong.model.response;
 
+import java.sql.Timestamp;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,11 +10,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SlideDetailsResponse {
+public class CommentResponse {
 
-  private String imageUrl;
-  private String text;
-  private int order;
-  private OrganizationResponse organization;
+  private String body;
+  private String username;
+  private Timestamp timestamp;
+  
 }
-
