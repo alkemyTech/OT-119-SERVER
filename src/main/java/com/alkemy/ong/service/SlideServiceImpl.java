@@ -18,6 +18,7 @@ import java.io.InputStream;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -67,8 +68,10 @@ public class SlideServiceImpl implements IDeleteSlideService, IGetSlideService,
 
   @Override
   public SlideResponse create(SlideRequest slideRequest) throws ThirdPartyException {
+    String fileName = (slideRequest.getFileName() == null || slideRequest.getFileName().isEmpty())
+        ? UUID.randomUUID().toString() : slideRequest.getFileName();
     String imageUrl = imageUtils.upload(convertToInputStream(slideRequest.getEncodedImage()),
-        slideRequest.getFileName(), slideRequest.getContentType());
+        fileName, slideRequest.getContentType());
     Organization organization = getOrganizationService.getOrganization();
     Slide slide = new Slide();
     slide.setImageUrl(imageUrl);

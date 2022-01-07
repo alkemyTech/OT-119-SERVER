@@ -1,6 +1,6 @@
 package com.alkemy.ong.controller;
 
-import com.alkemy.ong.exception.CustomException;
+import com.alkemy.ong.exception.ThirdPartyException;
 import com.alkemy.ong.model.request.SlideRequest;
 import com.alkemy.ong.model.response.ListSlideResponse;
 import com.alkemy.ong.model.response.SlideResponse;
@@ -50,7 +50,7 @@ public class SlideController {
 
   @PostMapping(value = "/slides")
   public ResponseEntity<SlideResponse> create(@Valid @RequestBody SlideRequest slideRequest)
-      throws CustomException {
+      throws ThirdPartyException {
     return ResponseEntity.status(HttpStatus.CREATED)
         .body(createSlideService.create(slideRequest));
   }
