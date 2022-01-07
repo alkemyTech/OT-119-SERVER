@@ -157,4 +157,10 @@ public class EntityUtils {
     return new ListCategoryResponse(categoryResponses);
   }
 
+  public static UserResponse converToAuthMe(User user){
+    UserResponse userResponse = new UserResponse();
+    userResponse.setRoles(convertTo(user.getRoles()));
+    BeanUtils.copyProperties(user, userResponse);
+    return userResponse;
+  }
 }

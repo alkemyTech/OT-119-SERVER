@@ -12,6 +12,7 @@ import com.alkemy.ong.model.request.UserDetailsRequest;
 import com.alkemy.ong.model.response.ListUserResponse;
 import com.alkemy.ong.model.response.UserAuthenticatedResponse;
 import com.alkemy.ong.model.response.UserDetailsResponse;
+import com.alkemy.ong.model.response.UserResponse;
 import com.alkemy.ong.repository.IUserRepository;
 import com.alkemy.ong.service.abstraction.IAuthenticationService;
 import com.alkemy.ong.service.abstraction.IDeleteUserService;
@@ -58,6 +59,13 @@ public class UserServiceImpl implements UserDetailsService, IDeleteUserService, 
   public ListUserResponse list() {
     List<User> users = userRepository.findAll();
     return EntityUtils.convertToListUserResponse(users);
+  }
+
+  @Override
+  public UserResponse getUserBy(String authorizationHeader) {
+    String username = jwtUtils.extractUsername(authorizationHeader);
+    User user = (User) this.loadUserByUsername(username);
+    return EntityUtils.converToAuthMe(user);
   }
 
   @Override

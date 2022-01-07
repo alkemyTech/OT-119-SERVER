@@ -2,6 +2,7 @@ package com.alkemy.ong.service.abstraction;
 
 import com.alkemy.ong.model.entity.User;
 import com.alkemy.ong.model.response.ListUserResponse;
+import com.alkemy.ong.model.response.UserResponse;
 
 public interface IGetUserService {
 
@@ -9,4 +10,5 @@ public interface IGetUserService {
 
   ListUserResponse list();
 
+  UserResponse getUserBy(String authorizationHeader);
 }
