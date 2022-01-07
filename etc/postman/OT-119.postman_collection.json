@@ -1,348 +1,343 @@
 {
-  "info": {
-    "_postman_id": "410b04e2-367a-4a3f-9d5a-ce1808970ec0",
-    "name": "SomosMas",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-  },
-  "item": [
-    {
-      "name": "Organization",
-      "item": [
-        {
-          "name": "GET /organization/public",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{somosmas}}/organization/public",
-              "host": [
-                "{{somosmas}}"
-              ],
-              "path": [
-                "organization",
-                "public"
-              ]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Activity",
-      "item": [
-        {
-          "name": "POST /activities: create activites",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"name\": \"Actividad 1\",\n    \"content\": \"Contenido de actividad 1\",\n    \"image\": \"http://somosmas/actividad1.png\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "localhost:8080/activities",
-              "host": [
-                "localhost"
-              ],
-              "port": "8080",
-              "path": [
-                "activities"
-              ]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Delete News",
-      "request": {
-        "method": "DELETE",
-        "header": [],
-        "url": {
-          "raw": "http://localhost:8080/news/1",
-          "protocol": "http",
-          "host": [
-            "localhost"
-          ],
-          "port": "8080",
-          "path": [
-            "news",
-            "1"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Get Users",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "http://localhost:8080/users",
-          "protocol": "http",
-          "host": [
-            "localhost"
-          ],
-          "port": "8080",
-          "path": [
-            "users"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Login",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n    \"email\": \"prueba@gmail.com\",\r\n    \"password\": \"prueba123\"\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "http://localhost:8080/auth/login",
-          "protocol": "http",
-          "host": [
-            "localhost"
-          ],
-          "port": "8080",
-          "path": [
-            "auth",
-            "login"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "User register",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n    \"firstName\":\"asd\",\r\n    \"lastName\":\"asd\",\r\n    \"email\":\"pabloasdasdas@gmail.com\",\r\n    \"password\":\"password123\",\r\n    \"rolesRequest\": [1,2  ]\r\n\r\n\r\n\r\n\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "http://localhost:8080/auth/register",
-          "protocol": "http",
-          "host": [
-            "localhost"
-          ],
-          "port": "8080",
-          "path": [
-            "auth",
-            "register"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Get Slides",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "http://localhost:8080/slides",
-          "protocol": "http",
-          "host": [
-            "localhost"
-          ],
-          "port": "8080",
-          "path": [
-            "slides"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Get News/id/comments",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{somosmas}}/news/1/comments",
-          "host": [
-            "{{somosmas}}"
-          ],
-          "path": [
-            "news",
-            "1",
-            "comments"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "category post",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n    \"name\": \"salio bien bien\" ,\r\n    \"description\":\"idk\" ,\r\n    \"image\": \"/img.jpg\"\r\n\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "http://localhost:8080/categories",
-          "protocol": "http",
-          "host": [
-            "localhost"
-          ],
-          "port": "8080",
-          "path": [
-            "categories"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Update comment",
-      "request": {
-        "method": "PUT",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwic3ViIjoidXNlckBlbWFpbC5jb20iLCJpYXQiOjE2NDEyOTY5MDAsImV4cCI6MTY0MTMzMjkwMH0.3lLs1QFI7Qv-Z3Szi8b5Vtfnz8Ko9HBUhKkOkF0iEb0",
-            "type": "default"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n    \"body\" : \"update5\"\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{somosmas}}/comments/1",
-          "host": [
-            "{{somosmas}}"
-          ],
-          "path": [
-            "comments",
-            "1"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Activity",
-      "item": [
-        {
-          "name": "POST /activities: create activites",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"name\": \"Actividad 1\",\n    \"content\": \"Contenido de actividad 1\",\n    \"image\": \"http://somosmas/actividad1.png\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "localhost:8080/activities",
-              "host": [
-                "localhost"
-              ],
-              "port": "8080",
-              "path": [
-                "activities"
-              ]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "GET Slides/id",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "eyJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwic3ViIjoicGFibG9hc2Rhc2Rhc0BnbWFpbC5jb20iLCJpYXQiOjE2NDE0NDk2MjgsImV4cCI6MTY0MTQ4NTYyOH0.urqu3fHuUEAk91ezL0oO6t-rBXU9y2N3Y7C3Qn15TWE",
-              "type": "string"
-            }
-          ]
-        },
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "http://localhost:8080/slides/1",
-          "protocol": "http",
-          "host": [
-            "localhost"
-          ],
-          "port": "8080",
-          "path": [
-            "slides",
-            "1"
-          ]
-        }
-      },
-      "response": []
-    }
-  ],
-  "event": [
-    {
-      "listen": "prerequest",
-      "script": {
-        "type": "text/javascript",
-        "exec": [
-          ""
-        ]
-      }
-    },
-    {
-      "listen": "test",
-      "script": {
-        "type": "text/javascript",
-        "exec": [
-          ""
-        ]
-      }
-    }
-  ],
-  "variable": [
-    {
-      "key": "somosmas",
-      "value": ""
-    }
-  ]
+	"info": {
+		"_postman_id": "1e899bf4-438c-4008-8783-2d1f14c22383",
+		"name": "SomosMas",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Organization",
+			"item": [
+				{
+					"name": "GET /organization/public",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{somosmas}}/organization/public",
+							"host": [
+								"{{somosmas}}"
+							],
+							"path": [
+								"organization",
+								"public"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Activity",
+			"item": [
+				{
+					"name": "POST /activities: create activites",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Actividad 1\",\n    \"content\": \"Contenido de actividad 1\",\n    \"image\": \"http://somosmas/actividad1.png\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/activities",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"activities"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Delete News",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/news/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"news",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"prueba@gmail.com\",\r\n    \"password\": \"prueba123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\":\"asd\",\r\n    \"lastName\":\"asd\",\r\n    \"email\":\"pabloasdasdas@gmail.com\",\r\n    \"password\":\"password123\",\r\n    \"rolesRequest\": [1,2  ]\r\n\r\n\r\n\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/auth/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Slides",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/slides",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"slides"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get News/id/comments",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{somosmas}}/news/1/comments",
+					"host": [
+						"{{somosmas}}"
+					],
+					"path": [
+						"news",
+						"1",
+						"comments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "category post",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"salio bien bien\" ,\r\n    \"description\":\"idk\" ,\r\n    \"image\": \"/img.jpg\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/categories",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update comment",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwic3ViIjoidXNlckBlbWFpbC5jb20iLCJpYXQiOjE2NDEyOTY5MDAsImV4cCI6MTY0MTMzMjkwMH0.3lLs1QFI7Qv-Z3Szi8b5Vtfnz8Ko9HBUhKkOkF0iEb0",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"body\" : \"update5\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{somosmas}}/comments/1",
+					"host": [
+						"{{somosmas}}"
+					],
+					"path": [
+						"comments",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Slides/id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwic3ViIjoicGFibG9hc2Rhc2Rhc0BnbWFpbC5jb20iLCJpYXQiOjE2NDE0NDk2MjgsImV4cCI6MTY0MTQ4NTYyOH0.urqu3fHuUEAk91ezL0oO6t-rBXU9y2N3Y7C3Qn15TWE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/slides/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"slides",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /slides",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"encodedImage\": \"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\",\n    \"text\": \"Texto\",\n    \"order\": \"7\",\n    \"fileName\": \"alkemy3.png\",\n    \"contentType\": \"image/png\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/slides",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"slides"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "somosmas",
+			"value": ""
+		}
+	]
 }
