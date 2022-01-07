@@ -76,7 +76,7 @@ public class SlideServiceImpl implements IDeleteSlideService, IGetSlideService,
     if (slideRequest.getOrder() == 0) {
       slideRequest.setOrder(maxOrder + 1);
     }
-    if (slideRequest.getOrder() < maxOrder) {
+    if (slideRequest.getOrder() <= maxOrder) {
       throw new InvalidArgumentException(
           String.format("The slide order number must be greater than %d.", maxOrder));
     }
