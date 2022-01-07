@@ -2,7 +2,7 @@ package com.alkemy.ong.service;
 
 import com.alkemy.ong.common.EntityUtils;
 import com.alkemy.ong.common.ImageUtils;
-import com.alkemy.ong.exception.CustomException;
+import com.alkemy.ong.exception.ThirdPartyException;
 import com.alkemy.ong.model.entity.Organization;
 import com.alkemy.ong.model.entity.Slide;
 import com.alkemy.ong.model.request.SlideRequest;
@@ -66,7 +66,7 @@ public class SlideServiceImpl implements IDeleteSlideService, IGetSlideService,
   }
 
   @Override
-  public SlideResponse create(SlideRequest slideRequest) throws CustomException {
+  public SlideResponse create(SlideRequest slideRequest) throws ThirdPartyException {
     String imageUrl = imageUtils.upload(convertToInputStream(slideRequest.getEncodedImage()),
         slideRequest.getFileName(), slideRequest.getContentType());
     Organization organization = getOrganizationService.getOrganization();
