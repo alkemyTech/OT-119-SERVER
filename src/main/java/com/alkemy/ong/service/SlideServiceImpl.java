@@ -70,17 +70,14 @@ public class SlideServiceImpl implements IDeleteSlideService, IGetSlideService,
   @Override
   public SlideResponse create(SlideRequest slideRequest)
       throws ThirdPartyException, InvalidArgumentException {
-
-    int maxOrder = slideRepository.getMaxtSlideOrder();
+    Integer maxOrderWrapped = slideRepository.getMaxtSlideOrder();
+    int maxOrder = (maxOrderWrapped == null) ? 0 : maxOrderWrapped.intValue();
 
     if (slideRequest.getOrder() == 0) {
       slideRequest.setOrder(maxOrder + 1);
+    } else if (slideRepository.existsByOrder(slideRequest.getOrder())) {
+      throw new InvalidArgumentException("A slide is already using the specified order.");
     }
-    if (slideRequest.getOrder() <= maxOrder) {
-      throw new InvalidArgumentException(
-          String.format("The slide order number must be greater than %d.", maxOrder));
-    }
-
     String fileName = (slideRequest.getFileName() == null || slideRequest.getFileName().isEmpty())
         ? UUID.randomUUID().toString() : slideRequest.getFileName();
     String imageUrl = imageUtils.upload(convertToInputStream(slideRequest.getEncodedImage()),
