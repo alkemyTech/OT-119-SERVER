@@ -1,12 +1,21 @@
 package com.alkemy.ong.service;
 
 import com.alkemy.ong.common.EntityUtils;
+import com.alkemy.ong.common.ImageUtils;
+import com.alkemy.ong.exception.CustomException;
+import com.alkemy.ong.model.entity.Organization;
 import com.alkemy.ong.model.entity.Slide;
+import com.alkemy.ong.model.request.SlideRequest;
 import com.alkemy.ong.model.response.ListSlideResponse;
 import com.alkemy.ong.model.response.SlideResponse;
 import com.alkemy.ong.repository.ISlideRepository;
+import com.alkemy.ong.service.abstraction.ICreateSlideService;
 import com.alkemy.ong.service.abstraction.IDeleteSlideService;
+import com.alkemy.ong.service.abstraction.IGetOrganizationService;
 import com.alkemy.ong.service.abstraction.IGetSlideService;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import javax.persistence.EntityNotFoundException;
@@ -15,10 +24,14 @@ import org.springframework.stereotype.Service;
 
 @Service
 
-public class SlideServiceImpl implements IDeleteSlideService, IGetSlideService {
+public class SlideServiceImpl implements IDeleteSlideService, IGetSlideService,
+    ICreateSlideService {
 
   private static final String SLIDE_NOT_FOUND_MESSAGE = "Slide not found.";
-
+  @Autowired
+  ImageUtils imageUtils;
+  @Autowired
+  IGetOrganizationService getOrganizationService;
   @Autowired
   private ISlideRepository slideRepository;
 
@@ -47,6 +60,22 @@ public class SlideServiceImpl implements IDeleteSlideService, IGetSlideService {
     return EntityUtils.convertToSlideDetailsResponse(slideOptional.get());
   }
 
+  private InputStream convertToInputStream(String encodedString) {
+    byte[] decodedBytes = Base64.getDecoder().decode(encodedString);
+    return new ByteArrayInputStream(decodedBytes);
+  }
 
+  @Override
+  public SlideResponse create(SlideRequest slideRequest) throws CustomException {
+    String imageUrl = imageUtils.upload(convertToInputStream(slideRequest.getEncodedImage()),
+        slideRequest.getFileName(), slideRequest.getContentType());
+    Organization organization = getOrganizationService.getOrganization();
+    Slide slide = new Slide();
+    slide.setImageUrl(imageUrl);
+    slide.setText(slideRequest.getText());
+    slide.setOrder(slideRequest.getOrder());
+    slide.setOrganization(organization);
+    return EntityUtils.convertToSlideDetailsResponse(slideRepository.save(slide));
+  }
 }
 
