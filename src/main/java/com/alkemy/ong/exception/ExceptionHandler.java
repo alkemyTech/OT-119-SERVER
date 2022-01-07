@@ -85,6 +85,14 @@ public class ExceptionHandler {
         .body(buildResponse(e, HttpStatus.SERVICE_UNAVAILABLE));
   }
 
+  @org.springframework.web.bind.annotation.ExceptionHandler(InvalidArgumentException.class)
+  public ResponseEntity<ErrorResponse> handleInvalidArgumentException(
+      HttpServletRequest request,
+      InvalidArgumentException e) {
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        .body(buildResponse(e, HttpStatus.BAD_REQUEST));
+  }
+
   private ErrorResponse buildResponse(Exception e, HttpStatus httpStatus) {
     return new ErrorResponse(e, httpStatus.value());
   }

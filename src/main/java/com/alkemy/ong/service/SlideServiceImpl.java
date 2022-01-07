@@ -2,6 +2,7 @@ package com.alkemy.ong.service;
 
 import com.alkemy.ong.common.EntityUtils;
 import com.alkemy.ong.common.ImageUtils;
+import com.alkemy.ong.exception.InvalidArgumentException;
 import com.alkemy.ong.exception.ThirdPartyException;
 import com.alkemy.ong.model.entity.Organization;
 import com.alkemy.ong.model.entity.Slide;
@@ -67,7 +68,19 @@ public class SlideServiceImpl implements IDeleteSlideService, IGetSlideService,
   }
 
   @Override
-  public SlideResponse create(SlideRequest slideRequest) throws ThirdPartyException {
+  public SlideResponse create(SlideRequest slideRequest)
+      throws ThirdPartyException, InvalidArgumentException {
+
+    int maxOrder = slideRepository.getMaxtSlideOrder();
+
+    if (slideRequest.getOrder() == 0) {
+      slideRequest.setOrder(maxOrder + 1);
+    }
+    if (slideRequest.getOrder() < maxOrder) {
+      throw new InvalidArgumentException(
+          String.format("The slide order number must be greater than %d.", maxOrder));
+    }
+
     String fileName = (slideRequest.getFileName() == null || slideRequest.getFileName().isEmpty())
         ? UUID.randomUUID().toString() : slideRequest.getFileName();
     String imageUrl = imageUtils.upload(convertToInputStream(slideRequest.getEncodedImage()),
