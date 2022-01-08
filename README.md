@@ -38,3 +38,21 @@ Make sure to set up your IDE with the right code style format file.
 To run the project execute: 
 
 `mvn spring-boot:run`
+
+
+### USERS SEED
+
+| email              | role  |  
+|--------------------|-------|
+| ADMIN{id}@test.com | admin | 
+| USER{id}@test.com  | user  | 
+
+By default, 10 users with admin role and 10 users with user role will be created where the {id} in 
+the email is a number from 0 to 10 per role. All the users have "test1234" as password.
+
+### ROLES SEED
+
+| id |  description |  name   |
+|----|--------------|---------| 
+| 1  |  ROLE_USER   |  USER   |
+| 2  |  ROLE_ADMIN  |  ADMIN  | 

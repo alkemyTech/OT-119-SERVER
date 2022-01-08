@@ -1,7 +1,5 @@
 package com.alkemy.ong.model.response;
 
-import com.alkemy.ong.model.entity.Role;
-import com.fasterxml.jackson.annotation.JsonRootName;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
