@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -62,8 +64,10 @@ public class CategoryController {
   @GetMapping(value = "/categories", params = "page")
   public List<Category> findPaginated(@RequestParam("page") int page,
       UriComponentsBuilder uriBuilder, HttpServletResponse response) {
-    Page
-
+    Pageable pageable = PageRequest.of(page, 10);
+    Page<Category> resultPage = getCategoryService.findPaginated(pageable);
+    getCategoryService.addLinksToHeader(uriBuilder, page, resultPage.getTotalPages(),
+        resultPage.getSize(), response);
+    return resultPage.getContent();
   }
-
 }
