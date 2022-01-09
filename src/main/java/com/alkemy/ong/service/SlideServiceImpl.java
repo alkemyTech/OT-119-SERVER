@@ -23,6 +23,7 @@ import java.util.UUID;
 import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 
@@ -31,9 +32,9 @@ public class SlideServiceImpl implements IDeleteSlideService, IGetSlideService,
 
   private static final String SLIDE_NOT_FOUND_MESSAGE = "Slide not found.";
   @Autowired
-  ImageUtils imageUtils;
+  private ImageUtils imageUtils;
   @Autowired
-  IGetOrganizationService getOrganizationService;
+  private IGetOrganizationService getOrganizationService;
   @Autowired
   private ISlideRepository slideRepository;
 
@@ -62,32 +63,44 @@ public class SlideServiceImpl implements IDeleteSlideService, IGetSlideService,
     return EntityUtils.convertToSlideDetailsResponse(slideOptional.get());
   }
 
-  private InputStream convertToInputStream(String encodedString) {
+  private InputStream convertTo(String encodedString) {
     byte[] decodedBytes = Base64.getDecoder().decode(encodedString);
     return new ByteArrayInputStream(decodedBytes);
+  }
+
+  private String getFilenameOrDefault(String fileName) {
+    return (StringUtils.hasText(fileName)) ? UUID.randomUUID().toString() : fileName;
+  }
+
+  private int getSlideOrder(int slideOrder) throws InvalidArgumentException {
+    int decidedOrder = 0;
+
+    if (slideOrder == 0) {
+      decidedOrder = slideRepository.getMaxtSlideOrder() + 1;
+    } else if (slideRepository.existsByOrder(slideOrder)) {
+      throw new InvalidArgumentException("A slide is already using the specified order number.");
+    }
+    return decidedOrder;
+  }
+
+  private Slide buildSlide(String imageUrl, String text, int order) {
+    Organization organization = getOrganizationService.getOrganization();
+    Slide slide = new Slide();
+    slide.setImageUrl(imageUrl);
+    slide.setText(text);
+    slide.setOrder(order);
+    slide.setOrganization(organization);
+    return slide;
   }
 
   @Override
   public SlideResponse create(SlideRequest slideRequest)
       throws ThirdPartyException, InvalidArgumentException {
-    Integer maxOrderWrapped = slideRepository.getMaxtSlideOrder();
-    int maxOrder = (maxOrderWrapped == null) ? 0 : maxOrderWrapped.intValue();
-
-    if (slideRequest.getOrder() == 0) {
-      slideRequest.setOrder(maxOrder + 1);
-    } else if (slideRepository.existsByOrder(slideRequest.getOrder())) {
-      throw new InvalidArgumentException("A slide is already using the specified order.");
-    }
-    String fileName = (slideRequest.getFileName() == null || slideRequest.getFileName().isEmpty())
-        ? UUID.randomUUID().toString() : slideRequest.getFileName();
-    String imageUrl = imageUtils.upload(convertToInputStream(slideRequest.getEncodedImage()),
+    String fileName = getFilenameOrDefault(slideRequest.getFileName());
+    String imageUrl = imageUtils.upload(convertTo(slideRequest.getEncodedImage()),
         fileName, slideRequest.getContentType());
-    Organization organization = getOrganizationService.getOrganization();
-    Slide slide = new Slide();
-    slide.setImageUrl(imageUrl);
-    slide.setText(slideRequest.getText());
-    slide.setOrder(slideRequest.getOrder());
-    slide.setOrganization(organization);
+    int slideOrder = getSlideOrder(slideRequest.getOrder());
+    Slide slide = buildSlide(imageUrl, slideRequest.getText(), slideOrder);
     return EntityUtils.convertToSlideDetailsResponse(slideRepository.save(slide));
   }
 }

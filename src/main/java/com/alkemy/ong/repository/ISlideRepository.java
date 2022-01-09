@@ -7,7 +7,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ISlideRepository extends JpaRepository<Slide, Long> {
+
   boolean existsByOrder(int order);
-  @Query(value = "SELECT MAX(slide_order) FROM slides", nativeQuery = true)
-  Integer getMaxtSlideOrder();
+
+  @Query(value = "select coalesce(max('slide_order'), 0) from Slide")
+  int getMaxtSlideOrder();
+
 }

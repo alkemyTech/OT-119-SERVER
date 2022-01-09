@@ -8,11 +8,11 @@ import lombok.Setter;
 @Setter
 public class SlideRequest {
 
-  @NotBlank
+  @NotBlank(message = "The base64-encoded image is required.")
   private String encodedImage;
   private String text;
   private int order;
-  @NotBlank
+  @NotBlank(message = "A contentType is required.")
   private String contentType;
   private String fileName;
 }
