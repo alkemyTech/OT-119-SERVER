@@ -317,7 +317,36 @@
         }
       },
       "response": []
-    }
+    },
+    {
+			"name": "Get auth/me",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwic3ViIjoiamltbXkucm1wQGdtYWlsLmNvbSIsImlhdCI6MTY0MTUzMjE3NywiZXhwIjoxNjQxNTY4MTc3fQ.jeybzCE9KyhcmygVQgJae78oyLGxLk0JeLv0D3-Wq1Y",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/auth/me",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"auth",
+						"me"
+					]
+				}
+			},
+			"response": []
+		}
   ],
   "event": [
     {
