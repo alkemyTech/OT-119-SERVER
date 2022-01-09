@@ -69,7 +69,7 @@ public class SlideServiceImpl implements IDeleteSlideService, IGetSlideService,
   }
 
   private String getFilenameOrDefault(String fileName) {
-    return (StringUtils.hasText(fileName)) ? UUID.randomUUID().toString() : fileName;
+    return (StringUtils.hasText(fileName)) ? fileName : UUID.randomUUID().toString();
   }
 
   private int getSlideOrder(int slideOrder) throws InvalidArgumentException {
