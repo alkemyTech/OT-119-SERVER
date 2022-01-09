@@ -21,12 +21,11 @@ import com.alkemy.ong.model.response.RoleResponse;
 import com.alkemy.ong.model.response.SlideResponse;
 import com.alkemy.ong.model.response.UserDetailsResponse;
 import com.alkemy.ong.model.response.UserResponse;
-import org.springframework.beans.BeanUtils;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
+import org.springframework.beans.BeanUtils;
 
 public class EntityUtils {
 
@@ -158,10 +157,12 @@ public class EntityUtils {
     return new ListCategoryResponse(categoryResponses);
   }
 
-  public static UserResponse converToAuthMe(User user){
+  public static UserResponse convertToAuthMe(User user) {
     UserResponse userResponse = new UserResponse();
     userResponse.setRoles(convertTo(user.getRoles()));
-    BeanUtils.copyProperties(user, userResponse);
+    userResponse.setFirstName(user.getFirstName());
+    userResponse.setLastName(user.getLastName());
+    userResponse.setEmail(user.getEmail());
     return userResponse;
   }
 }
