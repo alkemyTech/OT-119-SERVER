@@ -1,6 +1,9 @@
 package com.alkemy.ong.controller;
 
+import com.alkemy.ong.common.EntityUtils;
+import com.alkemy.ong.model.entity.User;
 import com.alkemy.ong.model.response.ListUserResponse;
+import com.alkemy.ong.model.response.UserResponse;
 import com.alkemy.ong.service.abstraction.IDeleteUserService;
 import com.alkemy.ong.service.abstraction.IGetUserService;
 import com.fasterxml.jackson.databind.introspect.TypeResolutionContext.Empty;
@@ -11,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -31,4 +35,12 @@ public class UserController {
   public ResponseEntity<ListUserResponse> list() {
     return new ResponseEntity<>(getUserService.list(), HttpStatus.OK);
   }
+
+  @GetMapping(value = "/auth/me")
+  public ResponseEntity<UserResponse> getUserBy(
+      @RequestHeader(value = "Authorization") String authorizationHeader) {
+    User user = getUserService.getBy(authorizationHeader);
+    return new ResponseEntity<>(EntityUtils.convertToAuthMe(user), HttpStatus.OK);
+  }
+
 }
