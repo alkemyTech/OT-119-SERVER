@@ -79,6 +79,8 @@ public class SlideServiceImpl implements IDeleteSlideService, IGetSlideService,
       decidedOrder = slideRepository.getMaxtSlideOrder() + 1;
     } else if (slideRepository.existsByOrder(slideOrder)) {
       throw new InvalidArgumentException("A slide is already using the specified order number.");
+    } else {
+      decidedOrder = slideOrder;
     }
     return decidedOrder;
   }
