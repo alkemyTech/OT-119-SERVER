@@ -72,15 +72,15 @@ public class SlideServiceImpl implements IDeleteSlideService, IGetSlideService,
     return (StringUtils.hasText(fileName)) ? fileName : UUID.randomUUID().toString();
   }
 
-  private int getSlideOrder(int slideOrder) throws InvalidArgumentException {
+  private int decideSlideOrder(int requestedOrder) throws InvalidArgumentException {
     int decidedOrder = 0;
 
-    if (slideOrder == 0) {
+    if (requestedOrder == 0) {
       decidedOrder = slideRepository.getMaxtSlideOrder() + 1;
-    } else if (slideRepository.existsByOrder(slideOrder)) {
+    } else if (slideRepository.existsByOrder(requestedOrder)) {
       throw new InvalidArgumentException("A slide is already using the specified order number.");
     } else {
-      decidedOrder = slideOrder;
+      decidedOrder = requestedOrder;
     }
     return decidedOrder;
   }
@@ -101,7 +101,7 @@ public class SlideServiceImpl implements IDeleteSlideService, IGetSlideService,
     String fileName = getFilenameOrDefault(slideRequest.getFileName());
     String imageUrl = imageUtils.upload(convertTo(slideRequest.getEncodedImage()),
         fileName, slideRequest.getContentType());
-    int slideOrder = getSlideOrder(slideRequest.getOrder());
+    int slideOrder = decideSlideOrder(slideRequest.getOrder());
     Slide slide = buildSlide(imageUrl, slideRequest.getText(), slideOrder);
     return EntityUtils.convertToSlideDetailsResponse(slideRepository.save(slide));
   }
