@@ -13,12 +13,8 @@ import com.alkemy.ong.service.abstraction.IGetCategoryService;
 import java.util.List;
 import java.util.Optional;
 import javax.persistence.EntityNotFoundException;
-import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
 public class CategoryServiceImpl implements IDeleteCategoryService, IGetCategoryService,
@@ -62,56 +58,5 @@ public class CategoryServiceImpl implements IDeleteCategoryService, IGetCategory
   public ListCategoryResponse list() {
     List<Category> categories = categoryRepository.findAll();
     return EntityUtils.convertToListCategoryResponse(categories);
-  }
-
-  @Override
-  public Page<Category> findPaginated(Pageable pageable) {
-    return categoryRepository.findAll(pageable);
-  }
-
-  @Override
-  public void addLinksToHeader(UriComponentsBuilder uriBuilder, int page, int totalPages,
-      int pageSize, HttpServletResponse response) {
-    uriBuilder.path("/categories");
-
-    final StringBuilder linkHeader = new StringBuilder();
-    if (hasNextPage(page, totalPages)) {
-      final String uriForNextPage = constructNextPageUri(uriBuilder, page);
-      linkHeader.append(createLinkHeader(uriForNextPage, "next"));
-    }
-    if (hasPreviousPage(page)) {
-      final String uriForPrevPage = constructPrevPageUri(uriBuilder, page);
-      appendCommaIfNecessary(linkHeader);
-      linkHeader.append(createLinkHeader(uriForPrevPage, "prev"));
-    }
-    response.addHeader("Link", linkHeader.toString());
-  }
-
-  String constructNextPageUri(final UriComponentsBuilder uriBuilder, final int page) {
-    return uriBuilder.replaceQueryParam("page", page).build()
-        .encode().toUriString();
-  }
-
-  String constructPrevPageUri(final UriComponentsBuilder uriBuilder, final int page) {
-    return uriBuilder.replaceQueryParam("page", page - 1).build()
-        .encode().toUriString();
-  }
-
-  boolean hasNextPage(final int page, final int totalPages) {
-    return page < totalPages - 1;
-  }
-
-  boolean hasPreviousPage(final int page) {
-    return page > 0;
-  }
-
-  void appendCommaIfNecessary(final StringBuilder linkHeader) {
-    if (linkHeader.length() > 0) {
-      linkHeader.append(", ");
-    }
-  }
-
-  public static String createLinkHeader(final String uri, final String rel) {
-    return "<" + uri + ">; rel=\"" + rel + "\"";
   }
 }
