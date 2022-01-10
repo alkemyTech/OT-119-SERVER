@@ -61,12 +61,17 @@ public class CategoryController {
   }
 
   @GetMapping(value = "/categories", params = "page")
-  public ResponseEntity<Page<Category>> list(@RequestParam(value = "page", required = false) int page,
+  public ResponseEntity<Page<Category>> list(@RequestParam(value = "page") int page,
       UriComponentsBuilder uriBuilder, HttpServletResponse response) {
-      Pageable pageable = PageRequest.of(page, 10);
-      Page<Category> resultPage = categoryRepository.findBySoftDeleteFalse(pageable);
-      paginationHeaders.add(uriBuilder, page, resultPage.getTotalPages(),
-          resultPage.getSize(), response, "/categories");
-      return new ResponseEntity<Page<Category>>(resultPage, HttpStatus.OK);
-    }
+    Pageable pageable = PageRequest.of(page, 10);
+    Page<Category> resultPage = categoryRepository.findBySoftDeleteFalse(pageable);
+    paginationHeaders.add(uriBuilder,
+        page,
+        resultPage.getTotalPages(),
+        resultPage.getSize(),
+        response,
+        "/categories");
+    return new ResponseEntity<>(resultPage, HttpStatus.OK);
   }
+
+}

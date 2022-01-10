@@ -10,4 +10,5 @@ import org.springframework.stereotype.Repository;
 public interface ICategoryRepository extends JpaRepository<Category, Long> {
 
   Page<Category> findBySoftDeleteFalse(Pageable pageable);
+
 }
