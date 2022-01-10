@@ -11,6 +11,6 @@ public interface ISlideRepository extends JpaRepository<Slide, Long> {
   boolean existsByOrder(int order);
 
   @Query(value = "select coalesce(max(s.order), 0) from Slide as s")
-  int getMaxtSlideOrder();
+  int getMaxSlideOrder();
 
 }

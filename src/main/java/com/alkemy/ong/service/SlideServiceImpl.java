@@ -31,6 +31,7 @@ public class SlideServiceImpl implements IDeleteSlideService, IGetSlideService,
     ICreateSlideService {
 
   private static final String SLIDE_NOT_FOUND_MESSAGE = "Slide not found.";
+
   @Autowired
   private ImageUtils imageUtils;
   @Autowired
@@ -63,6 +64,17 @@ public class SlideServiceImpl implements IDeleteSlideService, IGetSlideService,
     return EntityUtils.convertToSlideDetailsResponse(slideOptional.get());
   }
 
+  @Override
+  public SlideResponse create(SlideRequest slideRequest)
+      throws ThirdPartyException, InvalidArgumentException {
+    String fileName = getFilenameOrDefault(slideRequest.getFileName());
+    String imageUrl = imageUtils.upload(convertTo(slideRequest.getEncodedImage()), fileName,
+        slideRequest.getContentType());
+    int slideOrder = decideSlideOrder(slideRequest.getOrder());
+    Slide slide = buildSlide(imageUrl, slideRequest.getText(), slideOrder);
+    return EntityUtils.convertToSlideDetailsResponse(slideRepository.save(slide));
+  }
+
   private InputStream convertTo(String encodedString) {
     byte[] decodedBytes = Base64.getDecoder().decode(encodedString);
     return new ByteArrayInputStream(decodedBytes);
@@ -73,16 +85,15 @@ public class SlideServiceImpl implements IDeleteSlideService, IGetSlideService,
   }
 
   private int decideSlideOrder(int requestedOrder) throws InvalidArgumentException {
-    int decidedOrder = 0;
-
     if (requestedOrder == 0) {
-      decidedOrder = slideRepository.getMaxtSlideOrder() + 1;
-    } else if (slideRepository.existsByOrder(requestedOrder)) {
-      throw new InvalidArgumentException("A slide is already using the specified order number.");
-    } else {
-      decidedOrder = requestedOrder;
+      return slideRepository.getMaxSlideOrder() + 1;
     }
-    return decidedOrder;
+
+    if (slideRepository.existsByOrder(requestedOrder)) {
+      throw new InvalidArgumentException("A slide is already using the specified order number.");
+    }
+
+    return requestedOrder;
   }
 
   private Slide buildSlide(String imageUrl, String text, int order) {
@@ -93,17 +104,6 @@ public class SlideServiceImpl implements IDeleteSlideService, IGetSlideService,
     slide.setOrder(order);
     slide.setOrganization(organization);
     return slide;
-  }
-
-  @Override
-  public SlideResponse create(SlideRequest slideRequest)
-      throws ThirdPartyException, InvalidArgumentException {
-    String fileName = getFilenameOrDefault(slideRequest.getFileName());
-    String imageUrl = imageUtils.upload(convertTo(slideRequest.getEncodedImage()),
-        fileName, slideRequest.getContentType());
-    int slideOrder = decideSlideOrder(slideRequest.getOrder());
-    Slide slide = buildSlide(imageUrl, slideRequest.getText(), slideOrder);
-    return EntityUtils.convertToSlideDetailsResponse(slideRepository.save(slide));
   }
 }
 
