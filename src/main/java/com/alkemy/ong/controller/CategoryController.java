@@ -3,12 +3,12 @@ package com.alkemy.ong.controller;
 import com.alkemy.ong.model.entity.Category;
 import com.alkemy.ong.model.request.CategoryDetailsRequest;
 import com.alkemy.ong.model.response.CategoryDetailsResponse;
-import com.alkemy.ong.model.response.ListCategoryResponse;
+import com.alkemy.ong.repository.ICategoryRepository;
+import com.alkemy.ong.service.abstraction.IAddPaginationHeaders;
 import com.alkemy.ong.service.abstraction.ICreateCategoryService;
 import com.alkemy.ong.service.abstraction.IDeleteCategoryService;
 import com.alkemy.ong.service.abstraction.IGetCategoryService;
 import com.fasterxml.jackson.databind.introspect.TypeResolutionContext.Empty;
-import java.util.List;
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -36,6 +36,10 @@ public class CategoryController {
   private IGetCategoryService getCategoryService;
   @Autowired
   private ICreateCategoryService createCategoryService;
+  @Autowired
+  private ICategoryRepository categoryRepository;
+  @Autowired
+  private IAddPaginationHeaders paginationHeaders;
 
   @DeleteMapping(value = "/categories/{id}")
   public ResponseEntity<Empty> delete(@PathVariable long id) throws EntityNotFoundException {
@@ -56,18 +60,13 @@ public class CategoryController {
         .body(createCategoryService.create(categoryDetailsRequest));
   }
 
-  @GetMapping(value = "/categories")
-  public ResponseEntity<ListCategoryResponse> list() {
-    return new ResponseEntity<>(getCategoryService.list(), HttpStatus.OK);
-  }
-
   @GetMapping(value = "/categories", params = "page")
-  public List<Category> findPaginated(@RequestParam("page") int page,
+  public ResponseEntity<Page<Category>> list(@RequestParam(value = "page", required = false) int page,
       UriComponentsBuilder uriBuilder, HttpServletResponse response) {
-    Pageable pageable = PageRequest.of(page, 10);
-    Page<Category> resultPage = getCategoryService.findPaginated(pageable);
-    getCategoryService.addLinksToHeader(uriBuilder, page, resultPage.getTotalPages(),
-        resultPage.getSize(), response);
-    return resultPage.getContent();
+      Pageable pageable = PageRequest.of(page, 10);
+      Page<Category> resultPage = categoryRepository.findBySoftDeleteFalse(pageable);
+      paginationHeaders.add(uriBuilder, page, resultPage.getTotalPages(),
+          resultPage.getSize(), response, "/categories");
+      return new ResponseEntity<Page<Category>>(resultPage, HttpStatus.OK);
+    }
   }
-}
