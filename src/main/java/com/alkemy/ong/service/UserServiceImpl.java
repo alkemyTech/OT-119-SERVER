@@ -3,6 +3,7 @@ package com.alkemy.ong.service;
 import com.alkemy.ong.common.DtoUtils;
 import com.alkemy.ong.common.EntityUtils;
 import com.alkemy.ong.common.JwtUtils;
+import com.alkemy.ong.common.mail.template.EmailAddress;
 import com.alkemy.ong.config.security.ApplicationRole;
 import com.alkemy.ong.exception.UserAlreadyExistException;
 import com.alkemy.ong.model.entity.Role;
@@ -22,6 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javax.persistence.EntityNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -37,6 +40,7 @@ public class UserServiceImpl implements UserDetailsService, IDeleteUserService, 
 
   private static final String USER_NOT_FOUND_MESSAGE = "User not found.";
   private static final String USER_EMAIL_ERROR = "Email address is already used.";
+  private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
   @Autowired
   private JwtUtils jwtUtils;
@@ -48,6 +52,8 @@ public class UserServiceImpl implements UserDetailsService, IDeleteUserService, 
   private IRoleService roleService;
   @Autowired
   private AuthenticationManager authenticationManager;
+  @Autowired
+  private WelcomeEmailService welcomeEmailService;
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -87,6 +93,14 @@ public class UserServiceImpl implements UserDetailsService, IDeleteUserService, 
     User userCreated = userRepository.save(user);
     UserDetailsResponse userDetailsResponse = EntityUtils.convertTo(userCreated);
     userDetailsResponse.setToken(jwtUtils.generateToken(userCreated));
+    EmailAddress toEmailAddress = new EmailAddress(userDetailsResponse.getEmail(),
+        String.format("%s %s", userDetailsRequest.getFirstName(),
+            userDetailsRequest.getLastName()));
+    try {
+      welcomeEmailService.sendEmail(toEmailAddress);
+    } catch (Exception e) {
+      LOGGER.error(e.getMessage());
+    }
     return userDetailsResponse;
   }
 
