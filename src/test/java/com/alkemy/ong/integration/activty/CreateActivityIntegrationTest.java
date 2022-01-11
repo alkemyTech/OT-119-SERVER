@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.when;
 
-import com.alkemy.ong.common.AbstractBaseIntegrationTest;
 import com.alkemy.ong.config.security.ApplicationRole;
 import com.alkemy.ong.model.entity.Activity;
 import com.alkemy.ong.model.request.ActivityDetailsRequest;
@@ -21,7 +20,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class CreateActivityTest extends AbstractBaseIntegrationTest {
+public class CreateActivityIntegrationTest extends AbstractBaseActivityIntegrationTest {
 
   private final String PATH = "/activities";
 
@@ -30,12 +29,12 @@ public class CreateActivityTest extends AbstractBaseIntegrationTest {
     Activity activity = stubActivity();
     when(activityRepository.save(isA(Activity.class))).thenReturn(activity);
     setAuthorizationHeaderBasedOn(ApplicationRole.USER.getFullRoleName());
-    ActivityDetailsRequest activityDetailsRequest = getActivityDetailsRequest();
 
+    ActivityDetailsRequest activityDetailsRequest = getActivityDetailsRequest();
     ResponseEntity<ActivityDetailsResponse> response = restTemplate.exchange(
         createURLWithPort(PATH),
         HttpMethod.POST,
-        new HttpEntity<>(activityDetailsRequest,headers),
+        new HttpEntity<>(activityDetailsRequest, headers),
         ActivityDetailsResponse.class);
 
     assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
@@ -46,24 +45,15 @@ public class CreateActivityTest extends AbstractBaseIntegrationTest {
     Activity activity = stubActivity();
     when(activityRepository.save(isA(Activity.class))).thenReturn(activity);
     setAuthorizationHeaderBasedOn(ApplicationRole.ADMIN.getFullRoleName());
-    ActivityDetailsRequest activityDetailsRequest = getActivityDetailsRequest();
 
+    ActivityDetailsRequest activityDetailsRequest = getActivityDetailsRequest();
     ResponseEntity<ActivityDetailsResponse> response = restTemplate.exchange(
         createURLWithPort(PATH),
         HttpMethod.POST,
-        new HttpEntity<>(activityDetailsRequest,headers),
+        new HttpEntity<>(activityDetailsRequest, headers),
         ActivityDetailsResponse.class);
 
     assertEquals(HttpStatus.CREATED, response.getStatusCode());
   }
-
-  private ActivityDetailsRequest getActivityDetailsRequest() {
-    ActivityDetailsRequest activityDetailsRequest = new ActivityDetailsRequest();
-    activityDetailsRequest.setName("Nombre Actividad");
-    activityDetailsRequest.setContent("Contenido");
-    activityDetailsRequest.setImage("https://foo.jpg");
-    return activityDetailsRequest;
-  }
-
 
 }

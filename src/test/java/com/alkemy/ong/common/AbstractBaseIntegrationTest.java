@@ -1,9 +1,7 @@
 package com.alkemy.ong.common;
 
-import com.alkemy.ong.model.entity.Activity;
 import com.alkemy.ong.model.entity.Role;
 import com.alkemy.ong.model.entity.User;
-import com.alkemy.ong.repository.IActivityRepository;
 import com.alkemy.ong.repository.IUserRepository;
 import com.alkemy.ong.service.abstraction.IRoleService;
 import java.sql.Timestamp;
@@ -18,15 +16,12 @@ import org.springframework.security.authentication.AuthenticationManager;
 public abstract class AbstractBaseIntegrationTest {
 
   protected static final long USER_ID = 1L;
-  protected static final long ACTIVITY_ID = 1L;
 
   protected TestRestTemplate restTemplate = new TestRestTemplate();
   protected HttpHeaders headers = new HttpHeaders();
 
   @MockBean
   protected IUserRepository userRepository;
-  @MockBean
-  protected IActivityRepository activityRepository;
   @MockBean
   protected AuthenticationManager authenticationManager;
 
@@ -63,12 +58,4 @@ public abstract class AbstractBaseIntegrationTest {
         false);
   }
 
-  protected Activity stubActivity() {
-    return new Activity(ACTIVITY_ID,
-        "Nombre Actividad",
-        "Contenido",
-        "https://foo.jpg",
-        Timestamp.from(Instant.now()),
-        false);
-  }
 }
