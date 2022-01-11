@@ -22,12 +22,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @SpringBootApplication(exclude = SecurityAutoConfiguration.class)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-  private static final String[] PUBLIC_URLS = {
+  private static final String[] SWAGGER_URLS = {
       "/v2/api-docs",
       "/swagger-resources/**",
       "/swagger-ui.html",
       "swagger-ui/**",
-      "/webjars/**"
+      "/webjars/**",
+      "/api/docs"
   };
   @Autowired
   private UserDetailsService userDetailsService;
@@ -66,7 +67,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .permitAll()
         .antMatchers(HttpMethod.POST, "/auth/login")
         .permitAll()
-        .antMatchers(PUBLIC_URLS)
+        .antMatchers(SWAGGER_URLS)
         .permitAll()
         .antMatchers(HttpMethod.GET, "/organization/public")
         .permitAll()

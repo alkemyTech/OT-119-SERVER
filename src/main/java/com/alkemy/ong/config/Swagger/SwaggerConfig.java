@@ -23,8 +23,7 @@ public class SwaggerConfig {
         .select()
         .apis(RequestHandlerSelectors.basePackage("com.alkemy.ong.controller"))
         .paths(PathSelectors.any())
-        .build()
-        ;
+        .build();
   }
 
   @Bean
@@ -39,6 +38,4 @@ public class SwaggerConfig {
       }
     };
   }
-
-
 }
