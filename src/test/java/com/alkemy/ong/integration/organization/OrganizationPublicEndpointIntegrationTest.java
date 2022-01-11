@@ -86,15 +86,6 @@ public class OrganizationPublicEndpointIntegrationTest extends AbstractBaseInteg
     assertEquals(organizationsStub.get(0).getAddress(), responseBody.get("address"));
     assertEquals(organizationsStub.get(0).getPhone(), responseBody.get("phone"));
 
-//    HashMap slide1 = (HashMap) ((List) responseBody.get("slides")).get(0);
-//    HashMap slide2 = (HashMap) ((List) responseBody.get("slides")).get(1);
-//
-//    assertEquals(slidesStub.get(0).getImageUrl(), slide1.get("imageUrl"));
-//    assertEquals(slidesStub.get(0).getOrder(), slide1.get("order"));
-//
-//    assertEquals(slidesStub.get(1).getImageUrl(), slide2.get("imageUrl"));
-//    assertEquals(slidesStub.get(1).getOrder(), slide2.get("order"));
-
     List slidesResponse = (List) responseBody.get("slides");
 
     assertEquals(slidesStub.size(), slidesResponse.size());
