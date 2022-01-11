@@ -14,7 +14,6 @@ import com.alkemy.ong.common.SecurityTestConfig;
 import com.alkemy.ong.common.mail.template.EmailAddress;
 import com.alkemy.ong.config.security.ApplicationRole;
 import com.alkemy.ong.exception.SendEmailException;
-import com.alkemy.ong.exception.UserAlreadyExistException;
 import com.alkemy.ong.model.entity.User;
 import com.alkemy.ong.model.request.UserDetailsRequest;
 import com.alkemy.ong.model.response.ErrorResponse;
@@ -22,7 +21,6 @@ import com.alkemy.ong.model.response.UserDetailsResponse;
 import com.alkemy.ong.service.WelcomeEmailService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpEntity;
@@ -35,14 +33,15 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class RegisterUserIntegrationTest extends AbstractBaseIntegrationTest {
 
-  private final String PATH = "/auth/register";
+  private static final String PATH = "/auth/register";
+  private String token = SecurityTestConfig.createToken(
+      "johnny@gmail.com",
+      ApplicationRole.USER.getFullRoleName());
+
   @MockBean
   private WelcomeEmailService welcomeEmailService;
   @MockBean
   private JwtUtils jwtUtils;
-  private String token = SecurityTestConfig.createToken("johnny@gmail.com",
-      ApplicationRole.USER.getFullRoleName());
-
 
   @Test
   public void shouldRegisterUserWithTokenSuccessfully()

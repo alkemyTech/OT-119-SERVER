@@ -40,6 +40,7 @@ public class UserServiceImpl implements UserDetailsService, IDeleteUserService, 
 
   private static final String USER_NOT_FOUND_MESSAGE = "User not found.";
   private static final String USER_EMAIL_ERROR = "Email address is already used.";
+  private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
   @Autowired
   private JwtUtils jwtUtils;
@@ -53,7 +54,6 @@ public class UserServiceImpl implements UserDetailsService, IDeleteUserService, 
   private AuthenticationManager authenticationManager;
   @Autowired
   private WelcomeEmailService welcomeEmailService;
-  private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

@@ -27,11 +27,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class LoginUserIntegrationTest extends AbstractBaseIntegrationTest {
 
-  private final String PATH = "/auth/login";
+  private static final String PATH = "/auth/login";
+  private String token = SecurityTestConfig.createToken(
+      "johnny@gmail.com",
+      ApplicationRole.USER.getFullRoleName());
+
   @MockBean
   private JwtUtils jwtUtils;
-  private String token = SecurityTestConfig.createToken("johnny@gmail.com",
-      ApplicationRole.USER.getFullRoleName());
 
   @Test
   public void shouldLoginUserSuccessfully() {
