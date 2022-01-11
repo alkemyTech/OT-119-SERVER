@@ -1,11 +1,13 @@
 package com.alkemy.ong.integration.user;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 import com.alkemy.ong.common.AbstractBaseIntegrationTest;
 import com.alkemy.ong.common.JwtUtils;
+import com.alkemy.ong.common.SecurityTestConfig;
 import com.alkemy.ong.config.security.ApplicationRole;
 import com.alkemy.ong.model.entity.User;
 import com.alkemy.ong.model.request.UserAuthenticationRequest;
@@ -28,13 +30,15 @@ public class LoginUserIntegrationTest extends AbstractBaseIntegrationTest {
   private final String PATH = "/auth/login";
   @MockBean
   private JwtUtils jwtUtils;
+  private String token = SecurityTestConfig.createToken("johnny@gmail.com",
+      ApplicationRole.USER.getFullRoleName());
 
   @Test
   public void shouldLoginUserSuccessfully() {
     User user = stubUser(ApplicationRole.USER.getFullRoleName());
     when(userRepository.findByEmail(eq("johnny@gmail.com"))).thenReturn(user);
     UserAuthenticationRequest userAuthenticationRequest = getUserAuthenticationRequest();
-    when(jwtUtils.generateToken(eq(user))).thenReturn(user.getEmail());
+    when(jwtUtils.generateToken(user)).thenReturn(token);
 
     ResponseEntity<UserAuthenticatedResponse> response = restTemplate.exchange(
         createURLWithPort(PATH),
@@ -42,12 +46,13 @@ public class LoginUserIntegrationTest extends AbstractBaseIntegrationTest {
         new HttpEntity<>(userAuthenticationRequest, headers),
         UserAuthenticatedResponse.class);
 
+    assertNotNull(response.getBody().getToken());
+    assertEquals(response.getBody().getEmail(), user.getEmail());
     assertEquals(HttpStatus.OK, response.getStatusCode());
   }
 
   @Test
-  public void shouldUserNotExist() {
-    User user = stubUser(ApplicationRole.USER.getFullRoleName());
+  public void shouldReturnBadRequestWhenUserDoesNotExist() {
     UserAuthenticationRequest userAuthenticationRequest = getUserAuthenticationRequest();
     when(userRepository.findByEmail(eq("johnny@gmail.com"))).thenReturn(null);
 
@@ -56,7 +61,6 @@ public class LoginUserIntegrationTest extends AbstractBaseIntegrationTest {
         HttpMethod.POST,
         new HttpEntity<>(userAuthenticationRequest, headers),
         ErrorResponse.class);
-
     assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
   }
 

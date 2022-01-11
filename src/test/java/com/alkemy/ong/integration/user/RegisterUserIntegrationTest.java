@@ -7,8 +7,10 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
+
 import com.alkemy.ong.common.AbstractBaseIntegrationTest;
 import com.alkemy.ong.common.JwtUtils;
+import com.alkemy.ong.common.SecurityTestConfig;
 import com.alkemy.ong.common.mail.template.EmailAddress;
 import com.alkemy.ong.config.security.ApplicationRole;
 import com.alkemy.ong.exception.SendEmailException;
@@ -20,6 +22,7 @@ import com.alkemy.ong.model.response.UserDetailsResponse;
 import com.alkemy.ong.service.WelcomeEmailService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpEntity;
@@ -37,33 +40,17 @@ public class RegisterUserIntegrationTest extends AbstractBaseIntegrationTest {
   private WelcomeEmailService welcomeEmailService;
   @MockBean
   private JwtUtils jwtUtils;
+  private String token = SecurityTestConfig.createToken("johnny@gmail.com",
+      ApplicationRole.USER.getFullRoleName());
 
-  @Test
-  public void shouldRegisterUserSuccessfully()
-      throws  SendEmailException {
-    User user = stubUser(ApplicationRole.USER.getFullRoleName());
-    when(userRepository.findByEmail(eq("johnny@gmail.com"))).thenReturn(null);
-    when(userRepository.save(isA(User.class))).thenReturn(user);
-    doNothing().when(welcomeEmailService).sendEmail(isA(EmailAddress.class));
-    UserDetailsRequest userDetailsRequest = getUserDetailsRequest();
-
-    ResponseEntity<UserDetailsResponse> response = restTemplate.exchange(
-        createURLWithPort(PATH),
-        HttpMethod.POST,
-        new HttpEntity<>(userDetailsRequest, headers),
-        UserDetailsResponse.class);
-
-    assertNotNull(response);
-    assertEquals(HttpStatus.CREATED, response.getStatusCode());
-  }
 
   @Test
   public void shouldRegisterUserWithTokenSuccessfully()
-      throws  SendEmailException {
+      throws SendEmailException {
     User user = stubUser(ApplicationRole.USER.getFullRoleName());
     when(userRepository.findByEmail(eq("johnny@gmail.com"))).thenReturn(null);
     when(userRepository.save(isA(User.class))).thenReturn(user);
-    when(jwtUtils.generateToken(eq(user))).thenReturn(user.getEmail());
+    when(jwtUtils.generateToken(eq(user))).thenReturn(token);
     doNothing().when(welcomeEmailService).sendEmail(isA(EmailAddress.class));
     UserDetailsRequest userDetailsRequest = getUserDetailsRequest();
 
@@ -73,12 +60,14 @@ public class RegisterUserIntegrationTest extends AbstractBaseIntegrationTest {
         new HttpEntity<>(userDetailsRequest, headers),
         UserDetailsResponse.class);
 
-    assertNotNull(response);
+    assertNotNull(response.getBody().getToken());
+    assertEquals(response.getBody().getEmail(), user.getEmail());
+    assertEquals(response.getBody().getFirstName(), user.getFirstName());
     assertEquals(HttpStatus.CREATED, response.getStatusCode());
   }
 
   @Test
-  public void shouldReturnEmailNotAvailable() throws UserAlreadyExistException {
+  public void shouldReturnEmailNotAvailable() {
     User user = stubUser(ApplicationRole.USER.getFullRoleName());
     when(userRepository.findByEmail(eq("johnny@gmail.com"))).thenReturn(user);
     UserDetailsRequest userDetailsRequest = getUserDetailsRequest();
