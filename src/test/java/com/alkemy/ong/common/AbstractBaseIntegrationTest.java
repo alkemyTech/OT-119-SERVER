@@ -22,7 +22,6 @@ public abstract class AbstractBaseIntegrationTest {
 
   @MockBean
   protected IUserRepository userRepository;
-
   @MockBean
   protected AuthenticationManager authenticationManager;
 
@@ -58,4 +57,5 @@ public abstract class AbstractBaseIntegrationTest {
         Timestamp.from(Instant.now()),
         false);
   }
+
 }
