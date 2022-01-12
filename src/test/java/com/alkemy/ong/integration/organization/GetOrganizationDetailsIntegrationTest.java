@@ -83,7 +83,7 @@ public class GetOrganizationDetailsIntegrationTest extends AbstractBaseIntegrati
     Organization organization = new Organization();
     organization.setAboutUsText("About Us");
     organization.setImage("http://foo.png");
-    organization.setAddress("Calle 123");
+    organization.setAddress("Address 123");
     organization.setEmail("somos.mas@outlook.com");
     organization.setPhone(456);
     organization.setTimeStamp(Timestamp.from(Instant.now()));
