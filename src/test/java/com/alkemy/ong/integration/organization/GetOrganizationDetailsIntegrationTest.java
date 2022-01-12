@@ -91,10 +91,10 @@ public class GetOrganizationDetailsIntegrationTest extends AbstractBaseIntegrati
   }
 
   private Slide createSlide(String imageUrl, String text, int order) {
-    Slide slide2 = new Slide();
-    slide2.setImageUrl(imageUrl);
-    slide2.setText(text);
-    slide2.setOrder(order);
-    return slide2;
+    Slide slide = new Slide();
+    slide.setImageUrl(imageUrl);
+    slide.setText(text);
+    slide.setOrder(order);
+    return slide;
   }
 }
